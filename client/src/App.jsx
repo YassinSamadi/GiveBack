@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import './style/App.scss';
+import Dashboard from "./pages/Dashboard";
 
 const Layout =() => {
   return (
@@ -22,10 +23,13 @@ const router = createBrowserRouter([
     element:<Layout/>,
     children: [ 
       { 
-        path: "/", 
+        path: "/home", 
         element: <Home/> 
       },
-      
+      { 
+        path: "/dashboard", 
+        element: <Dashboard/> 
+      },
     ],
   },
   {
@@ -35,10 +39,6 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-  },
-  {
-    path: "/",
-    element: <App />,
   },
 ]);
 
