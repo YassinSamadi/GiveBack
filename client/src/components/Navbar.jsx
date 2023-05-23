@@ -1,7 +1,7 @@
 import '../style/Navbar.scss'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo/GiveBackNoText500x500.png';
+import logo from '../assets/logo/GiveBackRight500x500.png';
 import profilepic from '../assets/logo/profile-pic.jpg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
