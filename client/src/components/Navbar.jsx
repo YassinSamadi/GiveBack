@@ -22,7 +22,6 @@ const Navbar = () => {
   };
 
 
-
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -35,18 +34,18 @@ const Navbar = () => {
       <div className="navbar-menu">
         <ul className="navbar-menu-items">
           <li>
-            <Link to="/" className="navbar-link">
-              Menu Item 1
+            <Link to="/dashboard" className="navbar-link">
+              Home
             </Link>
           </li>
           <li>
-            <Link to="/item2" className="navbar-link">
-              Menu Item 2
+            <Link to="/map" className="navbar-link">
+              Map
             </Link>
           </li>
           <li>
             <Link to="/item3" className="navbar-link">
-              Menu Item 3
+              Achievements/History
             </Link>
           </li>
         </ul>

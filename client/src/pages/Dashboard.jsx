@@ -1,8 +1,12 @@
 import React from 'react'
+import CustomMap from '../components/Map'
+
 
 export const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div  style={{ height: "100vh" }}>
+      <CustomMap />
+    </div>
   )
 }
 

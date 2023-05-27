@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider,Route, Outlet,} from "react-router-dom";
+import {createBrowserRouter, RouterProvider, Outlet,} from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
@@ -8,6 +8,8 @@ import Footer from "./components/Footer";
 import './style/App.scss';
 import Dashboard from "./pages/Dashboard";
 import { useMediaQuery, useTheme } from '@mui/material';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Map from "./pages/Map";
 
 const Layout =() => {
   const theme = useTheme();
@@ -22,6 +24,7 @@ const Layout =() => {
   )
 }
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +37,10 @@ const router = createBrowserRouter([
       { 
         path: "/dashboard", 
         element: <Dashboard/> 
+      },
+      { 
+        path: "/map", 
+        element: <Map/> 
       },
     ],
   },
