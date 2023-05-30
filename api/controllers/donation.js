@@ -1,7 +1,7 @@
 import {db} from "../db.js"
 
-export const getAllProducts = (req, res) => {
-    const selectQuery = "SELECT * FROM product";
+export const getAllDonationsByUser = (req, res) => {
+    const selectQuery = "SELECT * FROM donation";
     
     db.query(selectQuery, (err, results) => {
     if (err) return res.status(500).json(err);

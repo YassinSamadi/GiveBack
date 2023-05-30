@@ -10,6 +10,8 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -23,16 +25,12 @@ const drawerWidth = 240;
 
 
 const MobileNavbar = () => {
-  const [showUserMenu, setShowUserMenu] = useState(false);
-
-  const toggleUserMenu = () => {
-    setShowUserMenu(!showUserMenu);
-  };
 
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const [profileOpen, setProfileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -76,22 +74,26 @@ const MobileNavbar = () => {
   );
   const profile  = (
     <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-    </div>
+    <Toolbar />
+    <Divider />
+    <List>
+      {[
+        { text: 'Edit Profile', icon: <AccountCircleIcon /> },
+        { text: 'Sign out', icon: <ExitToAppIcon /> }
+      ].map(({ text, icon }) => (
+        <ListItem key={text} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              {icon}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
+    <Divider />
+  </div>
+  
   );
 
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;

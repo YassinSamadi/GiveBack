@@ -7,9 +7,12 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import './style/App.scss';
 import Dashboard from "./pages/Dashboard";
+import History from "./pages/History";
 import { useMediaQuery, useTheme } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Map from "./pages/Map";
+import DashboardOrganization from "./pages/DashboardOrganization";
+import DonationsInfo  from "./pages/DonationsInfo";
 
 const Layout =() => {
   const theme = useTheme();
@@ -18,7 +21,7 @@ const Layout =() => {
   return (
     <>
       {isMobile ? <MobileNavbar/>  : <Navbar/>}
-      <Outlet/>
+        <Outlet/>
       <Footer/>
     </>
   )
@@ -35,12 +38,25 @@ const router = createBrowserRouter([
         element: <Home/> 
       },
       { 
-        path: "/dashboard", 
+        path: "/dashboard/user", 
         element: <Dashboard/> 
       },
+      
       { 
         path: "/map", 
         element: <Map/> 
+      },
+      { 
+        path: "/history",
+        element: <History/> 
+      },
+      { 
+        path: "/dashboard/organization", 
+        element: <DashboardOrganization/> 
+      },
+      { 
+        path: "/donations", 
+        element: <DonationsInfo/> 
       },
     ],
   },
