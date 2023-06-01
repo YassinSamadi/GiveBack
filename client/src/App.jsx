@@ -13,6 +13,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Map from "./pages/Map";
 import DashboardOrganization from "./pages/DashboardOrganization";
 import DonationsInfo  from "./pages/DonationsInfo";
+import RegisterOrganization from "./pages/RegisterOrganization";
+import LoginOrganization from "./pages/LoginOrganization";
+import OrganizationNavbar from "./components/OrganizationNavbar";
 
 const Layout =() => {
   const theme = useTheme();
@@ -21,6 +24,18 @@ const Layout =() => {
   return (
     <>
       {isMobile ? <MobileNavbar/>  : <Navbar/>}
+        <Outlet/>
+      <Footer/>
+    </>
+  )
+}
+const OrganizationLayout =() => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  return (
+    <>
+      {isMobile ? <MobileNavbar/>  : <OrganizationNavbar/>}
         <Outlet/>
       <Footer/>
     </>
@@ -49,7 +64,13 @@ const router = createBrowserRouter([
       { 
         path: "/history",
         element: <History/> 
-      },
+      }
+    ],
+  },
+  {
+    path: "/",
+    element:<OrganizationLayout/>,
+    children: [ 
       { 
         path: "/dashboard/organization", 
         element: <DashboardOrganization/> 
@@ -68,6 +89,15 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/register/organization",
+    element: <RegisterOrganization/>,
+  },
+  {
+    path: "/login/organization",
+    element: <LoginOrganization />,
+  },
+
 ]);
 
 function App() {

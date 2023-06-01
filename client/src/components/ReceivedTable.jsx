@@ -42,16 +42,16 @@ export const ReceivedTable = () => {
 
     return (
         // <div>
-        //     {donations.map((donation) => (
-        //         <div key={donation.id}>
-        //             <p>{donation.quantity_donated}</p>
-        //             <p>{donation.donation_date}</p>
-        //             <p>{donation.user_id}</p>
-        //             <p>{donation.need_id}</p>
-        //         </div>
+            // {donations.map((donation) => (
+            //     <div key={donation.id}>
+            //         <p>{donation.quantity_donated}</p>
+            //         <p>{donation.donation_date}</p>
+            //         <p>{donation.user_id}</p>
+            //         <p>{donation.need_id}</p>
+            //     </div>
 
-        //     )
-        //     )}
+            // )
+            // )}
 
             <TableContainer sx={{maxWidth: 1200,}} component={Paper}>
                 <Table sx={{  minWidth: 650 }} aria-label="simple table">

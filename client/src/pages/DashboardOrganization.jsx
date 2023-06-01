@@ -5,106 +5,146 @@ import MobileCard from '../components/MobileCard.jsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import FilterNeeds from '../components/FilterNeeds.jsx';
-import FilterOrganizations from '../components/FilterOrganizations.jsx';
-import FilterLocation from '../components/FilterLocation.jsx';
 import NeedsPopup from '../components/PopupNeed.jsx';
 import CardDetails from '../components/CardDetails.jsx';
 
 export const DashboardOrganization = () => {
+    const [needs, setNeeds] = useState([]);
     const [products, setProducts] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
+    const [organization, setOrganization] = useState({});
 
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
     useEffect(() => {
+        const org = JSON.parse(localStorage.getItem('organization'));
+        setOrganization(org);
+
         axios
-        .get('/products')
+            .get('/products')
+            .then((response) => {
+                setProducts(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+            });
+
+        axios
+        .get('/needs/getallneeds')
         .then((response) => {
-            setProducts(response.data);
+            setNeeds(response.data.filter(need => need.org_id === org.id));
         })
         .catch((error) => {
-            console.error('Error fetching products:', error);
+            console.error('Error fetching needs:', error);
         });
     }, []);
 
-    const handleCardClick = (product) => {
-        setSelectedCard(product);
+    const handleCardClick = (need) => {
+        setSelectedCard(need);
     };
 
     const handleClose = () => {
         setSelectedCard(null);
     };
 
+    const getProductByNeed = (need) => {
+        return products.find(product => product.id === need.product_id) || {};
+    };
+    const handleEdit = (need) => {
+        console.log("Edit need with id:", need.id);
+       
+    };
+    
+    const handleDelete = (need) => {
+        console.log("Delete need with id:", need.id);
+        
+    };
+    
+
+    
+    const activeNeeds = needs.filter(need => need.quantity_required > need.quantity_fulfilled);
+    const fulfilledNeeds = needs.filter(need => need.quantity_required === need.quantity_fulfilled);
+
     return (
+        <>
+        <div style={{display:"flex", justifyContent:"center", marginTop:25}}>
+            <NeedsPopup />
+        </div>
         <Grid container spacing={2} style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-        <Grid item xs={12} md={3}>
-            <div style={{display:"flex", justifyContent:"center"}}> <FilterNeeds/></div>
-            <div style={{display:"flex", justifyContent:"center"}}> <FilterOrganizations/></div>
-            <div style={{display:"flex", justifyContent:"center"}}> <FilterLocation/></div>
-        </Grid>
+            <Grid item xs={12} md={6} style={{ paddingLeft: '0px'}}>
+                <div>
+                <h1 style={{display:"flex", justifyContent:"center"}}>Active needs</h1>
+                {activeNeeds.map((need) => {
+                    const product = getProductByNeed(need);
+                    return (
+                        isDesktop ? (
+                        <MuiCard
+                            key={need.id}
+                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                            title={need.title}
+                            description={need.description}
+                            nameOrganization={organization.name || 'Organization'}
+                            date={need.date}
+                            required={need.quantity_required}
+                            fulfilled={need.quantity_fulfilled}
+                            onClick={() => handleCardClick(need)}
+                            showActions={true}
+                            onEdit={() => handleEdit(need)}
+                            onDelete={() => handleDelete(need)}
+                        />
+                        
+                        ) : (
+                        <MobileCard
+                            key={need.id}
+                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                            title={need.title}
+                            description={need.description}
+                            nameOrganization={organization.name || 'Organization'}
+                            date={need.date}
+                            required={need.quantity_required}
+                            fulfilled={need.quantity_fulfilled}
+                            onClick={() => handleCardClick(need)}
+                        />
+                        )
+                    )
+                })}
+                </div>
+            </Grid>
+            <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
 
-        <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
-
-        <Grid item xs={12} md={9} style={{ paddingLeft: '0px'}}>
-            <div>
-            
-            <div style={{display:"flex", justifyContent:"center"}}>
-                <NeedsPopup />
-                
-            </div>
-            <h1 style={{display:"flex", justifyContent:"center"}}>Active needs</h1>
-            {products.map((product) =>
-                isDesktop ? (
-                <MuiCard
-                    key={product.id}
-                    imageSrc={require(`../${product.picture}`)}
-                    title={product.name}
-                    description="Card description goes here. Hello, my name is Yassin. Can you fill in this form?"
-                    date="May 28, 2023"
-                    number={42}
-                    onClick={() => handleCardClick(product)}
-                />
-                ) : (
-                <MobileCard
-                    key={product.id}
-                    imageSrc={require(`../${product.picture}`)}
-                    title={product.name}
-                    description="Card description goes here. Hello, my name is Yassin. Can you fill in this form?"
-                    date="May 28, 2023"
-                    number={42}
-                    onClick={() => handleCardClick(product)}
-                />
-                )
-            )}
-            <h1 style={{display:"flex", justifyContent:"center"}}> History</h1>
-            {products.map((product) =>
-                isDesktop ? (
-                <MuiCard
-                    key={product.id}
-                    imageSrc={require(`../${product.picture}`)}
-                    title={product.name}
-                    description="Card description goes here. Hello, my name is Yassin. Can you fill in this form?"
-                    date="May 28, 2023"
-                    number={42}
-                    onClick={() => handleCardClick(product)}
-                />
-                ) : (
-                <MobileCard
-                    key={product.id}
-                    imageSrc={require(`../${product.picture}`)}
-                    title={product.name}
-                    description="Card description goes here. Hello, my name is Yassin. Can you fill in this form?"
-                    date="May 28, 2023"
-                    number={42}
-                    onClick={() => handleCardClick(product)}
-                />
-                )
-            )}
-            </div>
+            <Grid item xs={12} md={6}>
+                <h1 style={{display:"flex", justifyContent:"center"}}> History</h1>
+                {fulfilledNeeds.map((need) => {
+                    const product = getProductByNeed(need);
+                    return (
+                        isDesktop ? (
+                        <MuiCard
+                            key={need.id}
+                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                            title={need.title}
+                            description={need.description}
+                            date={need.date}
+                            required={need.quantity_required}
+                            fulfilled={need.quantity_fulfilled}
+                        />
+                        ) : (
+                        <MobileCard
+                            key={need.id}
+                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                            title={need.title}
+                            description={need.description}
+                            date={need.date}
+                            required={need.quantity_required}
+                            fulfilled={need.quantity_fulfilled}
+                        />
+                        )
+                    )
+                })}
+            </Grid>
+            <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
         </Grid>
-        </Grid>
+        </>
     );
 };
 

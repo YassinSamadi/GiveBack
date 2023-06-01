@@ -14,6 +14,8 @@ const CardDetails = ({ open, handleClose, product }) => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     if (!product) return null;
 
+    const imgSrc = product && product.picture ? `../${product.picture}` : '../default_picture_path';
+
     return (
         <Dialog maxWidth={'lg'} fullScreen={fullScreen} open={open} onClose={handleClose} >
             <DialogTitle>{product.name}</DialogTitle>
@@ -25,7 +27,7 @@ const CardDetails = ({ open, handleClose, product }) => {
                         height: isMobile ? "250px" : "300px",
                         width: isMobile ? "300px" : "400px"
                     }}
-                    src={require(`../${product.picture}`)}
+                    src={imgSrc}
                     alt={product.name}
                 />                
                 <DialogContentText>

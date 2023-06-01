@@ -5,8 +5,12 @@ import donationRoutes from "./routes/donations.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import cookieParser from "cookie-parser";
+import authOrganizations from "./routes/authOrganizations.js"
+import addressRoutes from "./routes/addresses.js"
+import organizationRoutes from "./routes/organizations.js"
 
 const app = express();
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -16,7 +20,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/needs", needRoutes);
 app.use("/api/donations", donationRoutes);
-
+app.use("/api/authorganizations", authOrganizations);
+app.use("/api/address", addressRoutes);
+app.use("/api/organization", organizationRoutes);
 
 app.listen(8800, () => {
     console.log("Connected!");

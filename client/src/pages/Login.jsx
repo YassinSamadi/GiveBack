@@ -28,7 +28,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       await login(inputs)
-      navigate("/dashboard");
+      navigate("/dashboard/user");
     }
     catch (error) {
       setError(error.response.data);
