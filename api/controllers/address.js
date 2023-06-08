@@ -46,7 +46,7 @@ export const registerAddress = async (req, res) => {
       LEFT JOIN organization ON address.id = organization.address_id 
       WHERE address.isOrganization = 1
     `;
-    
+    console.log(selectQuery);
     db.query(selectQuery, (err, results) => {
       if (err) return res.status(500).json(err);
       

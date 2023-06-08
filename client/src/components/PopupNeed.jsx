@@ -35,7 +35,14 @@ export default function NeedsPopup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const now = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels' });
+
+    const adjustedTime = new Date(now);
+    adjustedTime.setHours(adjustedTime.getHours() + 2);
+
+    const formattedTime = adjustedTime.toISOString().slice(0, 19).replace('T', ' ');
+
+
     const organization = JSON.parse(localStorage.getItem('organization'));
     const org_id = organization && typeof organization === 'object' ? organization.id : null;
 
@@ -50,7 +57,7 @@ export default function NeedsPopup() {
         title: inputs.title,
         description: inputs.description,
         quantity_required: inputs.quantity_required,
-        date: now,
+        date: formattedTime,
         org_id: org_id,
         product_id: inputs.product_id,
       });

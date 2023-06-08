@@ -2,8 +2,9 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
 
-const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onClick, showActions, onEdit, onDelete }) => {
+const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onClick, showActions, onEdit, onDelete, showDonate}) => {
     const cardStyle = {
         backgroundColor: '#f5f5f5',
         display: 'flex',
@@ -50,6 +51,16 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
                     <IconButton onClick={onDelete}>
                         <DeleteIcon />
                     </IconButton>
+                </div>
+            )}
+            {showDonate && (
+                <div>
+                    <Button
+                        variant="outlined"
+                        style={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white' }}           
+                    >
+                        Donate
+                    </Button>
                 </div>
             )}
         </Card>

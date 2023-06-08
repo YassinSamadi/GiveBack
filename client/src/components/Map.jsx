@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Map, { GeolocateControl, Marker, Popup, NavigationControl } from 'react-map-gl';

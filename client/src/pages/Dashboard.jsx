@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MuiCard from '../components/Card.jsx';
+
 import MobileCard from '../components/MobileCard.jsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -9,9 +9,15 @@ import FilterNeeds from '../components/FilterNeeds.jsx';
 import FilterOrganizations from '../components/FilterOrganizations.jsx';
 import FilterLocation from '../components/FilterLocation.jsx';
 import CardDetails from '../components/CardDetails.jsx';
+import CardNeedUser from '../components/CardNeedUser.jsx';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+
 
 export const Dashboard = () => {
-  const [products, setProducts] = useState([]);
+  const [needs, setNeeds] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
 
   const theme = useTheme();
@@ -19,17 +25,18 @@ export const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get('/products')
+      .get('/needs/getspecificneed') 
       .then((response) => {
-        setProducts(response.data);
+        setNeeds(response.data);
+        console.log(response.data)
       })
       .catch((error) => {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching needs:', error);
       });
   }, []);
 
-  const handleCardClick = (product) => {
-    setSelectedCard(product);
+  const handleCardClick = (need) => {
+    setSelectedCard(need);
   };
 
   const handleClose = () => {
@@ -39,38 +46,49 @@ export const Dashboard = () => {
   return (
     <Grid container spacing={2} style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
       <Grid item xs={12} md={3}>
-        <div style={{display:"flex", justifyContent:"center"}}> <FilterNeeds/></div>
-        <div style={{display:"flex", justifyContent:"center"}}> <FilterOrganizations/></div>
-        <div style={{display:"flex", justifyContent:"center"}}> <FilterLocation/></div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FilterNeeds />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FilterOrganizations />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FilterLocation />
+        </div>
       </Grid>
-      
+
       <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
 
-      <Grid item xs={12} md={9} style={{ paddingLeft: '0px'}}>
+      <Grid item xs={12} md={9} style={{ paddingLeft: '0px' }}>
         <div>
-          {products.map((product) =>
-            isDesktop ? (
-              <MuiCard
-                key={product.id}
-                imageSrc={require(`../${product.picture}`)}
-                title={product.name}
-                description="Card description goes here. Hello, my name is Yassin. Can you fill in this form?"
-                date="May 28, 2023"
-                number={42}
-                onClick={() => handleCardClick(product)}
-              />
-            ) : (
-              <MobileCard
-                key={product.id}
-                imageSrc={require(`../${product.picture}`)}
-                title={product.name}
-                description="Card description goes here. Hello, my name is Yassin. Can you fill in this form?"
-                date="May 28, 2023"
-                number={42}
-                onClick={() => handleCardClick(product)}
-              />
-            )
-          )}
+          {needs
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) 
+            .map((need) =>
+              isDesktop ? (
+                <CardNeedUser
+                  key={need.id}
+                  imageSrc={require(`../${need.product_picture}`)}
+                  title={need.title}
+                  description={need.description}
+                  date={dayjs(need.date).fromNow()} 
+                  fulfilled={need.quantity_fulfilled}
+                  required={need.quantity_required}
+                  onClick={() => handleCardClick(need)}
+                  nameOrganization={need.organization_name}
+                  city={need.organization_city}
+                />
+              ) : (
+                <MobileCard
+                  key={need.id}
+                  imageSrc={require(`../${need.product_picture}`)}
+                  title={need.title}
+                  description={need.description}
+                  date={dayjs(need.date).fromNow()}
+                  number={need.quantity_fulfilled}
+                  onClick={() => handleCardClick(need)}
+                />
+              )
+            )}
         </div>
       </Grid>
     </Grid>

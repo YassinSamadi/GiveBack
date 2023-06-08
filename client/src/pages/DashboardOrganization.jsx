@@ -7,15 +7,22 @@ import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import NeedsPopup from '../components/PopupNeed.jsx';
 import CardDetails from '../components/CardDetails.jsx';
+import EditNeed from '../components/EditNeed.jsx';
+import Popup from '../components/PopupSlide.jsx';
+import DeleteNeed from '../components/DeleteNeed.jsx';
 
 export const DashboardOrganization = () => {
     const [needs, setNeeds] = useState([]);
     const [products, setProducts] = useState([]);
     const [selectedCard, setSelectedCard] = useState(null);
+    const [editingNeed, setEditingNeed] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [deletingNeed, setDeletingNeed] = useState(null);
     const [organization, setOrganization] = useState({});
 
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+    
 
     useEffect(() => {
         const org = JSON.parse(localStorage.getItem('organization'));
@@ -46,28 +53,29 @@ export const DashboardOrganization = () => {
 
     const handleClose = () => {
         setSelectedCard(null);
+        setIsEditing(false);
+        setEditingNeed(null);
     };
 
     const getProductByNeed = (need) => {
         return products.find(product => product.id === need.product_id) || {};
     };
-    const handleEdit = (need) => {
-        console.log("Edit need with id:", need.id);
-       
-    };
-    
-    const handleDelete = (need) => {
-        console.log("Delete need with id:", need.id);
-        
-    };
-    
 
-    
+    const handleEdit = (need) => {
+        setEditingNeed(need);
+        setIsEditing(true);
+    };
+
+    const handleDelete = (need) => {
+        setDeletingNeed(need);
+    };
+
     const activeNeeds = needs.filter(need => need.quantity_required > need.quantity_fulfilled);
     const fulfilledNeeds = needs.filter(need => need.quantity_required === need.quantity_fulfilled);
 
     return (
         <>
+        <Popup/>
         <div style={{display:"flex", justifyContent:"center", marginTop:25}}>
             <NeedsPopup />
         </div>
@@ -79,39 +87,40 @@ export const DashboardOrganization = () => {
                     const product = getProductByNeed(need);
                     return (
                         isDesktop ? (
-                        <MuiCard
-                            key={need.id}
-                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
-                            title={need.title}
-                            description={need.description}
-                            nameOrganization={organization.name || 'Organization'}
-                            date={need.date}
-                            required={need.quantity_required}
-                            fulfilled={need.quantity_fulfilled}
-                            onClick={() => handleCardClick(need)}
-                            showActions={true}
-                            onEdit={() => handleEdit(need)}
-                            onDelete={() => handleDelete(need)}
-                        />
-                        
+                            <MuiCard
+                                key={need.id}
+                                imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                                title={need.title}
+                                description={need.description}
+                                nameOrganization={organization.name || 'Organization'}
+                                date={need.date}
+                                required={need.quantity_required}
+                                fulfilled={need.quantity_fulfilled}
+                                
+                                showActions={true}
+                                onEdit={() => {handleEdit(need);}}
+                                onDelete={() => {handleDelete(need);}}
+                            />
                         ) : (
-                        <MobileCard
-                            key={need.id}
-                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
-                            title={need.title}
-                            description={need.description}
-                            nameOrganization={organization.name || 'Organization'}
-                            date={need.date}
-                            required={need.quantity_required}
-                            fulfilled={need.quantity_fulfilled}
-                            onClick={() => handleCardClick(need)}
-                        />
+                            <MobileCard
+                                key={need.id}
+                                imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                                title={need.title}
+                                description={need.description}
+                                nameOrganization={organization.name || 'Organization'}
+                                date={need.date}
+                                required={need.quantity_required}
+                                fulfilled={need.quantity_fulfilled}
+                                
+                            />
                         )
                     )
                 })}
                 </div>
             </Grid>
+            <DeleteNeed open={!!deletingNeed} handleClose={() => setDeletingNeed(null)} need={deletingNeed} />
             <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
+            <EditNeed open={isEditing} handleClose={handleClose} need={editingNeed} products={products} />
 
             <Grid item xs={12} md={6}>
                 <h1 style={{display:"flex", justifyContent:"center"}}> History</h1>
@@ -121,28 +130,31 @@ export const DashboardOrganization = () => {
                         isDesktop ? (
                         <MuiCard
                             key={need.id}
-                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
+                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}
                             title={need.title}
                             description={need.description}
+                            nameOrganization={organization.name || 'Organization'}
                             date={need.date}
                             required={need.quantity_required}
                             fulfilled={need.quantity_fulfilled}
+                            history={true}
                         />
                         ) : (
-                        <MobileCard
-                            key={need.id}
-                            imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
-                            title={need.title}
-                            description={need.description}
-                            date={need.date}
-                            required={need.quantity_required}
-                            fulfilled={need.quantity_fulfilled}
-                        />
+                            <MobileCard
+                                key={need.id}
+                                imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}
+                                title={need.title}
+                                description={need.description}
+                                nameOrganization={organization.name || 'Organization'}
+                                date={need.date}
+                                required={need.quantity_required}
+                                fulfilled={need.quantity_fulfilled}
+                                history={true}
+                            />
                         )
-                    )
+                    );
                 })}
             </Grid>
-            <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
         </Grid>
         </>
     );
