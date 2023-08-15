@@ -1,38 +1,28 @@
-<<<<<<< Updated upstream
-import React from 'react'
-=======
 import '../style/Navbar.scss'
 import React, { useState,useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackRight500x500.png';
 import profilepic from '../assets/logo/profile-pic.jpg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { AuthContext } from '../context/authContext';
+import { OrganizationAuthContext } from '../context/authContextOrganizations';
+import { Link, useLocation } from 'react-router-dom';
 
-const Navbar = () => {
+const OrganizationNavbar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const {user, logout} = useContext(AuthContext);
+  const {organization, logout} = useContext(OrganizationAuthContext);
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
   };
 
-  const location = useLocation();
 
   const handleEditProfile = () => {
-    //edit profile
+    // Implement your edit profile logic here
   };
 
->>>>>>> Stashed changes
+  const location = useLocation();
 
-export const Navbar = () => {
   return (
-<<<<<<< Updated upstream
-    <div>Navbar</div>
-  )
-}
-=======
     <nav className="navbar">
       <div className="navbar-logo">
         <img
@@ -42,29 +32,28 @@ export const Navbar = () => {
         />
       </div>
       <div className="navbar-menu">
-        <ul className="navbar-menu-items">
-          <li>
-            <Link to="/dashboard/user" className={`navbar-link ${location.pathname === '/dashboard/user' ? 'active' : ''}`}>
-              Home
-              {location.pathname === '/dashboard/user' && <div className="active-line"></div>}
-            </Link>
-          </li>
-          <li>
-            
-            <Link to="/map" className={`navbar-link ${location.pathname === '/map' ? 'active' : ''}`}>
-            Map
-              {location.pathname === '/map' && <div className="active-line"></div>}
-            </Link>
-          </li>
-          <li>
-            <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : ''}`}>
-              History
-              {location.pathname === '/history' && <div className="active-line"></div>}
-            </Link>
-          </li>
-        </ul>
+      <ul className="navbar-menu-items">
+        <li>
+          <Link to="/dashboard/organization" className={`navbar-link ${location.pathname === '/dashboard/organization' ? 'active' : ''}`}>
+            Home
+            {location.pathname === '/dashboard/organization' && <div className="active-line"></div>}
+          </Link>
+        </li>
+        <li>
+          <Link to="/inventory" className={`navbar-link ${location.pathname === '/inventory' ? 'active' : ''}`}>
+            Inventory
+            {location.pathname === '/inventory' && <div className="active-line"></div>}
+          </Link>
+        </li>
+        <li>
+          <Link to="/donations" className={`navbar-link ${location.pathname === '/donations' ? 'active' : ''}`}>
+            Donations
+            {location.pathname === '/donations' && <div className="active-line"></div>}
+          </Link>
+        </li>
+      </ul>
       </div>
-      { user ? 
+      { organization ? 
         (<div className="navbar-user">
           <div className="navbar-user-profile" >
             <img
@@ -84,14 +73,12 @@ export const Navbar = () => {
               <li onClick={logout}>Sign Out</li>
             </ul>
           )}
-        </div>) :(<div className="navbar-user-profile" ><Link to="/login" className="navbar-link">
+        </div>) :(<div className="navbar-user-profile" ><Link to="/login/organization" className="navbar-link">
               Sign in
             </Link> </div> ) }
     </nav>
   );
 };
 
-export default Navbar;
->>>>>>> Stashed changes
+export default OrganizationNavbar;
 
-export default Navbar
