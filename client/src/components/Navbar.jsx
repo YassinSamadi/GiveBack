@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-import React from 'react'
-=======
 import '../style/Navbar.scss'
 import React, { useState,useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -24,7 +21,6 @@ const Navbar = () => {
     //edit profile
   };
 
->>>>>>> Stashed changes
 
   return (
     <nav className="navbar">

@@ -6,9 +6,6 @@ import MobileNavbar from "./components/mobileNavbar";
 import Home from "./pages/Home";
 import Inventory from "./pages/Inventory";
 import Footer from "./components/Footer";
-<<<<<<< Updated upstream
-
-=======
 import './style/App.scss';
 import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
@@ -22,7 +19,6 @@ import LoginOrganization from "./pages/LoginOrganization";
 import OrganizationNavbar from "./components/OrganizationNavbar";
 import HomeNavbar from "./components/HomeNavbar";
 import MobileNavbarOrg from "./components/mobileNavbarOrganization";
->>>>>>> Stashed changes
 const Layout =() => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -31,30 +27,11 @@ const Layout =() => {
     <>
       {isMobile ? <MobileNavbar/>  : <Navbar/>}
         <Outlet/>
-      <Footer/>
-    </>
-  )
-}
-const OrganizationLayout =() => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  return (
-    <>
-<<<<<<< Updated upstream
-      <Navbar/>
-      <Outlet/>
-      <Footer/>
-    </>
-  )
-}
-=======
-      {isMobile ? <MobileNavbar/>  : <Navbar/>}
-        <Outlet/>
       
     </>
   )
 }
+
 
 const OrganizationLayout =() => {
   const theme = useTheme();
@@ -80,24 +57,12 @@ const HomepageLayout =() => {
   )
 }
 
->>>>>>> Stashed changes
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:<Layout/>,
     children: [ 
-<<<<<<< Updated upstream
-      { 
-        path: "/home", 
-        element: <Home/> 
-      },
-      { 
-        path: "/dashboard/user", 
-        element: <Dashboard/> 
-      },
-      
-=======
       
       { 
         path: "/dashboard/user", 
@@ -141,7 +106,6 @@ const router = createBrowserRouter([
         path: "/home", 
         element: <Home/> 
       },
->>>>>>> Stashed changes
     ],
   },
   {
