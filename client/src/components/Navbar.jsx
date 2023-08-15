@@ -1,6 +1,9 @@
+<<<<<<< Updated upstream
+import React from 'react'
+=======
 import '../style/Navbar.scss'
 import React, { useState,useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackRight500x500.png';
 import profilepic from '../assets/logo/profile-pic.jpg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -15,11 +18,13 @@ const Navbar = () => {
     setShowUserMenu(!showUserMenu);
   };
 
+  const location = useLocation();
 
   const handleEditProfile = () => {
-    // Implement your edit profile logic here
+    //edit profile
   };
 
+>>>>>>> Stashed changes
 
   return (
     <nav className="navbar">
@@ -33,18 +38,22 @@ const Navbar = () => {
       <div className="navbar-menu">
         <ul className="navbar-menu-items">
           <li>
-            <Link to="/dashboard/user" className="navbar-link">
+            <Link to="/dashboard/user" className={`navbar-link ${location.pathname === '/dashboard/user' ? 'active' : ''}`}>
               Home
+              {location.pathname === '/dashboard/user' && <div className="active-line"></div>}
             </Link>
           </li>
           <li>
-            <Link to="/map" className="navbar-link">
-              Map
+            
+            <Link to="/map" className={`navbar-link ${location.pathname === '/map' ? 'active' : ''}`}>
+            Map
+              {location.pathname === '/map' && <div className="active-line"></div>}
             </Link>
           </li>
           <li>
-            <Link to="/history" className="navbar-link">
-              Achievements/History
+            <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : ''}`}>
+              History
+              {location.pathname === '/history' && <div className="active-line"></div>}
             </Link>
           </li>
         </ul>

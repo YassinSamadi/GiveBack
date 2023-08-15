@@ -1,11 +1,11 @@
 import '../style/Navbar.scss'
 import React, { useState,useContext } from 'react';
-import { Link } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackRight500x500.png';
 import profilepic from '../assets/logo/profile-pic.jpg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { OrganizationAuthContext } from '../context/authContextOrganizations';
+import { Link, useLocation } from 'react-router-dom';
 
 const OrganizationNavbar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -20,6 +20,7 @@ const OrganizationNavbar = () => {
     // Implement your edit profile logic here
   };
 
+  const location = useLocation();
 
   return (
     <nav className="navbar">
@@ -31,23 +32,26 @@ const OrganizationNavbar = () => {
         />
       </div>
       <div className="navbar-menu">
-        <ul className="navbar-menu-items">
-          <li>
-            <Link to="/dashboard/organization" className="navbar-link">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/map" className="navbar-link">
-              Map
-            </Link>
-          </li>
-          <li>
-            <Link to="/donations" className="navbar-link">
-              Donations
-            </Link>
-          </li>
-        </ul>
+      <ul className="navbar-menu-items">
+        <li>
+          <Link to="/dashboard/organization" className={`navbar-link ${location.pathname === '/dashboard/organization' ? 'active' : ''}`}>
+            Home
+            {location.pathname === '/dashboard/organization' && <div className="active-line"></div>}
+          </Link>
+        </li>
+        <li>
+          <Link to="/inventory" className={`navbar-link ${location.pathname === '/inventory' ? 'active' : ''}`}>
+            Inventory
+            {location.pathname === '/inventory' && <div className="active-line"></div>}
+          </Link>
+        </li>
+        <li>
+          <Link to="/donations" className={`navbar-link ${location.pathname === '/donations' ? 'active' : ''}`}>
+            Donations
+            {location.pathname === '/donations' && <div className="active-line"></div>}
+          </Link>
+        </li>
+      </ul>
       </div>
       { organization ? 
         (<div className="navbar-user">

@@ -32,7 +32,7 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
                     {title}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    {description}
+                    {description} 
                 </Typography>
                 <div style={footerStyle}>
                     <Typography variant="caption" sx={{ textAlign: 'left' }}>
@@ -41,6 +41,7 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
                     <Typography variant="caption" sx={{ textAlign: 'right' }}>
                         {date}
                     </Typography>
+                    
                 </div>
             </CardContent>
             {showActions && (

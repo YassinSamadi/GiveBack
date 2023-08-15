@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/authContext';
+import logo from '../assets/logo/GiveBackNoText500x500.png';
 
 export const Login = () => {
   const [inputs, setInputs] = useState({ 
@@ -35,17 +36,27 @@ export const Login = () => {
     }
   }
   return (
-    <div className='auth'>
-      <h1>Login</h1>
-      <form>
-        <input required type="text" placeholder="Email" name="email" onChange={handleChange}/>
-        <input required type="password" placeholder="Password" name="password" onChange={handleChange}/>
-        <button onClick={handleSubmit} type="submit">Login</button>
-        {/* <span><Link to="/register">Forgot Password?</Link></span> */}
-        {error && <p>{error}</p>}
-        <span>Don't have an account?<Link to="/register">Sign up</Link></span>
-      </form>
+    <div className='auth splitscreen'>
+      <div className='left'></div>
+      <div className='right'>
+      <img
+          src={logo}
+          alt="Logo"
+          width={120}
+          height={120}
+        />
+        <form>
+          <input required type="text" placeholder="Email" name="email" onChange={handleChange}/>
+          <input required type="password" placeholder="Password" name="password" onChange={handleChange}/>
+          <button onClick={handleSubmit} type="submit">Login</button>
+          {/* <span><Link to="/register">Forgot Password?</Link></span> */}
+          {error && <p>{error}</p>}
+          <span>Don't have an account?<Link to="/register">Sign up</Link></span>
+        </form>
+      </div>
     </div>
+
+
   )
 }
 

@@ -23,7 +23,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import MapIcon from '@mui/icons-material/Map';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation } from 'react-router-dom';
-
+import InventoryIcon from '@mui/icons-material/Inventory';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import ListItemLink from './MenuItemMobileLink';
 
 
@@ -31,7 +32,7 @@ const drawerWidth = 240;
 
 
 
-const MobileNavbar = () => {
+const MobileNavbarOrg = () => {
   const location = useLocation();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -46,103 +47,51 @@ const MobileNavbar = () => {
     setProfileOpen(!profileOpen);
   };
 
+  const activeLinkStyle = {
+    backgroundColor: 'lightgrey', 
+  };
+
+  const listItemStyle = {
+    color: 'green', 
+  };
+
+  const iconStyles = {
+    color: '#90C088',
+  };
   const activeBackgroundColor = '#F0F0F0';
   const inactiveBackgroundColor = 'transparent';
 
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, link: '/dashboard/user' },
-    { text: 'Map', icon: <MapIcon />, link: '/map' },
-    { text: 'History', icon: <HistoryIcon />, link: '/history' },
+    { text: 'Home', icon: <HomeIcon />, link: '/dashboard/organization' },
+    { text: 'Inventory', icon: <InventoryIcon />, link: '/inventory' },
+    { text: 'Donations', icon: <VolunteerActivismIcon />, link: '/donations' },
   ];
-  const profileName = 'John Doe'; 
-  const profileLastName = 'Smith'; 
- 
   
-  const drawerStyles = {
-    width: 240,
-    display: 'flex',
-    flexDirection: 'column',
-  };
-  
-  const profileDrawerStyles = {
-    flex: 1, // Allow this section to take up available space
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '16px',
-    justifyContent: 'center',
-  };
-  
-  
-  const profileImageStyles = {
-    width: '80px', 
-    height: '80px', 
-    borderRadius: '50%',
-    marginBottom: '8px',
-  };
 
-  const bottomSectionStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-  };
     
   const profile  = (
-    <div style={drawerStyles}>
-  <div style={profileDrawerStyles}>
-    <img src="/assets/logo/profile-pic.jpg" alt="Profile" style={profileImageStyles} />
-    <div>{`${profileName} ${profileLastName}`}</div>
-    <div style={{ flex: 1 }} />
-  </div>
-  <Divider />
-  <List>
-    {[
-      { text: 'Edit Profile', icon: <AccountCircleIcon />, link: "/dashboard/organization" },
-    ].map(({ text, icon, link }) => (
-      <ListItem
-        component={Link}
-        to={link}
-        key={text}
-        style={{
-          backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
-        }}
-        onClick={handleProfileToggle}
-        disablePadding
-      >
-        <ListItemButton>
-          <ListItemIcon style={{ color: '#90C088' }}>{icon}</ListItemIcon>
-          <ListItemText primary={text} style={{ color: '#90C088' }} />
-        </ListItemButton>
-      </ListItem>
-    ))}
-  </List>
-  <Divider />
-  <div style={bottomSectionStyles}>
-    <div style={{ flex: 1 }} />
+    <div>
+    <Toolbar />
+    <Divider />
     <List>
       {[
-        { text: 'Sign out', icon: <ExitToAppIcon />, link: "/inventory" },
+        { text: 'Edit Profile', icon: <AccountCircleIcon />, link: "/dashboard/organization" }, 
+        { text: 'Sign out', icon: <ExitToAppIcon />, link: "/inventory" } 
       ].map(({ text, icon, link }) => (
-        <ListItem
-          component={Link}
-          to={link}
-          key={text}
-          style={{
-            backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
-          }}
-          onClick={handleProfileToggle}
-          disablePadding
-        >
+        <ListItem component={Link} to={link} key={text} style={{
+          backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
+        }} onClick={handleProfileToggle} disablePadding>
           <ListItemButton>
-            <ListItemIcon style={{ color: '#90C088' }}>{icon}</ListItemIcon>
+            <ListItemIcon style={iconStyles}>
+              {icon}
+            </ListItemIcon>
             <ListItemText primary={text} style={{ color: '#90C088' }} />
           </ListItemButton>
         </ListItem>
       ))}
     </List>
+    <Divider />
   </div>
-</div>
-    
-    
   
   );
 
@@ -240,5 +189,5 @@ const MobileNavbar = () => {
   );
 };
 
-export default MobileNavbar;
+export default MobileNavbarOrg;
 

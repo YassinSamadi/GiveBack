@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 
 export const register = (req, res) => {
-    const { email, password, address_id } = req.body; // Now also getting the address_id from the request body
+    const { email, password, address_id } = req.body; 
   
     const selectQuery = "SELECT * FROM organization WHERE email = ?";
   
@@ -15,8 +15,8 @@ export const register = (req, res) => {
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(password, salt);
   
-      const insertQuery = "INSERT INTO organization (email, password, address_id) VALUES (?, ?, ?)"; // Now also inserting the address_id
-      const values = [email, hash, address_id]; // Including the address_id in the values array
+      const insertQuery = "INSERT INTO organization (email, password, address_id) VALUES (?, ?, ?)";
+      const values = [email, hash, address_id]; 
   
       db.query(insertQuery, values, (err, data) => {
         if (err) return res.status(500).json(err);

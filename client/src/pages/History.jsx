@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import HistoryTable from '../components/HistoryTable';
 import '../style/History.scss'; // Import CSS file for styling
 import axios from 'axios'; 
-
+import { Typography } from '@mui/material';
 export const History = () => {
     const [totalDonations, setTotalDonations] = useState(0);
     const [highestDonation, setHighestDonation] = useState(0);
@@ -47,7 +47,12 @@ export const History = () => {
             </Grid>
         </Grid>
         
-        <h1>History</h1>
+        
+        <Typography variant="h4" style={{ textAlign: 'center', marginTop: '20px', paddingBottom:"30px" }}>
+        <span style={{ display: 'inline-block', borderBottom: '4px solid #90C088', padding: '0 10px' }}>
+        History
+        </span>
+      </Typography>
         <HistoryTable />
         </div>
     );
