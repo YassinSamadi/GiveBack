@@ -10,10 +10,10 @@ import '../style/PendingCard.scss';
 
 const PendingCard = ({ first_name, last_name,donation_title, donation_id }) => {
     const handleClickConfirm = async () => {
-
+        
     }
     const handleClickDelete = async () => {
-    
+        
 
     }
 

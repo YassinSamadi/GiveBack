@@ -1,3 +1,4 @@
 
 client/.env.dev
 api/.env
+client/public/assets/uploads

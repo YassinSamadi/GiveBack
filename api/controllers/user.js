@@ -1,22 +1,31 @@
 import {db} from "../db.js"
+import bcrypt from "bcryptjs";
 
 export const updateUser = (req, res) => {
-    const { first_name, last_name, date_of_birth, profile_pic, inNeed } = req.body;
-    const {id} = req.query;
-    try {
-        
+    const { first_name, last_name, password, profile_pic, inNeed } = req.body;
+    const { id } = req.query;
 
-        const updateQuery = `
+    try {
+        let updateQuery = `
             UPDATE user 
             SET 
                 first_name = ?, 
-                last_name = ?, 
-                date_of_birth = ?, 
-                profile_pic = ?, 
+                last_name = ?,`;
+
+        const values = [first_name, last_name];
+
+        if (password) {
+            updateQuery += ` password = ?,`;
+            const hashedPassword = bcrypt.hashSync(password, 10);
+            values.push(hashedPassword);
+        }
+
+        updateQuery += ` profile_pic = ?,
                 inNeed = ?
             WHERE 
                 id = ?`;
-        const values = [first_name, last_name, date_of_birth, profile_pic, inNeed, id];
+
+        values.push(profile_pic, inNeed, id);
 
         db.query(updateQuery, values, (err, data) => {
             if (err) {
@@ -30,6 +39,9 @@ export const updateUser = (req, res) => {
         return res.status(500).json({ error: "An internal server error occurred." });
     }
 };
+
+
+
 export const getUser = (req, res) => {
     const { id } = req.query;
     
