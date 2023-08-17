@@ -8,7 +8,8 @@ import cookieParser from "cookie-parser";
 import authOrganizations from "./routes/authOrganizations.js"
 import addressRoutes from "./routes/addresses.js"
 import organizationRoutes from "./routes/organizations.js"
-
+import logoRoutes from './routes/uploads.js'; 
+import profilepicRoutes from './routes/uploadsProfile.js';
 const app = express();
 
 
@@ -23,7 +24,8 @@ app.use("/api/donations", donationRoutes);
 app.use("/api/authorganizations", authOrganizations);
 app.use("/api/address", addressRoutes);
 app.use("/api/organization", organizationRoutes);
-
+app.use('/api/upload/profilepic', profilepicRoutes);
+app.use('/api/upload/logo', logoRoutes);
 app.listen(8800, () => {
     console.log("Connected!");
 });

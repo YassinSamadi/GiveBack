@@ -17,10 +17,7 @@ const Navbar = () => {
 
   const location = useLocation();
 
-  const handleEditProfile = () => {
-    //edit profile
-  };
-
+  const user_profilepic = user ? user.profile_pic : '';
 
   return (
     <nav className="navbar">
@@ -58,7 +55,7 @@ const Navbar = () => {
         (<div className="navbar-user">
           <div className="navbar-user-profile" >
             <img
-              src={profilepic}
+              src={`/assets/uploads/profilepic/${user_profilepic}`}
               alt="User Profile"
               className="user-profile-image"
             />
@@ -70,7 +67,7 @@ const Navbar = () => {
           </div>
           {showUserMenu && (
             <ul className="navbar-user-menu">
-              <li onClick={handleEditProfile}>Edit Profile</li>
+              <li><a href="/editprofile">Edit Profile</a></li>
               <li onClick={logout}>Sign Out</li>
             </ul>
           )}

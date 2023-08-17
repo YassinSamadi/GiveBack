@@ -12,7 +12,6 @@ import axios from 'axios';
 const EditNeed = ({ open, handleClose, need, products }) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [formData, setFormData] = useState(need || {});
 

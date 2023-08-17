@@ -1,23 +1,20 @@
 import '../style/Navbar.scss'
-import React, { useState,useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackRight500x500.png';
-import profilepic from '../assets/logo/profile-pic.jpg';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { AuthContext } from '../context/authContext';
+
 import { Button } from '@mui/material';
 const HomeNavbar = () => {
-    const [showUserMenu, setShowUserMenu] = useState(false);
-    const {user, logout} = useContext(AuthContext);
+    // const [showUserMenu, setShowUserMenu] = useState(false);
+    // const {user, logout} = useContext(AuthContext);
 
-    const toggleUserMenu = () => {
-        setShowUserMenu(!showUserMenu);
-    };
+    // const toggleUserMenu = () => {
+    //     setShowUserMenu(!showUserMenu);
+    // };
 
-    const handleEditProfile = () => {
-        //edit profile
-    };
+    // const handleEditProfile = () => {
+    //     //edit profile
+    // };
 
 
     return (

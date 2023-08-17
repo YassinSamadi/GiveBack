@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export const FilterOrganizations = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedLocationRange, setSelectedLocationRange] = useState('');
+  // const [selectedLocationRange, setSelectedLocationRange] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [hideList, sethideList] = useState(false);
 
@@ -33,12 +33,12 @@ export const FilterOrganizations = () => {
     }
   };
 
-  const handleLocationRangeChange = (range) => {
-    setSelectedLocationRange(range);
-  };
+  // const handleLocationRangeChange = (range) => {
+  //   setSelectedLocationRange(range);
+  // };
 
   const dataForDisplay = expanded ? products : products.slice(0, 5);
-  const hideAllProducts =  [] ;
+  // const hideAllProducts =  [] ;
 
 
   return (

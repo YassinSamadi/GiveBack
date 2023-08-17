@@ -47,9 +47,9 @@ export const DashboardOrganization = () => {
         });
     }, []);
 
-    const handleCardClick = (need) => {
-        setSelectedCard(need);
-    };
+    // const handleCardClick = (need) => {
+    //     setSelectedCard(need);
+    // };
 
     const handleClose = () => {
         setSelectedCard(null);

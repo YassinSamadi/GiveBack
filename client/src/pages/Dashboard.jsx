@@ -8,7 +8,7 @@ import CardDetails from '../components/CardDetails.jsx';
 import CardNeedUser from '../components/CardNeedUser.jsx';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Typography, Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 
 dayjs.extend(relativeTime);
 

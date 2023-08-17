@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import MobileNavbar from "./components/mobileNavbar";
 import Home from "./pages/Home";
 import Inventory from "./pages/Inventory";
+import Pending from "./pages/Pending";
 import Footer from "./components/Footer";
 import './style/App.scss';
 import Dashboard from "./pages/Dashboard";
@@ -16,6 +17,7 @@ import DashboardOrganization from "./pages/DashboardOrganization";
 import DonationsInfo  from "./pages/DonationsInfo";
 import RegisterOrganization from "./pages/RegisterOrganization";
 import LoginOrganization from "./pages/LoginOrganization";
+import EditProfile from "./pages/EditProfile";
 import OrganizationNavbar from "./components/OrganizationNavbar";
 import HomeNavbar from "./components/HomeNavbar";
 import MobileNavbarOrg from "./components/mobileNavbarOrganization";
@@ -41,12 +43,10 @@ const OrganizationLayout =() => {
     <>
       {isMobile ? <MobileNavbarOrg/>  : <OrganizationNavbar/>}
         <Outlet/>
-      
     </>
   )
 }
 const HomepageLayout =() => {
-  const theme = useTheme();
 
   return (
     <>
@@ -76,6 +76,10 @@ const router = createBrowserRouter([
       { 
         path: "/history",
         element: <History/> 
+      },
+      {
+        path: "/editprofile",
+        element: <EditProfile/>
       }
     ],
   },
@@ -94,6 +98,10 @@ const router = createBrowserRouter([
       { 
         path: "/inventory", 
         element: <Inventory/> 
+      },
+      { 
+        path: "/pending", 
+        element: <Pending/> 
       },
     ],
   },

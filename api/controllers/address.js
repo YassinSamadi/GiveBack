@@ -30,7 +30,6 @@ export const registerAddress = async (req, res) => {
           return res.status(500).json(err);
         }
         
-        // Return the inserted address id to the client
         return res.status(201).json({ id: result.insertId });
       });
     } catch (error) {
@@ -41,7 +40,7 @@ export const registerAddress = async (req, res) => {
 
   export const getAllAddressesWithOrganizations = (req, res) => {
     const selectQuery = `
-      SELECT address.*, organization.name as organizationName 
+      SELECT address.*, organization.name as organizationName, organization.id as organizationId
       FROM address 
       LEFT JOIN organization ON address.id = organization.address_id 
       WHERE address.isOrganization = 1
@@ -63,4 +62,3 @@ export const getAllAddressesOrganizations = (req, res) => {
     return res.status(200).json(results);
     });
 };
-  

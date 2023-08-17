@@ -87,8 +87,13 @@
     width: 160px;
     height: 50px;
 }
+
 .navbar-link.active {
     color: #90C088;
     font-weight: bold;
+
+}
+.navbar-link.nonactive {
+    color: black;
 
 }

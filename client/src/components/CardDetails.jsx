@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -11,7 +10,7 @@ import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Slider from '@mui/material/Slider';
 import dayjs from 'dayjs';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 
 const CardDetails = ({ open, handleClose, product }) => {

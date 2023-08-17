@@ -4,26 +4,27 @@ import jwt from "jsonwebtoken"
 
 
 export const register = (req, res) => {
-    const { email, password, address_id } = req.body; 
-  
-    const selectQuery = "SELECT * FROM organization WHERE email = ?";
-  
-    db.query(selectQuery, [email], (err, result) => {
+  const { name, email, password, address_id, logo } = req.body;
+
+  const selectQuery = "SELECT * FROM organization WHERE email = ?";
+
+  db.query(selectQuery, [email], (err, result) => {
+    if (err) return res.status(500).json(err);
+    if (result.length) return res.status(409).json("Email already exists");
+
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const insertQuery = "INSERT INTO organization (name, email, password, address_id, logo) VALUES (?, ?, ?, ?, ?)";
+    const values = [name, email, hash, address_id, logo];
+
+    db.query(insertQuery, values, (err, data) => {
       if (err) return res.status(500).json(err);
-      if (result.length) return res.status(409).json("Email already exists");
-  
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(password, salt);
-  
-      const insertQuery = "INSERT INTO organization (email, password, address_id) VALUES (?, ?, ?)";
-      const values = [email, hash, address_id]; 
-  
-      db.query(insertQuery, values, (err, data) => {
-        if (err) return res.status(500).json(err);
-        return res.status(201).json("Organization created successfully");
-      });
+      return res.status(201).json("Organization created successfully");
     });
-  };
+  });
+};
+
   
 
 export const login = (req, res) => {

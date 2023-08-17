@@ -4,17 +4,20 @@ import jwt from "jsonwebtoken"
 
 
 export const register = (req, res) => {
+  const { first_name, email, password, profile_pic, inNeed } = req.body;
+
+
     const selectQuery = "SELECT * FROM user WHERE email = ?";
     
-    db.query(selectQuery, [req.body.email], (err, result) => {
+    db.query(selectQuery, [email], (err, result) => {
       if (err) return res.status(500).json(err);
       if (result.length) return res.status(409).json("Email already exists");
     
       const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(req.body.password, salt);
+      const hash = bcrypt.hashSync(password, salt);
     
-      const insertQuery = "INSERT INTO user (email, password) VALUES (?, ?)";
-      const values = [req.body.email, hash];
+      const insertQuery = "INSERT INTO user (first_name, email, password,profile_pic, inNeed ) VALUES (?,?,?,?,?)";
+      const values = [first_name, email, hash, profile_pic, inNeed];
     
       db.query(insertQuery, values, (err, data) => {
         if (err) return res.status(500).json(err);

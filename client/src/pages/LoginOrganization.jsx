@@ -6,6 +6,7 @@ import '../style/App.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo/GiveBackNoText500x500.png';
 
 
 export const LoginOrganization = () => {
@@ -35,8 +36,16 @@ export const LoginOrganization = () => {
       }
     }
     return (
-      <div className='auth'>
-        <h1>Login as Organization</h1>
+      <div className='auth splitscreen'>
+      <div className='left'></div>
+      <div className='right'>
+      <img
+          src={logo}
+          alt="Logo"
+          width={120}
+          height={120}
+        />
+        <h1>Login as an organization</h1>
         <form>
           <input required type="text" placeholder="Email" name="email" onChange={handleChange}/>
           <input required type="password" placeholder="Password" name="password" onChange={handleChange}/>
@@ -45,6 +54,8 @@ export const LoginOrganization = () => {
           <span>Don't have an account?<Link to="/register/organization">Sign up</Link></span>
         </form>
       </div>
+      </div>
+
     )
   }
   

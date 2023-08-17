@@ -34,21 +34,27 @@ const OrganizationNavbar = () => {
       <div className="navbar-menu">
       <ul className="navbar-menu-items">
         <li>
-          <Link to="/dashboard/organization" className={`navbar-link ${location.pathname === '/dashboard/organization' ? 'active' : ''}`}>
+          <Link to="/dashboard/organization"  className={`navbar-link ${location.pathname === '/dashboard/organization' ? 'active' : 'nonactive'}`}>
             Home
             {location.pathname === '/dashboard/organization' && <div className="active-line"></div>}
           </Link>
         </li>
         <li>
-          <Link to="/inventory" className={`navbar-link ${location.pathname === '/inventory' ? 'active' : ''}`}>
+          <Link to="/inventory"  className={`navbar-link ${location.pathname === '/inventory' ? 'active' : 'nonactive'}`}>
             Inventory
             {location.pathname === '/inventory' && <div className="active-line"></div>}
           </Link>
         </li>
         <li>
-          <Link to="/donations" className={`navbar-link ${location.pathname === '/donations' ? 'active' : ''}`}>
+          <Link to="/donations"  className={`navbar-link ${location.pathname === '/donations' ? 'active' : 'nonactive'}`}>
             Donations
             {location.pathname === '/donations' && <div className="active-line"></div>}
+          </Link>
+        </li>
+        <li>
+          <Link to="/pending"  className={`navbar-link ${location.pathname === '/pending' ? 'active' : 'nonactive'}`}>
+          Pending
+            {location.pathname === '/pending' && <div className="active-line"></div>}
           </Link>
         </li>
       </ul>

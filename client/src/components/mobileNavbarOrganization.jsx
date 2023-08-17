@@ -20,8 +20,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import '../style/MobileNavbar.scss';
 import HomeIcon from '@mui/icons-material/Home';
-import MapIcon from '@mui/icons-material/Map';
-import HistoryIcon from '@mui/icons-material/History';
 import { useLocation } from 'react-router-dom';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
@@ -47,13 +45,27 @@ const MobileNavbarOrg = () => {
     setProfileOpen(!profileOpen);
   };
 
-  const activeLinkStyle = {
-    backgroundColor: 'lightgrey', 
+
+
+  const profileDrawerStyles = {
+    flex: 1, 
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '16px',
+    justifyContent: 'center',
   };
 
-  const listItemStyle = {
-    color: 'green', 
+  const profileImageStyles = {
+    width: '80px', 
+    height: '80px', 
+    borderRadius: '50%',
+    marginBottom: '8px',
   };
+
+  const organization = JSON.parse(localStorage.getItem('organization'));
+  const organization_name = organization ? organization.name : '';
+  const organization_logo = organization ? organization.logo : '';
 
   const iconStyles = {
     color: '#90C088',
@@ -71,27 +83,27 @@ const MobileNavbarOrg = () => {
     
   const profile  = (
     <div>
-    <Toolbar />
-    <Divider />
-    <List>
-      {[
-        { text: 'Edit Profile', icon: <AccountCircleIcon />, link: "/dashboard/organization" }, 
-        { text: 'Sign out', icon: <ExitToAppIcon />, link: "/inventory" } 
-      ].map(({ text, icon, link }) => (
-        <ListItem component={Link} to={link} key={text} style={{
-          backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
-        }} onClick={handleProfileToggle} disablePadding>
-          <ListItemButton>
-            <ListItemIcon style={iconStyles}>
-              {icon}
-            </ListItemIcon>
-            <ListItemText primary={text} style={{ color: '#90C088' }} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-    <Divider />
-  </div>
+      <Toolbar />
+      <Divider />
+      <List>
+        {[
+          { text: 'Edit Profile', icon: <AccountCircleIcon />, link: "/dashboard/organization" }, 
+          { text: 'Sign out', icon: <ExitToAppIcon />, link: "/inventory" } 
+        ].map(({ text, icon, link }) => (
+          <ListItem component={Link} to={link} key={text} style={{
+            backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
+          }} onClick={handleProfileToggle} disablePadding>
+            <ListItemButton>
+              <ListItemIcon style={iconStyles}>
+                {icon}
+              </ListItemIcon>
+              <ListItemText primary={text} style={{ color: '#90C088' }} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </div>
   
   );
 
@@ -121,14 +133,14 @@ const MobileNavbarOrg = () => {
                 <MenuIcon fontSize="large" />
             </IconButton>
             <Box>
-                <Link to="/dashboard">
+                <Link to="/dashboard/organization">
                     <img src={logo} className={'logo'} alt="logo" />
                 </Link>
             </Box>
             <Box>
                 <img
                     onClick={handleProfileToggle}
-                    src={profilepic}
+                    src={`/assets/uploads/logo/${organization_logo}`}
                     alt="User Profile"
                     className="user-profile-image"
                 />
@@ -154,34 +166,52 @@ const MobileNavbarOrg = () => {
                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
             }}
         >
-          <Toolbar />
-          <Divider />
-          {menuItems.map((item) => (
-            <ListItemLink key={item.text} primary={item.text} icon={item.icon} to={item.link} closeDrawer={handleDrawerToggle}/>
-          ))}
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      
+      <div>
+        <div style={profileDrawerStyles}>
+          <img src={`/assets/uploads/logo/${organization_logo}`} alt="Profile" style={profileImageStyles} />
+          <div>{`${organization_name}`}</div>
+        </div>
+      </div>
 
-        </Drawer>
-      </Box>
-      <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-        aria-label="mailbox folders"
-      >
-        <Drawer
-            container={container}
-            anchor="right"
-            variant="temporary"
-            open={profileOpen}
-            onClose={handleProfileToggle}
-            ModalProps={{
-                keepMounted: true, 
-            }}
-            sx={{
-                display: { xs: 'block', md: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }}
-        >
-            {profile}
+      
+      <div style={{ flexGrow: 1 }}>
+        <Toolbar />
+        <Divider />
+        {menuItems.map((item) => (
+          <ListItemLink key={item.text} primary={item.text} icon={item.icon} to={item.link} closeDrawer={handleDrawerToggle} />
+        ))}
+      </div>
+
+      
+      <div>
+        <List>
+          {[
+            { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/dashboard/organization' },
+            { text: 'Sign out', icon: <ExitToAppIcon />, link: '/inventory' },
+          ].map(({ text, icon, link }) => (
+            
+            <ListItem
+              component={Link}
+              to={link}
+              key={text}
+              style={{
+                backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
+              }}
+              onClick={handleProfileToggle}
+              disablePadding
+            >
+              <Divider />
+              <ListItemButton>
+                <ListItemIcon style={{ color: '#90C088' }}>{icon}</ListItemIcon>
+                <ListItemText primary={text} style={{ color: '#90C088' }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    </div>
         </Drawer>
       </Box>
 

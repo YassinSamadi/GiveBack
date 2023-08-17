@@ -4,7 +4,6 @@ import '../style/App.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { AuthContext } from '../context/authContext';
 import logo from '../assets/logo/GiveBackNoText500x500.png';
 
