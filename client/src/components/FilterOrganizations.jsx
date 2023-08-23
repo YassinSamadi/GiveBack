@@ -5,40 +5,44 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
-export const FilterOrganizations = () => {
-  const [products, setProducts] = useState([]);
+export const FilterOrganizations = ({ onOrganizationFilterChange }) => {
+  const [organizations, setOrganizations] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [selectedLocationRange, setSelectedLocationRange] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [hideList, sethideList] = useState(false);
 
   useEffect(() => {
     axios
-      .get('/products')
+      .get('/organization')
       .then((response) => {
-        setProducts(response.data);
+        setOrganizations(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching organizations:', error);
       });
   }, []);
 
-  const handleCategoryChange = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories((prevCategories) =>
-        prevCategories.filter((c) => c !== category)
-      );
-    } else {
-      setSelectedCategories((prevCategories) => [...prevCategories, category]);
-    }
+  const handleClearFilters = () => {
+    setSelectedCategories([]); 
+    onOrganizationFilterChange([]); 
   };
 
-  // const handleLocationRangeChange = (range) => {
-  //   setSelectedLocationRange(range);
-  // };
+  const handleCategoryChange = (category) => {
+    let updatedCategories;
 
-  const dataForDisplay = expanded ? products : products.slice(0, 5);
-  // const hideAllProducts =  [] ;
+    if (selectedCategories.includes(category)) {
+      updatedCategories = selectedCategories.filter((c) => c !== category);
+    } else {
+      updatedCategories = [...selectedCategories, category];
+    }
+
+    setSelectedCategories(updatedCategories);
+
+    onOrganizationFilterChange(updatedCategories);
+  };
+
+
+  const dataForDisplay = expanded ? organizations : organizations.slice(0, 5);
 
 
   return (
@@ -46,6 +50,7 @@ export const FilterOrganizations = () => {
       <div className="section">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <h4>Organizations </h4>
+            <p>{console.log(organizations)}</p>
             <button
                 type="button"
                 className={`expand-button ${hideList ? 'expanded' : ''}`}
@@ -58,28 +63,31 @@ export const FilterOrganizations = () => {
     
   
         
-          {!hideList && dataForDisplay.map((product) => (
-  <div key={product.id} className="checkbox-item">
-    <input
-      type="checkbox"
-      id={product.id}
-      checked={selectedCategories.includes(product.id)}
-      onChange={() => handleCategoryChange(product.id)}
-    />
-    <label htmlFor={product.id}>{product.name}</label>
-  </div>
-))}
+          {!hideList && dataForDisplay.map((organizations) => (
+            <div key={organizations.id} className="checkbox-item">
+              <input
+                type="checkbox"
+                id={organizations.id}
+                checked={selectedCategories.includes(organizations.id)}
+                onChange={() => handleCategoryChange(organizations.id)}
+              />
+              <label htmlFor={organizations.id}>{organizations.name}</label>
+            </div>
+          ))}
 
-{!hideList && (
-  <button
-    type="button"
-    className="expand-button"
-    onClick={() => setExpanded(!expanded)}
-  >
-    {expanded ? 'Show Less' : 'Show More'}
-  </button>
-)}
+        {!hideList && (
+          <button
+            type="button"
+            className="expand-button"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? 'Show Less' : 'Show More'}
+          </button>
+        )}
 
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <button className="expand-button" onClick={handleClearFilters}>Clear Filters</button>
       </div>
 
     </div>

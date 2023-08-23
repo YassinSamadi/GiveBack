@@ -31,7 +31,7 @@ export const getUserNeeds = (req, res) => {
 };
 
 export const getSpecificNeed = (req, res) => {
-    const selectQuery = `SELECT need.*, organization.name AS organization_name, address.city AS organization_city, product.name AS product_name, product.picture AS product_picture
+    const selectQuery = `SELECT need.*, organization.name AS organization_name, address.city AS organization_city,product.id AS product_id, product.name AS product_name, product.picture AS product_picture
     FROM need 
     LEFT JOIN organization ON need.org_id = organization.id 
     LEFT JOIN address ON organization.address_id = address.id

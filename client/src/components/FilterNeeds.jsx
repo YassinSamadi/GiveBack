@@ -5,7 +5,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
-export const FilterNeeds = () => {
+export const FilterNeeds = ({onProductFilterChange }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   // const [selectedLocationRange, setSelectedLocationRange] = useState('');
@@ -23,22 +23,28 @@ export const FilterNeeds = () => {
       });
   }, []);
 
-  const handleCategoryChange = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories((prevCategories) =>
-        prevCategories.filter((c) => c !== category)
-      );
-    } else {
-      setSelectedCategories((prevCategories) => [...prevCategories, category]);
-    }
+  const handleClearFilters = () => {
+    setSelectedCategories([]); 
+    onProductFilterChange([]); 
   };
 
-  // const handleLocationRangeChange = (range) => {
-  //   setSelectedLocationRange(range);
-  // };
+
+  const handleCategoryChange = (category) => {
+    let updatedCategories;
+
+    if (selectedCategories.includes(category)) {
+      updatedCategories = selectedCategories.filter((c) => c !== category);
+    } else {
+      updatedCategories = [...selectedCategories, category];
+    }
+
+    setSelectedCategories(updatedCategories);
+
+    onProductFilterChange(updatedCategories);
+  };
+
 
   const dataForDisplay = expanded ? products : products.slice(0, 5);
-  // const hideAllProducts =  [] ;
 
 
   return (
@@ -78,6 +84,9 @@ export const FilterNeeds = () => {
   </button>
 )}
 
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <button className="expand-button" onClick={handleClearFilters}>Clear filters</button>
       </div>
 
     </div>

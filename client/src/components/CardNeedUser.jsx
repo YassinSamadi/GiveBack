@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, useMediaQuery } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
-const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required, onClick, nameOrganization, city }) => {
+const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required, onClick, nameOrganization, city,productId }) => {
     const theme = createTheme({
         palette: {
             primary: {
@@ -15,6 +14,7 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
             },
         },
     });
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const cardStyle = {
         display: 'flex',
@@ -72,6 +72,15 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
         position: 'relative', 
     };
 
+    const maxTitleLength = 30; 
+    const maxDescriptionLength = isMobile ? 80 : 100;
+
+    const truncatedTitle = title.length > maxTitleLength ? title.slice(0, maxTitleLength) + "..." : title;
+
+    const truncatedDescription = description.length > maxDescriptionLength
+        ? description.slice(0, maxDescriptionLength) + "..."
+        : description;
+
     
 
     return (
@@ -101,11 +110,11 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
             
             <CardContent sx={{paddingTop: "0px", paddingLeft: "7px", paddingRight: "7px", '&:last-child': { pb: 1.5 }}}>
 
-                <Typography sx={{fontWeight: "bold" , paddingBottom:"10px"}}>{title}</Typography> 
-                
+            <Typography sx={{fontWeight: "bold" , paddingBottom:"10px"}}>{truncatedTitle}</Typography> 
                 <Typography sx={{ paddingBottom: "8px", lineHeight: '1.2', height: '2.8em', overflow: 'hidden' }} variant="body1" gutterBottom>
-                    {description}
+                    {truncatedDescription}
                 </Typography>
+                <p style={{display:'none'}} >{productId} </p> 
                 <div style={footerStyle}>
                     <Typography variant="caption" sx={{ textAlign: 'right' }}>
                         {city}

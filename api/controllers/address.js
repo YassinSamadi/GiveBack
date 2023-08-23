@@ -40,7 +40,7 @@ export const registerAddress = async (req, res) => {
 
   export const getAllAddressesWithOrganizations = (req, res) => {
     const selectQuery = `
-      SELECT address.*, organization.name as organizationName, organization.id as organizationId
+      SELECT address.*, organization.name as organizationName, organization.id as organizationId, organization.logo as organizationLogo
       FROM address 
       LEFT JOIN organization ON address.id = organization.address_id 
       WHERE address.isOrganization = 1

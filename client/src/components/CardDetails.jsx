@@ -5,13 +5,13 @@ import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { DialogContentText } from '@mui/material';
+import { DialogContentText, Typography } from '@mui/material';
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import Slider from '@mui/material/Slider';
 import dayjs from 'dayjs';
 import { createTheme } from '@mui/material/styles';
-
+import '../style/CardDetails.scss';
 
 const CardDetails = ({ open, handleClose, product }) => {
     const theme = useTheme();
@@ -55,8 +55,8 @@ const CardDetails = ({ open, handleClose, product }) => {
     const imgSrc =  `../${product.product_picture}` ;
     const maxValue = product.quantity_required - product.quantity_fulfilled;
     
-    // const isFulfilled = fulfilled === required;
-
+    const isFulfilled = product.quantity_fulfilled >= product.quantity_required ;
+    console.log('isFulfilled:', isFulfilled);
     const closeClickStyle = {
         cursor: 'pointer'
     };
@@ -79,14 +79,13 @@ const CardDetails = ({ open, handleClose, product }) => {
                     left: '0px',
                     right: '0px',
                     padding: '4px 16px', 
-                    
                     color: 'white',
                     fontSize: "20px"}}>{product.title}</DialogTitle>
                     
                 <div style={{
                     backgroundImage: `linear-gradient(to bottom, rgba(245, 246, 252, 0), rgba(0, 0, 1, 1)), url('${imgSrc}')`,
                     width: "100%",
-                    height: "300px",
+                    minHeight: "300px",
                     objectFit: 'cover',
                 }}></div>
             <DialogContent>
@@ -114,45 +113,51 @@ const CardDetails = ({ open, handleClose, product }) => {
                     <p >{product.quantity_required}</p>
                 </DialogContentText> */}
                 
-                <Slider   theme={sliderTheme}
-                    value={quantityDonated}
-                    onChange={(e, newValue) => setQuantityDonated(newValue)}
-                    aria-label="Default"
-                    valueLabelDisplay="auto"
-                    max={maxValue}
-                    backgroundColor="secondary"
-                />
-                <input
-                    type="number"
-                    id="quantity_donated"
-                    name="quantity_donated"
-                    min="0"
-                    max={maxValue}
-                    value={quantityDonated}
-                    onChange={e => setQuantityDonated(e.target.value)}
-                    style={{ border: '1px solid #90C088', flex: 1 }}
-                />
-                <Button
-                    variant="outlined"
-                    style={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white' }}
-                    onClick={handleSubmit}  
-                >
-                    submit donation
-                </Button>
-
-                {/* {isFulfilled ? (
-                <Typography variant="caption" sx={{ textAlign: 'center' }}>
-                    Need Fulfilled
-                </Typography>
+                
+                
+                {isFulfilled ? (
+                    <div class="donation-input">
+                        <Button
+                            variant="outlined"
+                            style={{ backgroundColor:  'lightgrey', color:'white', borderColor: 'white' }} 
+                            disabled={true}
+                        >
+                            submit donation
+                        </Button>
+                        <Typography>Need fullfilled</Typography>
+                    </div>
                 ) : (
-                <Button
-                    variant="outlined"
-                    style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
-                    
-                >
-                    Donate
-                </Button>
-                )} */}
+                    <div class="donation-input">
+                        <Slider
+                            theme={sliderTheme}
+                            value={quantityDonated}
+                            onChange={(e, newValue) => setQuantityDonated(newValue)}
+                            aria-label="Default"
+                            valueLabelDisplay="auto"
+                            max={maxValue}
+                            backgroundColor="secondary"
+                            style={{ width: '60%' }}
+                        />
+                        <input
+                            type="number"
+                            id="quantity_donated"
+                            name="quantity_donated"
+                            min="0"
+                            max={maxValue}
+                            value={quantityDonated}
+                            onChange={e => setQuantityDonated(e.target.value)}
+                            style={{ border: '1px solid #90C088', flex: 1 }}
+                        />
+                        <Button
+                            variant="outlined"
+                            style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
+                            onClick={handleSubmit}
+                        >
+                            submit donation
+                        </Button>
+                    </div>
+                )}
+
             </DialogContent>
 
             

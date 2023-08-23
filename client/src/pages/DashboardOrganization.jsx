@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import NeedsPopup from '../components/PopupNeed.jsx';
 import CardDetails from '../components/CardDetails.jsx';
 import EditNeed from '../components/EditNeed.jsx';
-import Popup from '../components/PopupSlide.jsx';
+
 import DeleteNeed from '../components/DeleteNeed.jsx';
 
 export const DashboardOrganization = () => {
@@ -19,6 +19,9 @@ export const DashboardOrganization = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [deletingNeed, setDeletingNeed] = useState(null);
     const [organization, setOrganization] = useState({});
+
+   
+
 
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -72,10 +75,14 @@ export const DashboardOrganization = () => {
 
     const activeNeeds = needs.filter(need => need.quantity_required > need.quantity_fulfilled);
     const fulfilledNeeds = needs.filter(need => need.quantity_required === need.quantity_fulfilled);
+    
+    const sortedActiveNeeds = activeNeeds.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+
 
     return (
         <>
-        <Popup/>
+        
         <div style={{display:"flex", justifyContent:"center", marginTop:25}}>
             <NeedsPopup />
         </div>
@@ -83,7 +90,7 @@ export const DashboardOrganization = () => {
             <Grid item xs={12} md={6} style={{ paddingLeft: '0px'}}>
                 <div>
                 <h1 style={{display:"flex", justifyContent:"center"}}>Active needs</h1>
-                {activeNeeds.map((need) => {
+                {sortedActiveNeeds.map((need) => {
                     const product = getProductByNeed(need);
                     return (
                         isDesktop ? (
@@ -96,7 +103,6 @@ export const DashboardOrganization = () => {
                                 date={need.date}
                                 required={need.quantity_required}
                                 fulfilled={need.quantity_fulfilled}
-                                
                                 showActions={true}
                                 onEdit={() => {handleEdit(need);}}
                                 onDelete={() => {handleDelete(need);}}
@@ -111,10 +117,9 @@ export const DashboardOrganization = () => {
                                 date={need.date}
                                 required={need.quantity_required}
                                 fulfilled={need.quantity_fulfilled}
-                                
                             />
                         )
-                    )
+                    );
                 })}
                 </div>
             </Grid>

@@ -1,4 +1,4 @@
-import React , { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 export const HistoryTable = () => {
     const [donations, setDonations] = useState([]);
@@ -16,7 +17,7 @@ export const HistoryTable = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         const userId = user ? user.id : null;
 
-        if(userId) {
+        if (userId) {
             axios
                 .get(`/donations/getAllDonationsByUser?user_id=${userId}`)
                 .then((response) => {
@@ -29,39 +30,46 @@ export const HistoryTable = () => {
             console.error('No user found in local storage.');
         }
     }, []);
-    
 
     return (
-        <TableContainer sx={{maxWidth: 1200,}} component={Paper}>
+        <TableContainer sx={{ maxWidth: 1200 }} component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-                <TableRow>
-                <TableCell>Donation (Title) </TableCell>
-                <TableCell align="left">Product Name</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell align="right">Organization</TableCell>
-                <TableCell align="right">Date</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {donations.map((donation) => (
-                <TableRow
-                    key={donation.donation_date}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                    <TableCell component="th" scope="row">
-                    {donation.title}
-                    </TableCell>
-                    <TableCell align="left">{donation.product}</TableCell>
-                    <TableCell align="right">{donation.quantity_donated}</TableCell>
-                    <TableCell align="right">{donation.organization}</TableCell>
-                    <TableCell align="right">{donation.donation_date}</TableCell>
-                </TableRow>
-                ))}
-            </TableBody>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Donation (Title)</TableCell>
+                        <TableCell align="left">Product Name</TableCell>
+                        <TableCell align="right">Amount</TableCell>
+                        <TableCell align="right">Organization</TableCell>
+                        <TableCell align="right">Date</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {donations.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={5} align="center">
+                                No donations to display.
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        donations.map((donation) => (
+                            <TableRow
+                                key={donation.donation_date}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {donation.title}
+                                </TableCell>
+                                <TableCell align="left">{donation.product}</TableCell>
+                                <TableCell align="right">{donation.quantity_donated}</TableCell>
+                                <TableCell align="right">{donation.organization}</TableCell>
+                                <TableCell align="right">{dayjs(donation.donation_date).format('DD/MM/YYYY')}</TableCell>
+                            </TableRow>
+                        ))
+                    )}
+                </TableBody>
             </Table>
         </TableContainer>
     );
-}
+};
 
 export default HistoryTable;

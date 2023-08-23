@@ -64,7 +64,8 @@ const data = response.data.map(item => ({
           onClose={closeDrawer}
           organizationName={location.organizationName}
           organizationID={location.organizationId}
-
+          organizationLogo={location.organizationLogo}
+          organizationAddress={location.street + ', ' + location.number + ', ' + location.postal_code + ', ' + location.city}
         />
       </div>
     )}

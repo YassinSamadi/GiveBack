@@ -12,9 +12,12 @@ const EditProfile = () => {
         inNeed: false
     });
     const [user, setUser] = useState(null);
+    const [profilePicFile, setProfilePicFile] = useState(null); // Define profilePicFile state
+
+    const user_profilepic = user ? user.profile_pic : '';
 
     const userId = JSON.parse(localStorage.getItem('user')).id;
-    console.log(userId);
+    
     useEffect(() => {
         // Fetch user data from your API or wherever it's stored
         async function fetchUserData() {
@@ -38,30 +41,65 @@ const EditProfile = () => {
     }, [userId]);
 
     const handleChange = (e) => {
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        const { name, type, value, files } = e.target;
+        const newValue = type === 'file' ? files[0] : type === 'checkbox' ? e.target.checked : value;
     
-        setFormData({ ...formData, [e.target.name]: value });
+        setFormData({ ...formData, [name]: newValue });
+
+        if (type === 'file') {
+            const uniqueFilename = generateUniqueFilename(files[0].name);
+            setProfilePicFile({ file: files[0], uniqueFilename });
+        }
     };
 
+    const generateUniqueFilename = originalFilename => {
+        const timestamp = Date.now();
+        const randomString = Math.random().toString(36).substring(7);
+        const extension = originalFilename.split('.').pop();
+        return `${timestamp}-${randomString}.${extension}`;
+      };
+
     const handleSubmit = async () => {
-        try {
-            await axios.put(`/users/updateUser?id=${userId}`, formData);
-            console.log('User updated successfully');
-    
-            // Update local storage with the new user data
+    try {
+        console.log(profilePicFile);
+        if (profilePicFile) {
+            const formDataWithProfilePic = new FormData();
+            formDataWithProfilePic.append('profile_pic', profilePicFile.file, profilePicFile.uniqueFilename);
+
+            const imageResponse = await axios.post('/upload/profilepic', formDataWithProfilePic);
+            const imageName = imageResponse.data.filename;
+            console.log('Image name:', imageName);
+            setFormData({ ...formData, profile_pic: imageName }); // Update the profile_pic in the form data
+            setUser({ ...user, profile_pic: imageName }); // Update the profile_pic in the user state
+
             const updatedUser = {
                 ...user,
                 first_name: formData.first_name,
                 last_name: formData.last_name,
-                profile_pic: formData.profile_pic,
+                profile_pic: imageName,
                 inNeed: formData.inNeed
             };
-            
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-        } catch (error) {
-            console.error('Error updating user:', error);
+
+            localStorage.setItem('user', JSON.stringify(updatedUser)); // Update the user in the local storage
         }
-    };
+
+        await axios.put(`/users/updateUser?id=${userId}`, formData);
+        console.log('User updated successfully');
+
+        const updatedUser = {
+            ...user,
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            inNeed: formData.inNeed
+        };
+
+        setUser(updatedUser); // Update the user state without changing the profile_pic
+
+        localStorage.setItem('user', JSON.stringify(updatedUser)); // Update the user in the local storage
+    } catch (error) {
+        console.error('Error updating user:', error);
+    }
+};
     
 
     if (!user) return null;
@@ -106,15 +144,18 @@ const EditProfile = () => {
                     placeholder="••••••••" 
                     className="input-field"/>
                 <label>Profile Picture</label>
-                {/* <input
+                <img
+                    src={`/assets/uploads/profilepic/${user_profilepic}`}
+                    alt="User Profile"
+                    className="user-profile-image"
+                    />
+                <input
                     type="file"
-                    accept='.jpg, .jpeg, .png'
+                    accept=".jpg, .jpeg, .png"
                     name="profile_pic"
-                    value={formData.profile_pic || ''}
                     onChange={handleChange}
-                    placeholder="Profile Picture URL"
                     className="input-field"
-                /> */}
+                />
                 <label className="in-need-label">
                     In Need:
                     <input

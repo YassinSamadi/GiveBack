@@ -11,6 +11,8 @@ const OrganizationNavbar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const {organization, logout} = useContext(OrganizationAuthContext);
 
+  const orgLogo = organization ? organization.logo : '';
+
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
   };
@@ -63,7 +65,7 @@ const OrganizationNavbar = () => {
         (<div className="navbar-user">
           <div className="navbar-user-profile" >
             <img
-              src={profilepic}
+              src={`/assets/uploads/logo/${orgLogo}`}
               alt="User Profile"
               className="user-profile-image"
             />
