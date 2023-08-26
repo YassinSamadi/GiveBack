@@ -15,8 +15,8 @@ export const Dashboard = () => {
   const [needs, setNeeds] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [page, setPage] = useState(1);
-  const [selectedProductIds, setSelectedProductIds] = useState([]); // Initialize with an empty array
-  const [selectedOrganizationIds, setSelectedOrganizationIds] = useState([]); // Initialize with an empty array
+  const [selectedProductIds, setSelectedProductIds] = useState([]); 
+  const [selectedOrganizationIds, setSelectedOrganizationIds] = useState([]);
   const itemsPerPage = 12;
 
   useEffect(() => {
@@ -52,7 +52,6 @@ export const Dashboard = () => {
   };
 
   const handleProductFilterChange = (selectedIds) => {
-    console.log('Selected Product IDs:', selectedIds);
 
     setSelectedProductIds(selectedIds);
   };
@@ -62,11 +61,7 @@ export const Dashboard = () => {
 
     setSelectedOrganizationIds(selectedIds);
   };
-  const handleClearFilters = () => {
-    setSelectedProductIds([]); // Clear selected product filters
-    setSelectedOrganizationIds([]); // Clear selected organization filters
-    // You can also reset other filter states if needed
-  };
+
   return (
     <Grid container spacing={2} style={{ margin: '0 auto', width: '100%' }}>
       <Grid item xs={12} md={3}>

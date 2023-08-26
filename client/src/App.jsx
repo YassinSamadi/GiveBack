@@ -13,6 +13,7 @@ import History from "./pages/History";
 import { useMediaQuery, useTheme } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Map from "./pages/Map";
+import Inventories from "./pages/Inventories";
 import DashboardOrganization from "./pages/DashboardOrganization";
 import DonationsInfo  from "./pages/DonationsInfo";
 import RegisterOrganization from "./pages/RegisterOrganization";
@@ -72,6 +73,11 @@ const router = createBrowserRouter([
       { 
         path: "/map", 
         element: <Map/> 
+      },
+
+      {
+        path: "/inventories",
+        element: <Inventories/>
       },
       { 
         path: "/history",
@@ -137,8 +143,8 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="app ">
-      <div className="container ">
+    <div className="app">
+      <div className="container">
         <RouterProvider router={router}/>
       </div>
     </div>

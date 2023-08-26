@@ -4,7 +4,7 @@ import CustomMap from '../components/Map'
 
 export const Map = () => {
   return (
-    <div  style={{ height: "100vh" }}>
+    <div  style={{ height: "99vh" }}>
       <CustomMap />
     </div>
   )

@@ -25,7 +25,6 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
         minWidth: 280,
         height: 284,
         margin: '0 auto',
-        
         position: 'relative', 
     };
 

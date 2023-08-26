@@ -20,8 +20,6 @@ export const DashboardOrganization = () => {
     const [deletingNeed, setDeletingNeed] = useState(null);
     const [organization, setOrganization] = useState({});
 
-   
-
 
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -89,11 +87,11 @@ export const DashboardOrganization = () => {
         <Grid container spacing={2} style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
             <Grid item xs={12} md={6} style={{ paddingLeft: '0px'}}>
                 <div>
-                <h1 style={{display:"flex", justifyContent:"center"}}>Active needs</h1>
+                <h1 style={{display: 'flex',  justifyContent:"center", borderBottom: '4px solid #90C088', padding: '0 10px'}}>Active needs</h1>
+                
                 {sortedActiveNeeds.map((need) => {
                     const product = getProductByNeed(need);
                     return (
-                        isDesktop ? (
                             <MuiCard
                                 key={need.id}
                                 imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
@@ -107,18 +105,6 @@ export const DashboardOrganization = () => {
                                 onEdit={() => {handleEdit(need);}}
                                 onDelete={() => {handleDelete(need);}}
                             />
-                        ) : (
-                            <MobileCard
-                                key={need.id}
-                                imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}                            
-                                title={need.title}
-                                description={need.description}
-                                nameOrganization={organization.name || 'Organization'}
-                                date={need.date}
-                                required={need.quantity_required}
-                                fulfilled={need.quantity_fulfilled}
-                            />
-                        )
                     );
                 })}
                 </div>
@@ -128,11 +114,10 @@ export const DashboardOrganization = () => {
             <EditNeed open={isEditing} handleClose={handleClose} need={editingNeed} products={products} />
 
             <Grid item xs={12} md={6}>
-                <h1 style={{display:"flex", justifyContent:"center"}}> History</h1>
+            <h1 style={{display: 'flex',  justifyContent:"center", borderBottom: '4px solid #90C088', padding: '0 10px'}}>History</h1>
                 {fulfilledNeeds.map((need) => {
                     const product = getProductByNeed(need);
                     return (
-                        isDesktop ? (
                         <MuiCard
                             key={need.id}
                             imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}
@@ -144,20 +129,7 @@ export const DashboardOrganization = () => {
                             fulfilled={need.quantity_fulfilled}
                             history={true}
                         />
-                        ) : (
-                            <MobileCard
-                                key={need.id}
-                                imageSrc={product && product.picture ? require(`../${product.picture}`) : require('../assets/products/sugar.jpg')}
-                                title={need.title}
-                                description={need.description}
-                                nameOrganization={organization.name || 'Organization'}
-                                date={need.date}
-                                required={need.quantity_required}
-                                fulfilled={need.quantity_fulfilled}
-                                history={true}
-                            />
-                        )
-                    );
+                    )
                 })}
             </Grid>
         </Grid>

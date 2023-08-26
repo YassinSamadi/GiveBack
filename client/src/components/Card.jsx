@@ -1,14 +1,22 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, IconButton } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, IconButton,useMediaQuery } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import dayjs from 'dayjs';
 
-const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onClick, showActions, onEdit, onDelete, showDonate}) => {
+
+
+const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onClick, showActions, onEdit, onDelete }) => {
+    const theme = createTheme();
+
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     const cardStyle = {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'white',
         display: 'flex',
-        maxWidth: 650,
+        maxWidth: isMobile ? 380 :  650,
         margin: '0 auto',
         marginTop: 3,
         maxHeight: 150,
@@ -18,30 +26,39 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
         display: 'flex',
         justifyContent: 'space-between',
     };
+    
+
+    
+
+
+    const maxTitleLength = isMobile ? 15 : 30; 
+    const maxDescriptionLength = isMobile ?  60 : 85; 
+
+    const truncatedTitle = title.length > maxTitleLength ? title.substring(0, maxTitleLength) + '...' : title;
+    const truncatedDescription = description.length > maxDescriptionLength ? description.substring(0, maxDescriptionLength) + '...' : description;
 
     return (
         <Card onClick={onClick} sx={cardStyle}>
             <CardMedia
                 component="img"
-                sx={{ width: 150, minWidth: 150, objectFit: 'cover' }}
+                sx={{ width: isMobile ?80  : 150, minWidth: 70, objectFit: 'cover' }}
                 image={imageSrc}
                 alt="Card Image"
             />
             <CardContent sx={{ flex: 1 }}>
                 <Typography variant="h6" component="h3" gutterBottom>
-                    {title}
+                    {truncatedTitle}
                 </Typography>
-                <Typography variant="body1" gutterBottom>
-                    {description} 
+                <Typography sx={{paddingBottom: "8px", lineHeight: '1.2', height: isMobile ? '4em' : '3em', overflow: 'hidden' }} variant="body1" gutterBottom>
+                    {truncatedDescription}
                 </Typography>
                 <div style={footerStyle}>
                     <Typography variant="caption" sx={{ textAlign: 'left' }}>
                         {fulfilled} / {required}
                     </Typography>
-                    <Typography variant="caption" sx={{ textAlign: 'right' }}>
-                        {date}
+                    <Typography variant="caption" sx={{ textAlign: 'right', marginRight:"-80px" , }}>
+                        {dayjs(date).format('DD/MM/YYYY')}
                     </Typography>
-                    
                 </div>
             </CardContent>
             {showActions && (
@@ -52,16 +69,6 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
                     <IconButton onClick={onDelete}>
                         <DeleteIcon />
                     </IconButton>
-                </div>
-            )}
-            {showDonate && (
-                <div>
-                    <Button
-                        variant="outlined"
-                        style={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white' }}           
-                    >
-                        Donate
-                    </Button>
                 </div>
             )}
         </Card>

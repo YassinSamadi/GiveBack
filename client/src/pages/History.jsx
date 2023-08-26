@@ -38,22 +38,22 @@ export const History = () => {
 
     return (
         <div className="centered-container"> 
-        <Grid sx={{backgroundColor: "#90C088"}} container spacing={2}>
-            <Grid item xs={12} md={6}>
-            <HistoryCard icon={EmojiEventsIcon} number={totalDonations} description={'Total Donated'} />
+            <Grid sx={{backgroundColor: "#90C088"}} container spacing={2}>
+                <Grid item xs={12} md={6}>
+                <HistoryCard icon={EmojiEventsIcon} number={totalDonations} description={'Total Donated'} />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                <HistoryCard icon={EmojiEventsIcon} number={highestDonation} description={'Highest donation'} />
+                </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-            <HistoryCard icon={EmojiEventsIcon} number={highestDonation} description={'Highest donation'} />
-            </Grid>
-        </Grid>
-        
-        
-        <Typography variant="h4" style={{ textAlign: 'center', marginTop: '20px', paddingBottom:"30px" }}>
-        <span style={{ display: 'inline-block', borderBottom: '4px solid #90C088', padding: '0 10px' }}>
-        History
-        </span>
-      </Typography>
-        <HistoryTable />
+            
+            
+            <Typography variant="h4" style={{ textAlign: 'center', marginTop: '20px', paddingBottom:"30px" }}>
+            <span style={{ display: 'inline-block', borderBottom: '4px solid #90C088', padding: '0 10px' }}>
+            History
+            </span>
+        </Typography>
+            <HistoryTable />
         </div>
     );
 };

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Map, { GeolocateControl, Marker, Popup, NavigationControl } from 'react-map-gl';
 import SwipeableTemporaryDrawer from './DrawerMap';
 
+
 const TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const CustomMap = () => {
@@ -55,6 +56,7 @@ const data = response.data.map(item => ({
         setSelectedLocationIndex(index);
         openDrawer(); 
       }} 
+      color='#90C088'
     />
 
     {selectedLocationIndex === index && (
@@ -65,7 +67,7 @@ const data = response.data.map(item => ({
           organizationName={location.organizationName}
           organizationID={location.organizationId}
           organizationLogo={location.organizationLogo}
-          organizationAddress={location.street + ', ' + location.number + ', ' + location.postal_code + ', ' + location.city}
+          organizationAddress={location.street + ' ' + location.number + ', ' + location.postal_code + ' ' + location.city}
         />
       </div>
     )}

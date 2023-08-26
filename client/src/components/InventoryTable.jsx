@@ -84,7 +84,7 @@ export const InventoryTable = () => {
 
     const handleChange = (e) => {
         const value = e.target.value;
-    
+
         setFormData({ ...formData, quantity: value });
     };
 
@@ -93,7 +93,7 @@ export const InventoryTable = () => {
         try {
             await axios.put(`/inventory/addtoinventory?id=${productId}`, formData);
             const updatedProducts = products.map((product) => {
-                return {...product, quantity: +product.quantity + +formData.quantity};
+                return { ...product, quantity: product.id == productId ? +product.quantity + +formData.quantity : product.quantity};
             });
             setProducts(updatedProducts);
         } catch (error) {
@@ -104,11 +104,11 @@ export const InventoryTable = () => {
     };
 
     const handleRemoveSubmit = async (event) => {
-        const productId = event.currentTarget.getAttribute("id")
+        const productId = event.currentTarget.getAttribute("id");
         try {
             await axios.put(`/inventory/removefrominventory?id=${productId}`, formData);
             const updatedProducts = products.map((product) => {
-                return {...product, quantity: +product.quantity - +formData.quantity};
+                return { ...product, quantity: product.id == productId ? (+product.quantity - +formData.quantity >= 0 ? +product.quantity - +formData.quantity  : 0) : product.quantity };
             });
             setProducts(updatedProducts);
         } catch (error) {
@@ -133,45 +133,54 @@ export const InventoryTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {products.map((product) => (
-                        <TableRow key={product.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell align="right"><img src={product.product_picture} /></TableCell>
-                            <TableCell align="right">{product.product_name}</TableCell>
-                            <TableCell align="right">{product.product_id}</TableCell>
-                            <TableCell align="right">{product.quantity}</TableCell>
-                            {/* Last refill */}
-                            <TableCell align="right"></TableCell>
-                            {/* Alert quantity */}
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right">
-                                <TextField className="quantity-input" onChange={handleChange} type="number"/>
-                            </TableCell>
-                            <TableCell align="right">
-                                <Button
-                                    className='actions'
-                                    disableElevation
-                                    onClick={handleClick}
-                                    endIcon={<KeyboardArrowDownIcon />}
-                                >
-                                    Edit
-                                </Button>
-                                <StyledMenu
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                >
-                                    <MenuItem id={product.id} onClick={handleAddSubmit} disableRipple>
-                                        <AddIcon />
-                                        Add
-                                    </MenuItem>
-                                    <MenuItem id={product.id} onClick={handleRemoveSubmit} disableRipple>
-                                        <RemoveIcon />
-                                        Remove
-                                    </MenuItem>
-                                </StyledMenu>
+                    {products.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={5} align="center">
+                                No inventory to display.
                             </TableCell>
                         </TableRow>
-                    ))}
+                    ) : (
+                        products.map((product) => (
+                            <TableRow key={product.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell align="right"><img className='img ' src={product.product_picture} /></TableCell>
+                                <TableCell align="right">{product.product_name}</TableCell>
+                                <TableCell align="right">{product.product_id}</TableCell>
+                                <TableCell align="right">{product.quantity}</TableCell>
+                                {/* Last refill */}
+                                <TableCell align="right"></TableCell>
+                                {/* Alert quantity */}
+                                <TableCell align="right"></TableCell>
+                                <TableCell align="right">
+                                    <TextField className="quantity-input" onChange={handleChange} type="number" />
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button
+                                        className='actions'
+                                        disableElevation
+                                        onClick={handleClick}
+                                        endIcon={<KeyboardArrowDownIcon />}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <StyledMenu
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                    >
+                                        <MenuItem id={product.id} onClick={handleAddSubmit} disableRipple>
+                                            <AddIcon />
+                                            Add
+                                        </MenuItem>
+                                        <MenuItem id={product.id} onClick={handleRemoveSubmit} disableRipple>
+                                            <RemoveIcon />
+                                            Remove
+                                        </MenuItem>
+                                    </StyledMenu>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    )
+                    }
                 </TableBody>
             </Table>
         </TableContainer>

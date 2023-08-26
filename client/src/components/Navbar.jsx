@@ -65,6 +65,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
+            
+            <Link to="/inventories" className={`navbar-link ${location.pathname === '/inventories' ? 'active' : ''}`}>
+            Inventories
+              {location.pathname === '/inventories' && <div className="active-line"></div>}
+            </Link>
+          </li>
+          <li>
             <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : ''}`}>
               History
               {location.pathname === '/history' && <div className="active-line"></div>}

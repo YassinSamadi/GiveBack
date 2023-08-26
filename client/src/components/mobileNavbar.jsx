@@ -21,6 +21,7 @@ import Toolbar from '@mui/material/Toolbar';
 import '../style/MobileNavbar.scss';
 import HomeIcon from '@mui/icons-material/Home';
 import MapIcon from '@mui/icons-material/Map';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation } from 'react-router-dom';
 
@@ -57,6 +58,7 @@ const MobileNavbar = () => {
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, link: '/dashboard/user' },
     { text: 'Map', icon: <MapIcon />, link: '/map' },
+    { text: 'Inventories', icon: <InventoryIcon />, link: '/inventories'},
     { text: 'History', icon: <HistoryIcon />, link: '/history' },
   ];
   const profileName = user_name; 

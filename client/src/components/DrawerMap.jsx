@@ -13,7 +13,7 @@ import '../style/DrawerMap.scss'
 import Slider from '@mui/material/Slider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMediaQuery, useTheme } from '@mui/material';
-       
+
 const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizationID,organizationLogo, organizationAddress }) => {
     
     const [needs, setNeeds] = useState([]);
@@ -30,6 +30,8 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
     const handleBack = () => {
     setActiveStep((prevStep) => Math.max(prevStep - 1, 0));
     };
+
+    const [showFullDescription, setShowFullDescription] = useState(false);
 
     const sliderTheme = createTheme({
         palette: {
@@ -113,7 +115,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
     
 
     const list = (
-        <div role="presentation">
+        <div >
           <ListItem style={{ justifyContent: 'center' }} disablePadding>
             <div className="flex-container">
               <img
@@ -129,59 +131,134 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
           
       
           {needs.length > 0 && (
-            <ListItem style={{justifyContent:"center"}}>
-              {/* Content when filteredNeeds.length > 0 */}
-              <div style={{ display: 'flex', flexDirection: 'row'}}>
-                <div style={{justifyContent:"center"}}>
-                  <img
-                    src={needs[activeStep].productPicture}
-                    alt={needs[activeStep].productName}
-                    className="product-image"
+             
+            <ListItem style={{ justifyContent: 'center' }}>
+              <div>
+             {isMobile ? (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <ListItemText
+                    primary={needs[activeStep].needTitle}
+                    primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize: '20px' } }}
                   />
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <ListItemText primary="Product" secondary={needs[activeStep].productName} />
+                <img
+                  src={needs[activeStep].productPicture}
+                  alt={needs[activeStep].productName}
+                  className="product-image"
+                  style={{ marginBottom: '10px' }}
+                />
+                <div>
+                  <ListItemText
+                    primary="Product"
+                    secondary={needs[activeStep].productName}
+                    style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '18px' }}
+                  />
                 </div>
-                </div >
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '40px' }}>
-                  <ListItemText primary={needs[activeStep].needTitle} primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize:'20px' } }}/>
-                  {isMobile ?
-                    <ListItemText style={{height:'200px', width:'300px'}} primary="Description" secondary={needs[activeStep].needDescription} />
-                  :
-                    <ListItemText
-                      style={{display: 'flex', }}
-                    >
-                    <span style={{marginRight:'20px'}}>
-                        Description
-                      </span>
-                      <span  style={{
-                                    
-                        height: '200px',
-                        width: '300px',
-                      }}>
-                        {needs[activeStep].needDescription}
-                      </span>
-                      
-                    </ListItemText>  
-                  }
-                  
+                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                  <ListItemText
+                      style={{
+                          height: showFullDescription ? 'auto' : '100px',
+                          width: '300px',
+                          textAlign: 'justify',
+                          marginTop: '10px',
+                          overflow: 'hidden',
+                      }}
+                      primary="Description"
+                      secondary={needs[activeStep].needDescription}
+                  />
+                  {needs[activeStep].needDescription.length > 200 && (
+                      <button onClick={() => setShowFullDescription(!showFullDescription)}>
+                          {showFullDescription ? 'Read Less' : 'Read More'}
+                      </button>
+                  )}
+                  {needs[activeStep].needDescription.length <= 200 && (
+                      <div style={{ marginTop: '30px' }}>
+                          
+                      </div>
+                  )}
+              </div>
+
+              </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'row', }}>
+                    <div >
+                      <img
+                        src={needs[activeStep].productPicture}
+                        alt={needs[activeStep].productName}
+                        className="product-image"
+                      />
+                      <div style={{}}>
+                      <ListItemText primary="Product" secondary={needs[activeStep].productName} />
+                    </div>
+                  </div>
+                  <div style={{alignContent:'center',alignItems:'center',textAlign:'center', justifyContent:'center ',}}>
+                    <div style={{ marginLeft: '40px' }}>
+                      <ListItemText primary={needs[activeStep].needTitle} primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize:'20px' } }}/>
+                        <ListItemText
+                          style={{display: 'flex', }}
+                        >
+                          <span style={{marginRight:'20px'}}>
+                            Description
+                          </span>
+                          <p  style={{height: '200px',width: '500px', marginBottom:'40px'}}>
+                            {needs[activeStep].needDescription}
+                          </p>
+                        </ListItemText>  
+                    </div>
+                  </div>
                 </div>
-                
-                
+              )}
               </div>
             </ListItem>
           )}
-      
-          {/* Conditional rendering based on needs */}
           {needs && needs.length > 0 ? (
             <ListItem style={{justifyContent: 'space-evenly',}} >
               {needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled > 0 ? (
-                <div style={{ display: 'flex' }}>
-                  {/* Needs Section */}
-                  <div style={{ display:'flex', textAlign: 'left', alignItems:'flex-start'  }}>
+                <div>
+                {isMobile ? (
+                  <div style={{ flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', textAlign: 'center', alignItems: 'flex-start' }}>
+                      <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                      <Slider
+                        theme={sliderTheme}
+                        value={quantityDonated}
+                        onChange={(e, newValue) => setQuantityDonated(newValue)}
+                        aria-label="Default"
+                        valueLabelDisplay="auto"
+                        max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
+                        backgroundColor="secondary"
+                      />
+                      <p
+                        type="number"
+                        id="quantity_donated"
+                        name="quantity_donated"
+                        style={{ textAlign: 'center', marginTop: '10px', marginBottom: '10px' }}
+                      >{quantityDonated}</p>
+                      <Button
+                        variant="outlined"
+                        style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
+                        onClick={handleSubmit}
+                      >
+                        Submit Donation
+                      </Button>
+                    </div>
+
+                    <div style={{ display: 'flex', textAlign: 'center', marginTop:'5px', alignItems: 'flex-end' }}>
+                      <ListItemText primary={organizationAddress} />
+                    </div>
+                    
+                  </div>
+
+
+                  ):(
+                  <div style={{ display: 'flex' }}>
+                
+                  <div style={{flex: 1, display:'flex', textAlign: 'left', alignItems:'flex-start'  }}>
                     <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
                   </div>
                   
-                  {/* Donation Section */}
                   <div style={{ flex: 1, flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                     <Slider
                       theme={sliderTheme}
@@ -189,6 +266,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                       onChange={(e, newValue) => setQuantityDonated(newValue)}
                       aria-label="Default"
                       valueLabelDisplay="auto"
+                      
                       max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
                       backgroundColor="secondary"
                     />
@@ -207,12 +285,14 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                     </Button>
                   </div>
                 
-                {/* Organization Address */}
+              
                 <div style={{ flex: 1, textAlign: 'right', alignItems:'flex-end'  }}>
                   <ListItemText primary={organizationAddress}/>
                 </div>
               </div>
               
+              )}
+                </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <Button variant="outlined" style={{ backgroundColor: '#D9D9D9', color: 'white', borderColor: 'white' }} disabled>
@@ -227,7 +307,6 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
             </ListItem>
           )}
       
-          {/* MobileStepper */}
           <ThemeProvider theme={theme}>
       <MobileStepper
         variant="dots"
