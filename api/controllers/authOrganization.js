@@ -42,7 +42,7 @@ export const login = (req, res) => {
 
         const{password, ...other} = data[0]
 
-        res.cookie("token", token, {
+        res.cookie("organizationaccess_token", token, {
             httpOnly: true,
         }).status(200).json(other)
     })

@@ -13,22 +13,15 @@ export const HistoryTable = () => {
     const [donations, setDonations] = useState([]);
 
     useEffect(() => {
-        // Get user information from local storage
-        const user = JSON.parse(localStorage.getItem('user'));
-        const userId = user ? user.id : null;
 
-        if (userId) {
             axios
-                .get(`/donations/getAllDonationsByUser?user_id=${userId}`)
+                .get(`/donations/getAllDonationsByUser`)
                 .then((response) => {
                     setDonations(response.data);
                 })
                 .catch((error) => {
                     console.error('Error fetching donations:', error);
                 });
-        } else {
-            console.error('No user found in local storage.');
-        }
     }, []);
 
     return (

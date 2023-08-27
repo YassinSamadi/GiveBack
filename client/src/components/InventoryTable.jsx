@@ -54,24 +54,19 @@ export const InventoryTable = () => {
         quantity: 0,
     });
 
-    // Get organization information from local storage
-    const organization = JSON.parse(localStorage.getItem('organization'));
-    const orgId = organization ? organization.id : null;
+
 
     useEffect(() => {
-        if (orgId) {
+        
             axios
-                .get(`/inventory/getinventory?id=${orgId}`)
+                .get(`/inventory/getinventory`)
                 .then((response) => {
                     setProducts(response.data);
                 })
                 .catch((error) => {
                     console.error('Error fetching products:', error);
                 });
-        } else {
-            console.error('No organization found in local storage.');
-        }
-    }, [orgId]);
+    }, []);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -127,8 +122,6 @@ export const InventoryTable = () => {
                         <TableCell align="right">Product name</TableCell>
                         <TableCell align="right">Product id</TableCell>
                         <TableCell align="right">Quantity</TableCell>
-                        <TableCell align="right">Last refill</TableCell>
-                        <TableCell align="right">Alert quantity</TableCell>
                         <TableCell align="right" colSpan={2}>Actions</TableCell>
                     </TableRow>
                 </TableHead>
@@ -146,12 +139,9 @@ export const InventoryTable = () => {
                                 <TableCell align="right">{product.product_name}</TableCell>
                                 <TableCell align="right">{product.product_id}</TableCell>
                                 <TableCell align="right">{product.quantity}</TableCell>
-                                {/* Last refill */}
-                                <TableCell align="right"></TableCell>
-                                {/* Alert quantity */}
-                                <TableCell align="right"></TableCell>
-                                <TableCell align="right">
-                                    <TextField className="quantity-input" onChange={handleChange} type="number" />
+                                
+                                <TableCell style={{minWidth:"40px"}} align="right">
+                                    <TextField  className="quantity-input" onChange={handleChange} type="number" />
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button

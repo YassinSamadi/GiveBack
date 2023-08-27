@@ -1,0 +1,27 @@
+.sticky {
+    position: sticky;
+    top: 0; 
+    z-index: 100; 
+    background-color: white; 
+}
+
+.navbar-user-profile .button-signin {
+    color: #90c088;
+    border-color: #90c088;
+}
+
+.navbar-user-profile .button-signin:hover {
+    background-color: #90c088;
+    border-color: #90c088;
+    color: white;
+}
+.hamburger{
+    color: #90c088;
+}
+
+.cursor{
+    cursor: pointer;
+}
+.navbar-menu-items .active {
+    color: #90C088;
+}

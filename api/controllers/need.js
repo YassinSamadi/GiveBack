@@ -1,5 +1,5 @@
 import {db} from "../db.js"
-
+import jwt from "jsonwebtoken";
 export const getAllNeeds = (req, res) => {
     const selectQuery = "SELECT * FROM need";
     
@@ -59,21 +59,32 @@ export const getNeed = (req, res) => {
 };
 
 export const addNeed = (req, res) => {
-    const {title,description, quantity_required, date, org_id, product_id} = req.body; 
+    const { title, description, quantity_required, date, product_id } = req.body;
 
-    try{
-        const insertQuery = "INSERT INTO need (title, description, quantity_required, quantity_fulfilled, date, org_id, product_id) VALUES (?, ?, ?, 0 , ?, ?, ?)";
-        const values = [title, description, quantity_required, date, org_id, product_id];
-        db.query(insertQuery, values, (err, data) => {
-            if (err) return res.status(500).json(err);
-            return res.status(201).json("Need created successfully");
-        });
-    } catch(error){
-        console.log(error);
-        return res.status(500).json(error);
-    }
-    
+    const token = req.cookies.organizationaccess_token;
+
+    if (!token) return res.status(401).json("Not authorized");
+
+    jwt.verify(token, "JWT", (err, decoded) => {
+        if (err) return res.status(401).json("Not authorized");
+
+        const org_id = decoded.id;
+
+        try {
+            const insertQuery = "INSERT INTO need (title, description, quantity_required, quantity_fulfilled, date, org_id, product_id) VALUES (?, ?, ?, 0 , ?, ?, ?)";
+            const values = [title, description, quantity_required, date, org_id, product_id];
+            
+            db.query(insertQuery, values, (err, data) => {
+                if (err) return res.status(500).json(err);
+                return res.status(201).json("Need created successfully");
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    });
 };
+
 export const deleteNeed = (req, res) => {
     const id = req.query.id; 
     

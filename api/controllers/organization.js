@@ -32,3 +32,17 @@ export const getOrganizationNeedsById = (req, res) => {
     return res.status(200).json(results);
     });
 };
+
+export const getAllOrganizationsWithInventory = (req, res) => {
+    const selectQuery = `
+    SELECT organization.*
+    FROM organization
+    LEFT JOIN inventory ON organization.id = inventory.org_id
+    WHERE inventory.id IS NULL`;
+    
+    db.query(selectQuery, (err, results) => {
+    if (err) return res.status(500).json(err);
+    
+    return res.status(200).json(results);
+    });
+};

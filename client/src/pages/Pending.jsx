@@ -4,7 +4,9 @@ import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import DeleteDonation from '../components/DeleteDonation';
 import '../style/Pending.scss';
 import PendingCard from '../components/PendingCard';
 
@@ -55,6 +57,39 @@ export const Pending = () => {
           borderColor: 'lightgrey',
         },
       }));
+
+      const [donations, setDonations] = useState([]);
+      const [deletingDonation, setDeletingDonation] = useState(null);
+
+
+      const handleClose = () => {
+        setDeletingDonation(null);
+      };
+
+      const handleDelete = (donation) => {
+        setDeletingDonation(donation);
+      };
+
+
+      useEffect(() => {
+              axios
+                  .get(`/donations/getAllDonationsNoConfirmation`)
+                  .then((response) => {
+                      setDonations(response.data);
+                  })
+                  .catch((error) => {
+                      console.error('Error fetching total donations:', error);
+                  });
+
+              // axios
+              //     .get(`/donations/getTopDonatorToOrg`)
+              //     .then((response) => {
+              //         setTopDonator(response.data.user_name);
+              //     })
+              //     .catch((error) => {
+              //         console.error('Error fetching top donator:', error);
+              //     });
+      }, []);
       
   return (
     <div>
@@ -66,7 +101,7 @@ export const Pending = () => {
             Pickups
             </Button>
         </div>
-
+        <DeleteDonation open={!!deletingDonation} handleClose={handleClose} donation={deletingDonation} />
         <div className='center-div'>
             <Search>
                 <SearchIconWrapper>
@@ -78,10 +113,14 @@ export const Pending = () => {
                 />
             </Search>
         </div>
-
-        <div className='center-div'>
-            <PendingCard first_name={"Yassin"} last_name={"Samadi"} donation_title={"Water is needed"} donation_id={"47"} />
-        </div>
+        {donations.length === 0 ? (
+          <PendingCard first_name={"No donations available"}/>
+        ):( donations.map((donation) => (
+          <div className='center-div'>
+              <PendingCard  onDelete={() => {handleDelete(donation);}} donation_id={donation.id}  first_name={donation.first_name} last_name={donation.last_name} donation_title={donation.need_title} need_id={donation.need_id} amount={donation.quantity_donated}/>
+    
+          </div>
+        )))}
     </div>
   );
 };

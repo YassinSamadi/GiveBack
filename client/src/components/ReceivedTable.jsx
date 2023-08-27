@@ -10,25 +10,17 @@ import axios from 'axios';
 
 export const ReceivedTable = () => {
     const [donations, setDonations] = useState([]);
-    
-    // Get organization information from local storage
-    const organization = JSON.parse(localStorage.getItem('organization'));
-    const orgId = organization ? organization.id : null;
 
     useEffect(() => {
-        if(orgId) {
             axios
-                .get(`/donations/getDonationsToOrganization?org_id=${orgId}`)
+                .get(`/donations/getDonationsToOrganization`)
                 .then((response) => {
                     setDonations(response.data);
                 })
                 .catch((error) => {
                     console.error('Error fetching donations:', error);
                 });
-        } else {
-            console.error('No organization found in local storage.');
-        }
-    }, [orgId]);
+    }, []);
 
     return (
         <TableContainer sx={{maxWidth: 1200,}} component={Paper}>

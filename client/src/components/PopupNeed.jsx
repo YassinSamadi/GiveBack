@@ -96,22 +96,12 @@ export default function NeedsPopup() {
     const formattedTime = adjustedTime.toISOString().slice(0, 19).replace('T', ' ');
 
 
-    const organization = JSON.parse(localStorage.getItem('organization'));
-    const org_id = organization && typeof organization === 'object' ? organization.id : null;
-
-    if (org_id === null) {
-      // Handle the case where org_id is null
-      console.error('Invalid organization data');
-      return;
-    }
-
     try {
       await axios.post('/needs/addneed', {
         title: inputs.title,
         description: inputs.description,
         quantity_required: inputs.quantity_required,
         date: formattedTime,
-        org_id: org_id,
         product_id: inputs.product_id,
       });
       console.log('Need created successfully');

@@ -15,14 +15,12 @@ const EditProfile = () => {
     const [profilePicFile, setProfilePicFile] = useState(null); // Define profilePicFile state
 
     const user_profilepic = user ? user.profile_pic : '';
-
-    const userId = JSON.parse(localStorage.getItem('user')).id;
     
     useEffect(() => {
         // Fetch user data from your API or wherever it's stored
         async function fetchUserData() {
             try {
-                const response = await axios.get(`/users/getUser?id=${userId}`);
+                const response = await axios.get(`/users/getUser`);
                 const userData = response.data[0]; // Assuming the API returns an array
                 setFormData({
                     first_name: userData.first_name,
@@ -38,7 +36,7 @@ const EditProfile = () => {
         }
         
         fetchUserData();
-    }, [userId]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, type, value, files } = e.target;
@@ -83,7 +81,7 @@ const EditProfile = () => {
             localStorage.setItem('user', JSON.stringify(updatedUser)); // Update the user in the local storage
         }
 
-        await axios.put(`/users/updateUser?id=${userId}`, formData);
+        await axios.put(`/users/updateUser`, formData);
         console.log('User updated successfully');
 
         const updatedUser = {

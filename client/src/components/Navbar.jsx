@@ -36,6 +36,7 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+
   const location = useLocation();
 
   const user_profilepic = user ? user.profile_pic : '';
@@ -137,7 +138,7 @@ const Navbar = () => {
               </MenuItem>
               <Divider />
               
-              <MenuItem component={Link} to="/logout">
+              <MenuItem onClick={logout} component={Link} to='/home'>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

@@ -34,14 +34,11 @@ const CardDetails = ({ open, handleClose, product }) => {
 
     const handleSubmit = async () => {
         const donation_date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const user = JSON.parse(localStorage.getItem('user'));
-        const user_id = user ? user.id : null;
         const need_id = product.id;
         try {
             await axios.post('/donations/userDonation', {
                 quantity_donated: quantityDonated,
                 donation_date,
-                user_id,
                 need_id
             });
             console.log('Donation made successfully');

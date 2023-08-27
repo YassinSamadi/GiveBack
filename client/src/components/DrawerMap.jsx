@@ -62,24 +62,21 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
     }, [organizationID]);
 
     const handleSubmit = async () => {
-        const donation_date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const user = JSON.parse(localStorage.getItem('user'));
-        const user_id = user ? user.id : null;
-        const need_id = needs[activeStep].id;
-    
-        try {
-            await axios.post('/donations/userDonation', {
-                quantity_donated: quantityDonated,
-                donation_date,
-                user_id,
-                need_id
-            });
-            console.log('Donation made successfully');
-            
-        } catch (error) {
-            console.error('Error making donation:', error);
-        }
-    };
+      const donation_date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const need_id = needs[activeStep].needId; 
+  
+      try {
+          await axios.post('/donations/userDonation', {
+              quantity_donated: quantityDonated,
+              donation_date,
+              need_id
+          });
+          console.log('Donation made successfully');
+          
+      } catch (error) {
+          console.error('Error making donation:', error);
+      }
+  };
 
     const theme = createTheme({
       components: {

@@ -11,13 +11,10 @@ export const DonationsInfo = () => {
     const [totalReceived, setTotalReceived] = useState(0);
     const [topDonator, setTopDonator] = useState("");
 
-    const organization = JSON.parse(localStorage.getItem('organization'));
-    const orgId = organization ? organization.id : null;
 
     useEffect(() => {
-        if(orgId) {
             axios
-                .get(`/donations/getTotalDonationsReceivedByOrg?org_id=${orgId}`)
+                .get(`/donations/getTotalDonationsReceivedByOrg`)
                 .then((response) => {
                     setTotalReceived(response.data.total_donations);
                 })
@@ -26,17 +23,14 @@ export const DonationsInfo = () => {
                 });
 
             axios
-                .get(`/donations/getTopDonatorToOrg?org_id=${orgId}`)
+                .get(`/donations/getTopDonatorToOrg`)
                 .then((response) => {
                     setTopDonator(response.data.user_name);
                 })
                 .catch((error) => {
                     console.error('Error fetching top donator:', error);
                 });
-        } else {
-            console.error('No organization found in local storage.');
-        }
-    }, [orgId]);
+    }, []);
     console.log(topDonator);
     return (
         <div className="centered-container"> 

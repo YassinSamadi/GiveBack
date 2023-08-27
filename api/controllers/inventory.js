@@ -1,45 +1,65 @@
 import {
     db
 } from "../db.js"
+import jwt from "jsonwebtoken";
 
 export const getInventory = (req, res) => {
-    const id = req.query.id;
-    const selectQuery = `
-    SELECT inventory.*,
-        product.id as product_id,
-        product.name AS product_name, 
-        product.picture AS product_picture
-    FROM inventory
-    LEFT JOIN product ON inventory.product_id = product.id
-    WHERE inventory.org_id = ?`;
+    const token = req.cookies.organizationaccess_token;
 
-    db.query(selectQuery, id, (err, results) => {
-        if (err) return res.status(500).json(err);
+    if (!token) return res.status(401).json("Not authorized");
 
-        return res.status(200).json(results);
+    jwt.verify(token, "JWT", (err, decoded) => {
+        if (err) return res.status(401).json("Not authorized");
+
+        const org_id = decoded.id;
+        const selectQuery = `
+        SELECT inventory.*,
+            product.id as product_id,
+            product.name AS product_name, 
+            product.picture AS product_picture
+        FROM inventory
+        LEFT JOIN product ON inventory.product_id = product.id
+        WHERE inventory.org_id = ?`;
+
+        db.query(selectQuery, org_id, (err, results) => {
+            if (err) return res.status(500).json(err);
+
+            return res.status(200).json(results);
+        });
     });
 };
 
 export const addProduct = (req, res) => {
     const {
         quantity,
-        org_id,
         product_id
     } = req.body;
 
-    try {
+    const token = req.cookies.organizationaccess_token;
+
+    if (!token) return res.status(401).json("Not authorized");
+
+    jwt.verify(token, "JWT", (err, decoded) => {
+        if (err) return res.status(401).json("Not authorized");
+
+        const org_id = decoded.id;
         const insertQuery = "INSERT INTO inventory (quantity, org_id, product_id) VALUES (?, ?, ?)";
         const values = [quantity, org_id, Number(product_id)];
-        console.log(values);
-        db.query(insertQuery, values, (err, data) => {
-            if (err) return res.status(500).json(err);
-            return res.status(201).json("Product added successfully");
-        })
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json(error);
-    }
-}
+
+        try {
+            db.query(insertQuery, values, (err, data) => {
+                if (err) return res.status(500).json(err);
+                return res.status(201).json("Product added successfully");
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    });
+};
+
+
+
 
 export const addToInventory = (req, res) => {
     const {
@@ -72,6 +92,7 @@ export const addToInventory = (req, res) => {
         });
     }
 }
+
 
 export const removeFromInventory = (req, res) => {
     const {
@@ -107,6 +128,7 @@ export const removeFromInventory = (req, res) => {
         });
     }
 }
+
 
 export const getInventories = (req, res) => {
     

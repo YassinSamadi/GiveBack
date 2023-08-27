@@ -94,19 +94,9 @@ export default function AddProduct() {
     const formattedTime = adjustedTime.toISOString().slice(0, 19).replace('T', ' ');
 
 
-    const organization = JSON.parse(localStorage.getItem('organization'));
-    const org_id = organization && typeof organization === 'object' ? organization.id : null;
-
-    if (org_id === null) {
-      // Handle the case where org_id is null
-      console.error('Invalid organization data');
-      return;
-    }
-
     try {
       await axios.post('/inventory/addproduct', {
         quantity: inputs.quantity,
-        org_id: org_id,
         product_id: inputs.product_id,
       });
       console.log('Product added to inventory successfully');
@@ -130,7 +120,7 @@ export default function AddProduct() {
   }, []);
 
   return (
-    <div>
+    <div style={{marginBottom:'30px', marginTop:'20px'}}>
       <Button
         variant="outlined"
         onClick={handleClickOpen}

@@ -22,6 +22,11 @@ import EditProfile from "./pages/EditProfile";
 import OrganizationNavbar from "./components/OrganizationNavbar";
 import HomeNavbar from "./components/HomeNavbar";
 import MobileNavbarOrg from "./components/mobileNavbarOrganization";
+import { AuthContext } from "./context/authContext";
+import { Navigate, Route } from "react-router-dom";
+import { useContext } from "react";
+import { OrganizationAuthContext } from "./context/authContextOrganizations";
+
 const Layout =() => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -57,6 +62,16 @@ const HomepageLayout =() => {
     </>
   )
 }
+function PrivateRouteUser({ children }) {
+  const { user } = useContext(AuthContext); 
+
+  return user ? children : <Navigate to="/login" />;
+}
+function PrivateRouteOrganization({ children }) {
+  const { organization } = useContext(OrganizationAuthContext); 
+
+  return organization ? children : <Navigate to="/login/organization" />;
+}
 
 
 const router = createBrowserRouter([
@@ -67,25 +82,49 @@ const router = createBrowserRouter([
       
       { 
         path: "/dashboard/user", 
-        element: <Dashboard/> 
+        element: (
+          <PrivateRouteUser>
+              <Dashboard />
+          </PrivateRouteUser>
+        ),
       },
       
       { 
         path: "/map", 
-        element: <Map/> 
+        element: 
+        (
+          <PrivateRouteUser>
+              <Map/> 
+          </PrivateRouteUser>
+        ),
       },
 
       {
         path: "/inventories",
-        element: <Inventories/>
+        element: 
+        (
+          <PrivateRouteUser>
+              <Inventories/>
+          </PrivateRouteUser>
+        ),
       },
       { 
         path: "/history",
-        element: <History/> 
+        element: 
+        (
+          <PrivateRouteUser>
+              <History/> 
+          </PrivateRouteUser>
+        ),
       },
       {
         path: "/editprofile",
-        element: <EditProfile/>
+        element: 
+        (
+          <PrivateRouteUser>
+              <EditProfile/>
+          </PrivateRouteUser>
+        ),
       }
     ],
   },
@@ -95,19 +134,31 @@ const router = createBrowserRouter([
     children: [ 
       { 
         path: "/dashboard/organization", 
-        element: <DashboardOrganization/> 
+        element: 
+          <PrivateRouteOrganization>
+              <DashboardOrganization/>
+          </PrivateRouteOrganization>
       },
       { 
         path: "/donations", 
-        element: <DonationsInfo/> 
+        element: 
+          <PrivateRouteOrganization>
+              <DonationsInfo/> 
+          </PrivateRouteOrganization>
       },
       { 
         path: "/inventory", 
-        element: <Inventory/> 
+        element: 
+          <PrivateRouteOrganization>
+              <Inventory/> 
+          </PrivateRouteOrganization>
       },
       { 
         path: "/pending", 
-        element: <Pending/> 
+        element: 
+          <PrivateRouteOrganization>
+              <Pending/> 
+          </PrivateRouteOrganization>
       },
     ],
   },

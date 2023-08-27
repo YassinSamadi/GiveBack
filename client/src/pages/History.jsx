@@ -11,12 +11,7 @@ export const History = () => {
     const [highestDonation, setHighestDonation] = useState(0);
 
     useEffect(() => {
-    // Get user information from local storage
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user ? user.id : null;
-
-    if(userId) {
-        axios.get(`/donations/getTotalDonations?user_id=${userId}`)
+        axios.get(`/donations/getTotalDonations`)
             .then((response) => {
                 setTotalDonations(response.data.total);
             })
@@ -24,16 +19,13 @@ export const History = () => {
                 console.error('Error fetching total donations:', error);
             });
 
-        axios.get(`/donations/getHighestDonation?user_id=${userId}`)
+        axios.get(`/donations/getHighestDonation`)
             .then((response) => {
                 setHighestDonation(response.data.highest);
             })
             .catch((error) => {
                 console.error('Error fetching highest donation:', error);
             });
-    } else {
-        console.error('No user found in local storage.');
-    }
 }, []);
 
     return (

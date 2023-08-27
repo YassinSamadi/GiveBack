@@ -1,3 +1,8 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
 .hero-container {
     position: relative;
     width: 100%;
@@ -162,7 +167,7 @@
     }
 
     .extra_info {
-      flex-direction: column; /* Stack elements vertically */
+      flex-direction: column; 
       height: 1070px;
     }
     .extra-info-container {
