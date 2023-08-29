@@ -25,9 +25,6 @@ const drawerWidth = 300;
 
 const HomeNavbar = () => {
 
-    
-
-
     const container = typeof window !== 'undefined' ? () => window.document.body : undefined;
 
     const [mobileOpen, setMobileOpen] = useState(false);

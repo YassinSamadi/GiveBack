@@ -48,31 +48,31 @@ const CustomMap = () => {
       <NavigationControl />
 
       {locations.map((location, index) => (
-  <React.Fragment key={index}>
-    <Marker 
-      longitude={location.longitude} 
-      latitude={location.latitude} 
-      onClick={() => {
-        setSelectedLocationIndex(index);
-        openDrawer(); 
-      }} 
-      color='#90C088'
-    />
+        <React.Fragment key={index}>
+          <Marker 
+            longitude={location.longitude} 
+            latitude={location.latitude} 
+            onClick={() => {
+              setSelectedLocationIndex(index);
+              openDrawer(); 
+            }} 
+            color='#90C088'
+          />
 
-    {selectedLocationIndex === index && (
-      <div>
-        <SwipeableTemporaryDrawer
-          isOpen={isDrawerOpen}
-          onClose={closeDrawer}
-          organizationName={location.organizationName}
-          organizationID={location.organizationId}
-          organizationLogo={location.organizationLogo}
-          organizationAddress={location.street + ' ' + location.number + ', ' + location.postal_code + ' ' + location.city}
-        />
-      </div>
-    )}
-  </React.Fragment>
-))}
+          {selectedLocationIndex === index && (
+            <div>
+              <SwipeableTemporaryDrawer
+                isOpen={isDrawerOpen}
+                onClose={closeDrawer}
+                organizationName={location.organizationName}
+                organizationID={location.organizationId}
+                organizationLogo={location.organizationLogo}
+                organizationAddress={location.street + ' ' + location.number + ', ' + location.postal_code + ' ' + location.city}
+              />
+            </div>
+          )}
+        </React.Fragment>
+      ))}
     </Map>
   );
 };

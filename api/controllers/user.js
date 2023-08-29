@@ -2,6 +2,8 @@ import {db} from "../db.js"
 import bcrypt from "bcryptjs";
 import fs from 'fs';
 import jwt from "jsonwebtoken";
+
+
 export const updateUser = (req, res) => {
     const { first_name, last_name, password, profile_pic, inNeed } = req.body;
 
