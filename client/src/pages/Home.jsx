@@ -1,6 +1,4 @@
 import React from 'react';
-import HomeNavbar from '../components/HomeNavbar.jsx';
-import hero from '../assets/miscellaneous/hero.jpg';
 import aboutus from '../assets/miscellaneous/aboutus.jpg';
 import whatwedo from '../assets/miscellaneous/whatwedo.jpg';
 import howwework from '../assets/miscellaneous/howwework.jpg';
@@ -21,43 +19,43 @@ export const Home = () => {
         </p>
       </div>
 
-      <Grid container spacing={0} style={{ backgroundColor: "#EDECEC", color: "white" }}>
-      <Grid item xs={12} md={12} lg={4} style={{ padding: "20px" }}>
-          <div className="grid-item-container" style={{ backgroundColor: "#90C088" }}>
+      <Grid container spacing={0} sx={{ backgroundColor: "#EDECEC", color: "white" }}>
+      <Grid item xs={12} md={12} lg={4} sx={{ padding: "20px" }}>
+          <div className="grid-item-container green-background" >
             <div class="image-container">
-              <img src={donation} alt="donation" className="aboutus-image" style={{width:"100px", height: "100px"}}/>
+              <img src={donation} alt="donation" className="image-midsection" />
             </div>
-            <div class="about-container">
+            <div class="about-container ">
               <h2>Discover & Donate</h2>
-              <p style={{width:"300px"}}>
+              <p >
               Find local food banks effortlessly and contribute to your community's well-being.
               </p>
             </div>
           </div>
         </Grid>
 
-        <Grid item xs={12} md={12} lg={4} style={{ padding: "20px" }}>
-          <div className="grid-item-container" style={{ backgroundColor: "#90C088" }}>
+        <Grid item xs={12} md={12} lg={4} sx={{ padding: "20px" }}>
+          <div className="grid-item-container green-background">
             <div class="image-container">
-              <TravelExploreIcon style={{fontSize:"100px"}}/>
+              <TravelExploreIcon sx={{fontSize:"100px"}}/>
             </div>
             <div class="about-container">
               <h2>Suggested Donations</h2>
-              <p style={{width:"300px"}}>
+              <p >
               Make a meaningful impact by donating the most needed food items.
               </p>
             </div>
           </div>
         </Grid>
 
-        <Grid item xs={12} md={12} lg={4} style={{ padding: "20px" }}>
-          <div className="grid-item-container" style={{ backgroundColor: "#90C088" }}>
+        <Grid item xs={12} md={12} lg={4} sx={{ padding: "20px" }}>
+          <div className="grid-item-container green-background">
             <div class="image-container">
-            <BarChartIcon style={{fontSize:"100px"}}/>
+            <BarChartIcon sx={{fontSize:"100px"}}/>
             </div>
             <div class="about-container">
               <h2>Track Your Giving</h2>
-              <p style={{width:"300px"}}>
+              <p >
               Keep tabs on your contributions and plan future donations with ease.
               </p>
             </div>
@@ -101,7 +99,7 @@ export const Home = () => {
 
       <div id="aboutus" className="aboutus">
         <div class="image-container">
-          <img src={aboutus} alt="aboutus" className="aboutus-image" style={{maxWidth:"700px", maxHeight: "400px"}}/>
+          <img src={aboutus} alt="aboutus" className="aboutus-image" />
         </div>
         <div class="about-container about-us">
           <h2>About us</h2>

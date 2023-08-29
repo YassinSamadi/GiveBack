@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import HistoryCard from '../components/HistoryCard';
+import axios from 'axios'; 
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Grid } from '@mui/material';
-import HistoryTable from '../components/user/HistoryTable';
-import '../style/History.scss'; // Import CSS file for styling
-import axios from 'axios'; 
+import '../../style/user/history.scss'; // Import CSS file for styling
 import { Typography } from '@mui/material';
+import HistoryTable from '../../components/user/HistoryTable';
+import HistoryCard from '../../components/HistoryCard';
 
 
 export const History = () => {
@@ -42,8 +42,8 @@ export const History = () => {
             </Grid>
             
             
-            <Typography variant="h4" style={{ textAlign: 'center', marginTop: '20px', paddingBottom:"30px" }}>
-            <span style={{ display: 'inline-block', borderBottom: '4px solid #90C088', padding: '0 10px' }}>
+            <Typography variant="h4" sx={{ textAlign: 'center', marginTop: '20px', paddingBottom:"30px" }}>
+            <span className='title'>
             History
             </span>
         </Typography>

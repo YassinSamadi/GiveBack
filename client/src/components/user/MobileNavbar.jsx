@@ -1,8 +1,8 @@
-import '../../style/Navbar.scss'
+import '../../style/user/mobileNavbar.scss'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo/GiveBackNoText500x500.png';
-import profilepic from '../assets/logo/profile-pic.jpg';
+import logo from '../../assets/logo/GiveBackNoText500x500.png';
+import profilepic from '../../assets/logo/profile-pic.jpg';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,19 +18,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import '../style/MobileNavbar.scss';
 import HomeIcon from '@mui/icons-material/Home';
 import MapIcon from '@mui/icons-material/Map';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation } from 'react-router-dom';
-
 import ListItemLink from '../MenuItemMobileLink';
 
 
 const drawerWidth = 240;
-
-
 
 const MobileNavbar = () => {
   const location = useLocation();
@@ -47,9 +43,6 @@ const MobileNavbar = () => {
     setProfileOpen(!profileOpen);
   };
 
-  const activeBackgroundColor = '#F0F0F0';
-  const inactiveBackgroundColor = 'transparent';
-
   const user = JSON.parse(localStorage.getItem('user'));
   const user_name = user ? user.first_name : '';
   const user_lastname = user ? user.last_name : '';
@@ -64,41 +57,10 @@ const MobileNavbar = () => {
   const profileName = user_name; 
   const profileLastName = user_lastname; 
 
-  
-  const drawerStyles = {
-    width: 240,
-    display: 'flex',
-    flexDirection: 'column',
-  };
-  
-  const profileDrawerStyles = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '16px',
-    justifyContent: 'center',
-  };
-  
-  
-  const profileImageStyles = {
-    width: '80px', 
-    height: '80px', 
-    borderRadius: '50%',
-    marginBottom: '8px',
-  };
-
-  const bottomSectionStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-  };
-
-
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;
 
-
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box className='flex'>
       <CssBaseline />
       <AppBar
         position="sticky"
@@ -109,13 +71,11 @@ const MobileNavbar = () => {
       >
         <Toolbar sx={{ backgroundColor: 'white',display: 'flex', justifyContent: 'space-between', lineHeight:'0'  }} >
             <IconButton
-                
                 color="black"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
                 sx={{ mr: 2, display: { md: 'none' } }}
-                
             >
                 <MenuIcon fontSize="large" />
             </IconButton>
@@ -132,7 +92,6 @@ const MobileNavbar = () => {
                     className="user-profile-image"
                 />
             </Box>
-
         </Toolbar>
       </AppBar>
       <Box
@@ -153,17 +112,17 @@ const MobileNavbar = () => {
       '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
     }}
   >
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className='drawer-container'>
       
       <div>
-        <div style={profileDrawerStyles}>
-          <img src={`/assets/uploads/profilepic/${user_profilepic}`} alt="Profile" style={profileImageStyles} />
+        <div className='profile-drawer'>
+          <img src={`/assets/uploads/profilepic/${user_profilepic}`} alt="Profile" className='profile-image' />
           <div>{`${profileName} ${profileLastName}`}</div>
         </div>
       </div>
 
       
-      <div style={{ flexGrow: 1 }}>
+      <div className='grow'>
         <Toolbar />
         <Divider />
         {menuItems.map((item) => (
@@ -183,16 +142,16 @@ const MobileNavbar = () => {
               component={Link}
               to={link}
               key={text}
-              style={{
-                backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
+              sx={{
+                backgroundColor: link === location.pathname ? '#F0F0F0' : 'transparent',
               }}
               onClick={handleProfileToggle}
               disablePadding
             >
               <Divider />
               <ListItemButton>
-                <ListItemIcon style={{ color: '#90C088' }}>{icon}</ListItemIcon>
-                <ListItemText primary={text} style={{ color: '#90C088' }} />
+                <ListItemIcon sx={{ color: '#90C088' }}>{icon}</ListItemIcon>
+                <ListItemText primary={text} sx={{ color: '#90C088' }} />
               </ListItemButton>
             </ListItem>
           ))}

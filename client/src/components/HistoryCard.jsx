@@ -36,13 +36,13 @@ const HistoryCard = ({ icon: IconComponent, number, description }) => {
     const displayNumber = number !== undefined && number !== '' ? number : '-';
 
     return (
-        <Card style={cardStyle}>
-            <CardContent style={contentStyle}>
-                <IconComponent style={iconStyle} />
-                <Typography variant="h2" style={numberStyle}>
+        <Card sx={cardStyle}>
+            <CardContent sx={contentStyle}>
+                <IconComponent sx={iconStyle} />
+                <Typography variant="h2" sx={numberStyle}>
                     {displayNumber}
                 </Typography>
-                <Typography variant="body1" style={textStyle}>
+                <Typography variant="body1" sx={textStyle}>
                     {description}
                 </Typography>
             </CardContent>

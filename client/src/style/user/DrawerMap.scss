@@ -1,0 +1,135 @@
+.org-image {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.product-image{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+}
+
+.center-org {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.flex-container {
+    display: flex;
+    align-items: center; 
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.align-text-center{
+    text-align: center;
+}
+
+.center-img {
+    margin-right: 10px; 
+}
+
+.center-content{
+    justify-content: center;
+}
+
+.mobile-center-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-name{
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.mobile-description-container{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.mobile-description-item{
+    width: 300px;
+    text-align: justify;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.margin-top-description{
+    margin-top: 30px;
+}
+
+.even-spacing{
+    justify-content: space-evenly;
+}
+
+.column-flex{
+    flex-direction: column;
+}
+
+.alignment-raised{
+    display: flex;
+    text-align: center;
+    align-items: flex-start;
+}
+
+.donation-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.quantity-donated-text{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.alignment-address{
+    display: flex;
+    text-align: center;
+    margin-top: 5px;
+    align-items: flex-end;
+}
+
+.flex{
+    display: flex;
+}
+
+.alignment-raised-desktop{
+    flex: 1;
+    display: flex;
+    text-align: left;
+    align-items: flex-start;
+}
+
+.donation-container-desktop{
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.quantity-donated-text-desktop{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.alignment-address-desktop{
+    flex: 1;
+    text-align: right;
+    align-items: flex-end;
+}
+
+.alignment-column-fulfilled{
+    display: flex;
+    flex-direction: column;
+}

@@ -5,9 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
-
-
-
+import '../../style/organization/card.scss'
 const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onClick, showActions, onEdit, onDelete }) => {
     const theme = createTheme();
 
@@ -22,14 +20,12 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
         maxHeight: 150,
     };
 
-    const footerStyle = {
-        display: 'flex',
-        justifyContent: 'space-between',
-    };
-    
-
-    
-
+    const typographyStyle = {
+        paddingBottom: "8px", 
+        lineHeight: '1.2', 
+        height: isMobile ? '4em' : '3em', 
+        overflow: 'hidden'
+    }
 
     const maxTitleLength = isMobile ? 15 : 30; 
     const maxDescriptionLength = isMobile ?  60 : 85; 
@@ -49,10 +45,10 @@ const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onCl
                 <Typography variant="h6" component="h3" gutterBottom>
                     {truncatedTitle}
                 </Typography>
-                <Typography sx={{paddingBottom: "8px", lineHeight: '1.2', height: isMobile ? '4em' : '3em', overflow: 'hidden' }} variant="body1" gutterBottom>
+                <Typography sx={typographyStyle} variant="body1" gutterBottom>
                     {truncatedDescription}
                 </Typography>
-                <div style={footerStyle}>
+                <div className='footer-style'>
                     <Typography variant="caption" sx={{ textAlign: 'left' }}>
                         {fulfilled} / {required}
                     </Typography>

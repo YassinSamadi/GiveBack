@@ -1,0 +1,53 @@
+.title-add{
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.container-text{
+    display: flex; 
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.center-items{
+    display: flex;
+    align-items: center;
+}
+.label-title{
+    min-width: 100px;
+    margin-right: 10px;
+}
+
+.input-field-title{
+    border: 1px solid lightgrey;
+    font-size: 17px;
+    height: 40px;
+    flex: 2;
+}
+.input-field-description{
+    border: 1px solid lightgrey;
+    font-size: 17px;
+    flex: 2;
+}
+.error-margin{
+    margin-left: 110px;
+}
+
+.select-product{
+    border: 1px solid lightgrey;
+    font-size: 17px;
+    flex: 1; 
+    height: 40px;
+}
+
+.container-product-amount{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.flex-2{
+    flex: 2;
+}
+
+

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Grid } from '@mui/material';
-import '../style/History.scss';
-import ReceivedTable from '../components/organization/ReceivedTable';
-import HistoryCard from '../components/HistoryCard';
+import ReceivedTable from '../../components/organization/ReceivedTable';
+import HistoryCard from '../../components/HistoryCard';
 
 export const DonationsInfo = () => {
     const [totalReceived, setTotalReceived] = useState(0);
@@ -32,7 +31,7 @@ export const DonationsInfo = () => {
     }, []);
     return (
         <div className="centered-container"> 
-            <Grid sx={{backgroundColor: "#90C088"}} container spacing={2}>
+            <Grid className='green-background' container spacing={2}>
                 <Grid item xs={12} md={6}>
                 <HistoryCard icon={EmojiEventsIcon} number={totalReceived} description={'Total Received'} />
                 </Grid>

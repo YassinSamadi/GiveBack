@@ -38,7 +38,7 @@ function ListItemLink({ disabled = false, icon, primary, to, closeDrawer  }) {
       }}
     >
       {icon ? <ListItemIcon style={iconStyles}>{icon}</ListItemIcon> : null}
-      <ListItemText primary={primary} style={{ color: '#90C088' }}/>
+      <ListItemText primary={primary} className='green-color'/>
     </ListItem>
   );
 }

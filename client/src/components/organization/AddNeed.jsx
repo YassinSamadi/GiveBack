@@ -9,30 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import { TextField } from '@mui/material';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-
-function getStyles(name, selectedName, theme) {
-  return {
-    fontWeight:
-      selectedName === name
-        ? theme.typography.fontWeightMedium
-        : theme.typography.fontWeightRegular,
-  };
-}
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+import '../../style/organization/addNeed.scss'
 
 
 export default function NeedsPopup() {
@@ -138,16 +115,16 @@ export default function NeedsPopup() {
         onClose={handleClose}
         aria-labelledby="NeedsPopup"
       >
-        <DialogTitle id="NeedsPopup" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
+        <DialogTitle id="NeedsPopup" className="title-add">
           Create a need 
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-          <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className='container-text'>
+            <div className='center-items'>
               <label
                 htmlFor="title"
-                style={{  marginRight: '10px', minWidth: '100px' }}
+                className='label-title'
               >
                 Title:
               </label>
@@ -156,17 +133,17 @@ export default function NeedsPopup() {
                 name="title"
                 value={inputs.title}
                 onChange={handleChange}
-                style={{ border: '1px solid lightgrey', flex: 1, fontSize:'17px', height:'40px'  }}
+                className='input-field-title'
               />
             </div>
-            {errors.title && <div style={{ color: 'red', marginLeft: '110px' }}>{errors.title}</div>}
+            {errors.title && <div className='red-color  error-margin'>{errors.title}</div>}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div  className='container-text'>
+            <div className='center-items'>
               <label
                 htmlFor="description"
-                style={{  marginRight: '10px', minWidth: '100px' }}
+                className='label-title'
               >
                 Description:
               </label>
@@ -177,20 +154,20 @@ export default function NeedsPopup() {
                 cols="500"
                 value={inputs.description}
                 onChange={handleChange}
-                style={{ border: '1px solid lightgrey',  fontSize:'17px' }}
+                className='input-field-description'
               />
             </div>
-            {errors.description && <div style={{ color: 'red', marginLeft: '110px' }}>{errors.description}</div>}
+            {errors.description && <div className='red-color  error-margin'>{errors.description}</div>}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <div className='container-product-amount'>
               <label
                 htmlFor="product_id"
-                style={{  marginRight: '10px', minWidth: '100px' }}
+                className='label-title'
               >
                 Product:
               </label>
-              <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} style={{ border: '1px solid lightgrey', flex: 1, fontSize:'17px', height:'40px' }}>
+              <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} className='select-product'>
                 <option value="" disabled selected hidden>Select a product</option>
                 {products.map((product) => (
                   <option key={product.id} value={product.id}>{product.name}</option>
@@ -201,10 +178,10 @@ export default function NeedsPopup() {
 
             
 
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <div className='container-product-amount'>
               <label
                 htmlFor="quantity_required"
-                style={{  marginRight: '10px', minWidth: '100px' }}
+                className='label-title'
               >
                 Quantity:
               </label>
@@ -217,6 +194,7 @@ export default function NeedsPopup() {
                 value={inputs.quantity_required}
                 onChange={handleChange}
                 sx={{
+                  width: '100%',
                   '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
                     borderColor: '#90C088',
                   },
@@ -224,7 +202,7 @@ export default function NeedsPopup() {
               />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
+            <div className='title-add'>
               <Button
                 variant="outlined"
                 onClick={handleSubmit}
@@ -239,7 +217,7 @@ export default function NeedsPopup() {
           <Button
             autoFocus
             onClick={handleClose}
-            style={{ color: '#90C088' }}
+            sx={{ color: '#90C088' }}
           >
             Close
           </Button>

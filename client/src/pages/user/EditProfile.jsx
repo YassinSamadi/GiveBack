@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../style/EditProfile.scss'; 
+import '../../style/user/editProfile.scss'; 
 import axios from 'axios';
 
 const EditProfile = () => {
@@ -12,16 +12,16 @@ const EditProfile = () => {
         inNeed: false
     });
     const [user, setUser] = useState(null);
-    const [profilePicFile, setProfilePicFile] = useState(null); // Define profilePicFile state
+    const [profilePicFile, setProfilePicFile] = useState(null);
 
     const user_profilepic = user ? user.profile_pic : '';
     
     useEffect(() => {
-        // Fetch user data from your API or wherever it's stored
+        
         async function fetchUserData() {
             try {
                 const response = await axios.get(`/users/getUser`);
-                const userData = response.data[0]; // Assuming the API returns an array
+                const userData = response.data[0]; 
                 setFormData({
                     first_name: userData.first_name,
                     last_name: userData.last_name,
@@ -55,7 +55,7 @@ const EditProfile = () => {
         const randomString = Math.random().toString(36).substring(7);
         const extension = originalFilename.split('.').pop();
         return `${timestamp}-${randomString}.${extension}`;
-      };
+    };
 
     const handleSubmit = async () => {
     try {
@@ -67,8 +67,8 @@ const EditProfile = () => {
             const imageResponse = await axios.post('/upload/profilepic', formDataWithProfilePic);
             const imageName = imageResponse.data.filename;
             console.log('Image name:', imageName);
-            setFormData({ ...formData, profile_pic: imageName }); // Update the profile_pic in the form data
-            setUser({ ...user, profile_pic: imageName }); // Update the profile_pic in the user state
+            setFormData({ ...formData, profile_pic: imageName });
+            setUser({ ...user, profile_pic: imageName }); 
 
             const updatedUser = {
                 ...user,
@@ -78,7 +78,7 @@ const EditProfile = () => {
                 inNeed: formData.inNeed
             };
 
-            localStorage.setItem('user', JSON.stringify(updatedUser)); // Update the user in the local storage
+            localStorage.setItem('user', JSON.stringify(updatedUser)); 
         }
 
         await axios.put(`/users/updateUser`, formData);
@@ -91,9 +91,9 @@ const EditProfile = () => {
             inNeed: formData.inNeed
         };
 
-        setUser(updatedUser); // Update the user state without changing the profile_pic
+        setUser(updatedUser); 
 
-        localStorage.setItem('user', JSON.stringify(updatedUser)); // Update the user in the local storage
+        localStorage.setItem('user', JSON.stringify(updatedUser)); 
     } catch (error) {
         console.error('Error updating user:', error);
     }

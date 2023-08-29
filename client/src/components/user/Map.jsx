@@ -21,10 +21,10 @@ const CustomMap = () => {
     const fetchLocations = async () => {
       try {
         const response = await axios.get('/address/addresseswithorganizations');
-const data = response.data.map(item => ({
-  ...item,
-  needs: item.needs ? JSON.parse(item.needs) : [] // Parse the needs string if it exists
-}));
+        const data = response.data.map(item => ({
+          ...item,
+          needs: item.needs ? JSON.parse(item.needs) : [] 
+        }));
         setLocations(response.data);
       } catch (err) {
         console.error(err);

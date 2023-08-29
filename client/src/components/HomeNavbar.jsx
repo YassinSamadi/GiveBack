@@ -1,4 +1,3 @@
-import '../style/Navbar.scss'
 import '../style/HomeNavbar.scss'
 import React, { useState } from 'react';
 
@@ -96,26 +95,26 @@ const HomeNavbar = () => {
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                         }}
                     >
-                        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                        <div className='container-mobile'>
                             <div style={{ flexGrow: 1 }}>
                                 <Toolbar />
                                 <Divider />
                                 <ScrollLink to="home" smooth={true} duration={500} onClick={handleDrawerToggle}>
-                                    <ListItem style={{ color: '#90C088' }}>
+                                    <ListItem className='green-color'>
                                         <HomeIcon/>
-                                        <ListItemText primary={'Home'} style={{ marginLeft: "20px", color: '#90C088' }} />
+                                        <ListItemText primary={'Home'} className='menu-item-text' />
                                     </ListItem>
                                 </ScrollLink>
                                 <ScrollLink to="howitworks" smooth={true} duration={500} onClick={handleDrawerToggle}>
-                                    <ListItem style={{ color: '#90C088' }}>
+                                    <ListItem className='green-color'>
                                         <Diversity3Icon/>
-                                        <ListItemText primary={'How it works'} style={{marginLeft: "20px", color: '#90C088' }} />
+                                        <ListItemText primary={'How it works'} className='menu-item-text' />
                                     </ListItem>
                                 </ScrollLink>
                                 <ScrollLink to="aboutus" smooth={true} duration={500} onClick={handleDrawerToggle}>
-                                    <ListItem style={{ color: '#90C088' }}>
+                                    <ListItem className='green-color'>
                                         <InfoIcon/>
-                                        <ListItemText primary={'About us'} style={{marginLeft: "20px", color: '#90C088' }} />
+                                        <ListItemText primary={'About us'} className='menu-item-text' />
                                     </ListItem>
                                 </ScrollLink>
                                 
@@ -132,8 +131,8 @@ const HomeNavbar = () => {
                                         
                                     <Divider />
                                         <ListItemButton>
-                                            <LoginIcon style={{ color: '#90C088' }}/>
-                                            <ListItemText primary={'Sign in'} style={{marginLeft: "20px", color: '#90C088' }} />
+                                            <LoginIcon className='green-color'/>
+                                            <ListItemText primary={'Sign in'} className='menu-item-text' />
                                         </ListItemButton>
                                     </ListItem>
                                 

@@ -4,7 +4,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import '../../style/PendingCard.scss';
+import '../../style/organization/pendingCard.scss';
 import { useState } from 'react';
 import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';

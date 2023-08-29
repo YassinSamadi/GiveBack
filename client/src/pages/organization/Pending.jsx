@@ -5,9 +5,9 @@ import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import '../style/Pending.scss';
-import PendingCard from '../components/organization/PendingCard';
-import DeleteDonation from '../components/organization/DeleteDonation';
+import '../../style/organization/pending.scss';
+import PendingCard from '../../components/organization/PendingCard';
+import DeleteDonation from '../../components/organization/DeleteDonation';
 
 export const Pending = () => {
     const Search = styled('div')(({ theme }) => ({

@@ -1,9 +1,6 @@
 import React from 'react';
-import InventoryTable from '../components/Organization/InventoryTable';
-import AddProduct from '../components/Organization/AddProduct';
-
-
-import '../style/home.scss';
+import InventoryTable from '../../components/organization/InventoryTable';
+import AddProduct from '../../components/organization/AddProduct';
 
 
 export const Inventory = () => {

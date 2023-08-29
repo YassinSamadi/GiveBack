@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Paper } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
-import '../../style/InventoryTable.scss';
+import '../../style/inventoryTable.scss';
 
 export const InventoryTable = () => {
     const [organizations, setOrganizations] = useState([]);

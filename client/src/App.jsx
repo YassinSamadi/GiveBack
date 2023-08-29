@@ -6,26 +6,27 @@ import { OrganizationAuthContext } from "./context/authContextOrganizations";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Inventory from "./pages/Inventory";
-import Pending from "./pages/Pending";
-import Dashboard from "./pages/Dashboard";
-import History from "./pages/History";
-import Map from "./pages/Map";
-import Inventories from "./pages/Inventories";
-import DashboardOrganization from "./pages/DashboardOrganization";
-import DonationsInfo  from "./pages/DonationsInfo";
+import Inventory from "./pages/organization/Inventory";
+import Pending from "./pages/organization/Pending";
+import Dashboard from "./pages/user/Dashboard";
+import History from "./pages/user/History";
+import Map from "./pages/user/Map";
+import Inventories from "./pages/user/Inventories";
+import DashboardOrganization from "./pages/organization/DashboardOrganization";
+import DonationsInfo  from "./pages/organization/DonationsInfo";
 import RegisterOrganization from "./pages/RegisterOrganization";
 import LoginOrganization from "./pages/LoginOrganization";
-import EditProfile from "./pages/EditProfile";
+import EditProfile from "./pages/user/EditProfile";
 import { useMediaQuery, useTheme } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import OrganizationNavbar from "./components/organization/OrganizationNavbar";
 import HomeNavbar from "./components/HomeNavbar";
-import MobileNavbarOrg from "./components/organization/mobileNavbarOrganization";
+import MobileNavbarOrg from "./components/organization/MobileNavbarOrganization";
 import Footer from "./components/Footer";
 import Navbar from "./components/user/Navbar";
-import MobileNavbar from "./components/user/mobileNavbar";
+import MobileNavbar from "./components/user/MobileNavbar";
 import './style/App.scss';
+import './style/global.scss'
 
 const Layout =() => {
   const theme = useTheme();

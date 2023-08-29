@@ -9,19 +9,17 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { MobileStepper } from '@mui/material';
-import '../../style/DrawerMap.scss'
+import '../../style/user/DrawerMap.scss'
 import Slider from '@mui/material/Slider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMediaQuery, useTheme } from '@mui/material';
 
 const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizationID,organizationLogo, organizationAddress }) => {
-    
     const [needs, setNeeds] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
     const [quantityDonated, setQuantityDonated] = useState(0);
     const themeMobile = useTheme();
     const isMobile = useMediaQuery(themeMobile.breakpoints.down('md'));
-
 
     const handleNext = () => {
         setActiveStep((prevStep) => Math.min(prevStep + 1, needs.length - 1));
@@ -44,7 +42,6 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
         },
     });
     
-
     useEffect(() => {
       if (organizationID) {
         
@@ -81,260 +78,228 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
       components: {
         MuiMobileStepper: {
           styleOverrides: {
-            dotActive: {
-              backgroundColor: '#90C088',
-            },
-            dot: {
-              backgroundColor: 'lightgray',
-            },
-            progress: {
-              backgroundColor: 'lightgray', 
-            },
-            root: {
-              backgroundColor: 'transparent', 
-            },
+            dotActive: {backgroundColor: '#90C088',},
+            dot: {backgroundColor: 'lightgray',},
+            progress: {backgroundColor: 'lightgray', },
+            root: {backgroundColor: 'transparent', },
           },
         },
         MuiButtonBase: {
           styleOverrides: {
-            root: {
-              color: '#90C088', 
-            },
-            disabled: {
-              color: 'rgba(144, 192, 136, 0.5)', 
-            },
+            root: {color: '#90C088', },
+            disabled: {color: 'rgba(144, 192, 136, 0.5)', },
           },
         },
       },
     });
     
-    
-
-    const list = (
-        <div >
-          <ListItem style={{ justifyContent: 'center' }} disablePadding>
-            <div className="flex-container">
-              <img
-                src={`/assets/uploads/logo/${organizationLogo}`}
-                alt="Organization Logo"
-                
-                className="org-image center-img"
-              />
-              <ListItemText primary={organizationName} />
-            </div>
-          </ListItem>
-          
-          
-      
-          {needs.length > 0 && (
-             
-            <ListItem style={{ justifyContent: 'center' }}>
-              <div>
-             {isMobile ? (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <ListItemText
-                    primary={needs[activeStep].needTitle}
-                    primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize: '20px' } }}
-                  />
+      const list = (
+          <div >
+            <ListItem className='center-content' disablePadding>
+              <div className="flex-container">
                 <img
-                  src={needs[activeStep].productPicture}
-                  alt={needs[activeStep].productName}
-                  className="product-image"
-                  style={{ marginBottom: '10px' }}
+                  src={`/assets/uploads/logo/${organizationLogo}`}
+                  alt="Organization Logo"
+                  className="org-image center-img"
                 />
-                <div>
-                  <ListItemText
-                    primary="Product"
-                    secondary={needs[activeStep].productName}
-                    style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '18px' }}
-                  />
-                </div>
-                <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                  <ListItemText
-                      style={{
-                          height: showFullDescription ? 'auto' : '100px',
-                          width: '300px',
-                          textAlign: 'justify',
-                          marginTop: '10px',
-                          overflow: 'hidden',
-                      }}
-                      primary="Description"
-                      secondary={needs[activeStep].needDescription}
-                  />
-                  {needs[activeStep].needDescription.length > 200 && (
-                      <button onClick={() => setShowFullDescription(!showFullDescription)}>
-                          {showFullDescription ? 'Read Less' : 'Read More'}
-                      </button>
-                  )}
-                  {needs[activeStep].needDescription.length <= 200 && (
-                      <div style={{ marginTop: '30px' }}>
-                          
-                      </div>
-                  )}
-              </div>
-
-              </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'row', }}>
-                    <div >
-                      <img
-                        src={needs[activeStep].productPicture}
-                        alt={needs[activeStep].productName}
-                        className="product-image"
-                      />
-                      <div style={{}}>
-                      <ListItemText primary="Product" secondary={needs[activeStep].productName} />
-                    </div>
-                  </div>
-                  <div style={{alignContent:'center',alignItems:'center',textAlign:'center', justifyContent:'center ',}}>
-                    <div style={{ marginLeft: '40px' }}>
-                      <ListItemText primary={needs[activeStep].needTitle} primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize:'20px' } }}/>
-                        <ListItemText
-                          style={{display: 'flex', }}
-                        >
-                          <span style={{marginRight:'20px'}}>
-                            Description
-                          </span>
-                          <p  style={{height: '200px',width: '500px', marginBottom:'40px'}}>
-                            {needs[activeStep].needDescription}
-                          </p>
-                        </ListItemText>  
-                    </div>
-                  </div>
-                </div>
-              )}
+                <ListItemText primary={organizationName} />
               </div>
             </ListItem>
-          )}
-          {needs && needs.length > 0 ? (
-            <ListItem style={{justifyContent: 'space-evenly',}} >
-              {needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled > 0 ? (
+            
+            {needs.length > 0 && (
+              <ListItem className='center-content'>
                 <div>
-                {isMobile ? (
-                  <div style={{ flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', textAlign: 'center', alignItems: 'flex-start' }}>
-                      <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                  {isMobile ? (
+                      <div className='mobile-center-content'>
+                        <ListItemText
+                            primary={needs[activeStep].needTitle}
+                            primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize: '20px' } }}
+                          />
+                        <img
+                          src={needs[activeStep].productPicture}
+                          alt={needs[activeStep].productName}
+                          className="product-image"
+                        />
+                        <div>
+                        <ListItemText
+                          primary="Product"
+                          secondary={needs[activeStep].productName}
+                          className='product-name'
+                        />
+                      </div>
+                      <div className='mobile-description-container'>
+                        <ListItemText
+                            sx={{height: showFullDescription ? 'auto' : '100px',}}
+                            className='mobile-description-item'
+                            primary="Description"
+                            secondary={needs[activeStep].needDescription}
+                        />
+                        {needs[activeStep].needDescription.length > 200 && (
+                            <button onClick={() => setShowFullDescription(!showFullDescription)}>
+                                {showFullDescription ? 'Read Less' : 'Read More'}
+                            </button>
+                        )}
+                        {needs[activeStep].needDescription.length <= 200 && (
+                            <div className='margin-top-description'>
+                            </div>
+                        )}
+                      </div>
+                </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'row', }}>
+                      <div >
+                        <img
+                          src={needs[activeStep].productPicture}
+                          alt={needs[activeStep].productName}
+                          className="product-image"
+                        />
+                        <div style={{}}>
+                        <ListItemText primary="Product" secondary={needs[activeStep].productName} />
+                      </div>
                     </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                      <Slider
-                        theme={sliderTheme}
-                        value={quantityDonated}
-                        onChange={(e, newValue) => setQuantityDonated(newValue)}
-                        aria-label="Default"
-                        valueLabelDisplay="auto"
-                        max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
-                        backgroundColor="secondary"
-                      />
-                      <p
-                        type="number"
-                        id="quantity_donated"
-                        name="quantity_donated"
-                        style={{ textAlign: 'center', marginTop: '10px', marginBottom: '10px' }}
-                      >{quantityDonated}</p>
-                      <Button
-                        variant="outlined"
-                        style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
-                        onClick={handleSubmit}
-                      >
-                        Submit Donation
-                      </Button>
+                    <div style={{alignContent:'center',alignItems:'center',textAlign:'center', justifyContent:'center ',}}>
+                      <div style={{ marginLeft: '40px' }}>
+                        <ListItemText primary={needs[activeStep].needTitle} primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize:'20px' } }}/>
+                          <ListItemText
+                            style={{display: 'flex', }}
+                          >
+                            <span style={{marginRight:'20px'}}>
+                              Description
+                            </span>
+                            <p  style={{height: '200px',width: '500px', marginBottom:'40px'}}>
+                              {needs[activeStep].needDescription}
+                            </p>
+                          </ListItemText>  
+                      </div>
                     </div>
-
-                    <div style={{ display: 'flex', textAlign: 'center', marginTop:'5px', alignItems: 'flex-end' }}>
-                      <ListItemText primary={organizationAddress} />
-                    </div>
-                    
                   </div>
+                )}
+                </div>
+              </ListItem>
+            )}
+            {needs && needs.length > 0 ? (
+              <ListItem className='even-spacing' >
+                {needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled > 0 ? (
+                  <div>
+                    {isMobile ? (
+                      <div className='column-flex'>
+                        <div className='alignment-raised'>
+                          <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                        </div>
 
+                        <div className='donation-container'>
+                          <Slider
+                            theme={sliderTheme}
+                            value={quantityDonated}
+                            onChange={(e, newValue) => setQuantityDonated(newValue)}
+                            aria-label="Default"
+                            valueLabelDisplay="auto"
+                            max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
+                            backgroundColor="secondary"
+                          />
+                          <p
+                            type="number"
+                            id="quantity_donated"
+                            name="quantity_donated"
+                            className='quantity-donated-text'
+                          >{quantityDonated}</p>
+                          <Button
+                            variant="outlined"
+                            style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
+                            onClick={handleSubmit}
+                          >
+                            Submit Donation
+                          </Button>
+                        </div>
 
-                  ):(
-                  <div style={{ display: 'flex' }}>
-                
-                  <div style={{flex: 1, display:'flex', textAlign: 'left', alignItems:'flex-start'  }}>
-                    <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                        <div className='alignment-address'>
+                          <ListItemText primary={organizationAddress} />
+                        </div>
+                        
+                      </div>
+
+                      ):(
+                      <div className='flex'>
+                        <div className='alignment-raised-desktop'>
+                          <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                        </div>
+                        <div className='donation-container-desktop'>
+                          <Slider
+                            theme={sliderTheme}
+                            value={quantityDonated}
+                            onChange={(e, newValue) => setQuantityDonated(newValue)}
+                            aria-label="Default"
+                            valueLabelDisplay="auto"
+                            
+                            max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
+                            backgroundColor="secondary"
+                          />
+                          <p
+                            type="number"
+                            id="quantity_donated"
+                            name="quantity_donated"
+                            className='quantity-donated-text-desktop'
+                          >{quantityDonated}</p>
+                          <Button
+                            variant="outlined"
+                            style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
+                            onClick={handleSubmit}
+                          >
+                            Submit Donation
+                          </Button>
+                        </div>
+                      <div className='alignment-address-desktop'>
+                        <ListItemText primary={organizationAddress}/>
+                      </div>
+                    </div>
+                    )}
                   </div>
-                  
-                  <div style={{ flex: 1, flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                    <Slider
-                      theme={sliderTheme}
-                      value={quantityDonated}
-                      onChange={(e, newValue) => setQuantityDonated(newValue)}
-                      aria-label="Default"
-                      valueLabelDisplay="auto"
-                      
-                      max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
-                      backgroundColor="secondary"
-                    />
-                    <p
-                      type="number"
-                      id="quantity_donated"
-                      name="quantity_donated"
-                      style={{ textAlign:'center', marginTop: '10px', marginBottom: '10px' }}
-                    >{quantityDonated}</p>
-                    <Button
-                      variant="outlined"
-                      style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
-                      onClick={handleSubmit}
-                    >
-                      Submit Donation
+                ) : (
+                  <div className='alignment-column-fulfilled'>
+                    <Button variant="outlined" style={{ backgroundColor: '#D9D9D9', color: 'white', borderColor: 'white' }} disabled>
+                      Donation Fulfilled
                     </Button>
                   </div>
-                
-              
-                <div style={{ flex: 1, textAlign: 'right', alignItems:'flex-end'  }}>
-                  <ListItemText primary={organizationAddress}/>
-                </div>
-              </div>
-              
-              )}
-                </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <Button variant="outlined" style={{ backgroundColor: '#D9D9D9', color: 'white', borderColor: 'white' }} disabled>
-                    Donation Fulfilled
+                        )}
+                      </ListItem>
+                    ) : (
+                      <ListItem className='align-text-center'>
+                        <ListItemText primary="No needs available" />
+                      </ListItem>
+                    )}
+        
+            <ThemeProvider theme={theme}>
+              <MobileStepper
+                variant="dots"
+                steps={needs.length}
+                position="static"
+                activeStep={activeStep}
+                nextButton={
+                  <Button size="small" onClick={handleNext} disabled={activeStep === needs.length - 1}>
+                    <KeyboardArrowRight />
                   </Button>
-                </div>
-              )}
-            </ListItem>
-          ) : (
-            <ListItem style={{textAlign:"center"}}>
-              <ListItemText primary="No needs available" />
-            </ListItem>
-          )}
-      
-          <ThemeProvider theme={theme}>
-      <MobileStepper
-        variant="dots"
-        steps={needs.length}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === needs.length - 1}>
-            <KeyboardArrowRight />
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            <KeyboardArrowLeft />
-          </Button>
-        }
-      />
-    </ThemeProvider>
-        </div>
+                }
+                backButton={
+                  <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                    <KeyboardArrowLeft />
+                  </Button>
+                }
+              />
+            </ThemeProvider>
+          </div>
       );
 
     return (
-    <div>
-        <SwipeableDrawer
-            anchor="bottom"
-            open={isOpen}
-            onClose={onClose}
-            onOpen={() => {}}
-        >
+      <div>
+          <SwipeableDrawer
+              anchor="bottom"
+              open={isOpen}
+              onClose={onClose}
+              onOpen={() => {}}
+          >
             {list}
-        </SwipeableDrawer>
-    </div>
+          </SwipeableDrawer>
+      </div>
     );
 };
 

@@ -9,6 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import { TextField, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 import DialogContentText from '@mui/material/DialogContentText';
+import '../../style/organization/editNeed.scss'
 
 const EditNeed = ({ open, handleClose, need, products }) => {
   const theme = useTheme();
@@ -65,68 +66,68 @@ const EditNeed = ({ open, handleClose, need, products }) => {
 
   return (
     <Dialog maxWidth={'lg'} fullScreen={fullScreen} open={open} onClose={handleClose}>
-      <DialogTitle>Edit Need</DialogTitle>
+      <DialogTitle className='title-edit'>Edit Need</DialogTitle>
       <DialogContent>
       <DialogContentText>
-      <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <label htmlFor="title" style={{ minWidth: '150px', marginRight: '10px' }}>Title:</label>
-    <input
-      type="text"
-      name="title"
-      value={formData.title || ''}
-      onChange={handleChange}
-      style={{ border: '1px solid lightgrey', fontSize: '17px', height: '40px', flex: 2 }}
-    />
-  </div>
-  {titleError && <span style={{ color: 'red' }}>{titleError}</span>}
-</div>
+            <div className='container-text'>
+              <div className='center-items'>
+                <label htmlFor="title" className='label-edit '>Title:</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title || ''}
+                  onChange={handleChange}
+                  className='input-field-title'
+                />
+              </div>
+              {titleError && <span className='red-color'>{titleError}</span>}
+            </div>
 
-<div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <label htmlFor="description" style={{ minWidth: '150px', marginRight: '10px' }}>Description:</label>
-    <textarea
-      name="description"
-      value={formData.description || ''}
-      onChange={handleChange}
-      rows="10"
-      cols="40"
-      style={{ border: '1px solid lightgrey', fontSize: '17px', minHeight: '100px', flex: 2 }}
-    />
-  </div>
-  {descriptionError && <span style={{ color: 'red' }}>{descriptionError}</span>}
-</div>
+            <div className='container-text'>
+              <div className='center-items'>
+                <label htmlFor="description" className='label-edit'>Description:</label>
+                <textarea
+                  name="description"
+                  value={formData.description || ''}
+                  onChange={handleChange}
+                  rows="10"
+                  cols="40"
+                  className='input-field-description'
+                />
+              </div>
+              {descriptionError && <span className='red-color'>{descriptionError}</span>}
+            </div>
 
-<div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-  <label htmlFor="product_id" style={{ minWidth: '150px', marginRight: '10px' }}>Product:</label>
-  <Select
-    name="product_id"
-    value={formData.product_id || ''}
-    onChange={handleProductChange}
-    style={{ flex: 2 }}
-  >
-    {products.map((product) => (
-      <MenuItem key={product.id} value={product.id}>
-        {product.name}
-      </MenuItem>
-    ))}
-  </Select>
-</div>
+            <div className='container-product-amount'>
+              <label htmlFor="product_id" className='label-edit '>Product:</label>
+              <Select
+                name="product_id"
+                value={formData.product_id || ''}
+                onChange={handleProductChange}
+                className='flex-2'
+              >
+                {products.map((product) => (
+                  <MenuItem key={product.id} value={product.id}>
+                    {product.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
 
-<div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-  <label htmlFor="quantity_required" style={{ minWidth: '150px', marginRight: '10px' }}>Amount Required:</label>
-  <TextField
-    type="number"
-    name="quantity_required"
-    value={formData.quantity_required || ''}
-    onChange={handleChange}
-    inputProps={{ min: 1, max: 250 }}
-    style={{ flex: 2 }}
-  />
-</div>
+            <div className='container-product-amount'>
+              <label htmlFor="quantity_required" className='label-edit'>Amount Required:</label>
+              <TextField
+                type="number"
+                name="quantity_required"
+                value={formData.quantity_required || ''}
+                onChange={handleChange}
+                inputProps={{ min: 1, max: 250 }}
+                className='flex-2'
+              />
+            </div>
 
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
+            <div className='title-edit'>
                 <Button
                 variant="outlined"
                 style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white', marginTop: '20px' }}

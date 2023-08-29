@@ -1,0 +1,49 @@
+.green-background{
+    background-color: #90C088;
+}
+
+.green-color{
+    color: #90C088;
+}
+
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.flex{
+    display: flex;
+}
+
+.justify-center{
+    justify-content: center;
+}
+.align-text-center{
+    text-align: center;
+}
+
+.red-color{
+    color: red;
+}
+
+.profile-image{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+.profile-drawer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    justify-content: center;
+}

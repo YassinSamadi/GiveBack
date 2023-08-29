@@ -2,8 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, useMediaQuery } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import '../../style/user/cardNeedUser.scss';
 
 const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required, onClick, nameOrganization, city,productId }) => {
+    
     const theme = createTheme({
         palette: {
             primary: {
@@ -15,25 +17,6 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
         },
     });
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-    const cardStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        border: '1px solid #ccc',
-        borderRadius: '15px',
-        maxWidth: 350,
-        minWidth: 280,
-        height: 284,
-        margin: '0 auto',
-        position: 'relative', 
-    };
-
-    const imageStyle = {
-        width: '100%',
-        height: 155,
-        objectFit: 'cover',
-        filter: 'brightness(70%)'
-    };
 
     const titleStyle = {
         position: 'absolute',
@@ -66,10 +49,6 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
         color: "#7D7D7D"
     };
 
-    const cardClickStyle = {
-        cursor: 'pointer',
-        position: 'relative', 
-    };
 
     const maxTitleLength = 30; 
     const maxDescriptionLength = isMobile ? 80 : 100;
@@ -83,18 +62,17 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
     
 
     return (
-        <Card sx={{ ...cardStyle, ...cardClickStyle }} onClick={onClick}>
+        <Card  className='card-need-user' onClick={onClick}>
             <CardMedia
                 component="img"
-                sx={{ width: 150, minWidth: 150, objectFit: 'cover' }}
                 image={imageSrc}
                 alt="Card Image"
-                style={imageStyle}
+                className='card-image-style'
             />
-            <Typography style={titleStyle} variant="caption" sx={{ textAlign: 'left' }}>
+            <Typography style={titleStyle} variant="caption" className='align-left'>
                 {nameOrganization}
             </Typography>
-            <Typography style={fulfilledStyle} variant="caption" sx={{ textAlign: 'left' }}>
+            <Typography style={fulfilledStyle} variant="caption" className='align-left'>
                     {(fulfilled || 0) + " of " + required + " raised"}
             </Typography>
             
@@ -113,12 +91,12 @@ const CardNeedUser = ({ imageSrc, title, description, date, fulfilled, required,
                 <Typography sx={{ paddingBottom: "8px", lineHeight: '1.2', height: '2.8em', overflow: 'hidden' }} variant="body1" gutterBottom>
                     {truncatedDescription}
                 </Typography>
-                <p style={{display:'none'}} >{productId} </p> 
+                <p className='hide-productID' >{productId} </p> 
                 <div style={footerStyle}>
-                    <Typography variant="caption" sx={{ textAlign: 'right' }}>
+                    <Typography variant="caption" className='align-right'>
                         {city}
                     </Typography>
-                    <Typography variant="caption" sx={{ textAlign: 'right' }}>
+                    <Typography variant="caption" className='align-right'>
                         {date}
                     </Typography>
                 </div>

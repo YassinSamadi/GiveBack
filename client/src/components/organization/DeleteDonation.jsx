@@ -11,7 +11,6 @@ const DeleteDonation = ({ open, handleClose, donation }) => {
         axios
             .delete(`/donations/deleteDonation?id=${donation.id}`)
             .then(response => {
-                console.log(response.data);
                 handleClose();
             })
             .catch(err => console.error('Error deleting need:', err));

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../style/Filter.scss'
+import '../../style/user/filter.scss'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -48,7 +48,7 @@ export const FilterOrganizations = ({ onOrganizationFilterChange }) => {
   return (
     <div>
       <div className="section">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div className='title-needs'>
             <h4>Organizations </h4>
             <button
                 type="button"
@@ -82,7 +82,7 @@ export const FilterOrganizations = ({ onOrganizationFilterChange }) => {
         )}
 
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+      <div className='container-expand'>
         <button className="expand-button" onClick={handleClearFilters}>Clear Filters</button>
       </div>
 

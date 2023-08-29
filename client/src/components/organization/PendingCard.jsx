@@ -1,15 +1,14 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Button, NoSsr } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import CloseIcon from '@mui/icons-material/Close';
-import '../../style/PendingCard.scss';
+import '../../style/organization/pendingCard.scss';
 import { useState } from 'react';
 import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-
 const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,onDelete, need_id  }) => {
     const [confirmationStatus, setConfirmationStatus] = useState('');
 
@@ -31,28 +30,45 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
     const closeClickStyle = {
         cursor: 'pointer'
     };
+
+    const boxStyle = {
+        display: 'inline-block', marginRight: '20px',
+    }
+    const boxMobileStyle ={
+        marginBottom: '10px',
+        width: '100%', 
+        textAlign: 'center'
+    }
+    const bold = {
+        fontWeight: 'bold'
+    }
+    const cardStyle = {
+        display: 'flex', 
+        alignItems: 'center', 
+        padding: '10px',
+    }
     
     return (
         <div>
             {isMobile  ? (
-                <Card sx={{ display: 'flex', alignItems: 'center', padding: '10px', width:"780px" }}>
-                    <Box sx={{ display: 'inline-block', marginRight: '20px', width: '150px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Name</Typography>
+                <Card sx={{ width:"780px", ...cardStyle }}>
+                    <Box sx={{ width: '150px', ...boxStyle }}>
+                        <Typography sx={bold} variant="subtitle1">Name</Typography>
                         <Typography>{first_name} {last_name}</Typography>
                     </Box>
-                    <Box sx={{ display: 'inline-block', marginRight: '20px', width: '250px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need title</Typography>
+                    <Box sx={{  width: '250px', ...boxStyle }}>
+                        <Typography sx={bold} variant="subtitle1">Need title</Typography>
                         <Typography>{donation_title}</Typography>
                     </Box>
-                    <Box sx={{ display: 'inline-block', marginRight: '20px', width: '70px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need ID</Typography>
+                    <Box sx={{ width: '70px', ...boxStyle}}>
+                        <Typography sx={bold} variant="subtitle1">Need ID</Typography>
                         <Typography>{need_id}</Typography>
                     </Box>
-                    <Box sx={{ display: 'inline-block', marginRight: '20px', width: '50px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Amount</Typography>
+                    <Box sx={{ width: '50px', ...boxStyle}}>
+                        <Typography sx={bold} variant="subtitle1">Amount</Typography>
                         <Typography>{amount}</Typography>
                     </Box>
-                    <Box sx={{ display: 'inline-block', marginRight: '20px', marginLeft: '20px' }}>
+                    <Box sx={{ marginLeft: '20px',  ...boxStyle}}>
                         <Button onClick={handleClickConfirm} className='button-confirm'>
                         Confirm
                         </Button>
@@ -63,21 +79,21 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
                     </Box>
                 </Card>
             ) : (
-                <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', width: "350px" }}>
-                    <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Name</Typography>
+                <Card sx={{ flexDirection: 'column', width: "350px", ...cardStyle }}>
+                    <Box sx={boxMobileStyle}>
+                        <Typography sx={bold} variant="subtitle1">Name</Typography>
                         <Typography>{first_name} {last_name}</Typography>
                     </Box>
-                    <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need title</Typography>
+                    <Box sx={boxMobileStyle}>
+                        <Typography sx={bold} variant="subtitle1">Need title</Typography>
                         <Typography>{donation_title}</Typography>
                     </Box>
-                    <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need ID</Typography>
+                    <Box sx={boxMobileStyle}>
+                        <Typography sx={bold} variant="subtitle1">Need ID</Typography>
                         <Typography>{need_id}</Typography>
                     </Box>
-                    <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Amount</Typography>
+                    <Box sx={ boxMobileStyle }>
+                        <Typography sx={bold} variant="subtitle1">Amount</Typography>
                         <Typography>{amount}</Typography>
                     </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center' }}>

@@ -47,4 +47,13 @@ body {
   .radio-item input[type="radio"] {
     margin-right: 10px;
   }
-  
+  .title-needs{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .container-expand{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }

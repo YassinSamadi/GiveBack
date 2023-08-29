@@ -1,8 +1,7 @@
-import '../style/Navbar.scss'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo/GiveBackNoText500x500.png';
-import profilepic from '../assets/logo/profile-pic.jpg';
+import logo from '../../assets/logo/GiveBackNoText500x500.png';
+import profilepic from '../../assets/logo/profile-pic.jpg';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,16 +17,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import '../../style/MobileNavbar.scss';
 import HomeIcon from '@mui/icons-material/Home';
 import { useLocation } from 'react-router-dom';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import ListItemLink from '../MenuItemMobileLink';
+import '../../style/organization/mobileNavbarOrg.scss'
 
 
 const drawerWidth = 240;
-
 
 
 const MobileNavbarOrg = () => {
@@ -45,67 +43,15 @@ const MobileNavbarOrg = () => {
     setProfileOpen(!profileOpen);
   };
 
-
-
-  const profileDrawerStyles = {
-    flex: 1, 
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '16px',
-    justifyContent: 'center',
-  };
-
-  const profileImageStyles = {
-    width: '80px', 
-    height: '80px', 
-    borderRadius: '50%',
-    marginBottom: '8px',
-  };
-
   const organization = JSON.parse(localStorage.getItem('organization'));
   const organization_name = organization ? organization.name : '';
   const organization_logo = organization ? organization.logo : '';
-
-  const iconStyles = {
-    color: '#90C088',
-  };
-  const activeBackgroundColor = '#F0F0F0';
-  const inactiveBackgroundColor = 'transparent';
 
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, link: '/dashboard/organization' },
     { text: 'Inventory', icon: <InventoryIcon />, link: '/inventory' },
     { text: 'Donations', icon: <VolunteerActivismIcon />, link: '/donations' },
   ];
-  
-
-    
-  const profile  = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {[
-          { text: 'Edit Profile', icon: <AccountCircleIcon />, link: "/dashboard/organization" }, 
-          { text: 'Sign out', icon: <ExitToAppIcon />, link: "/inventory" } 
-        ].map(({ text, icon, link }) => (
-          <ListItem component={Link} to={link} key={text} style={{
-            backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
-          }} onClick={handleProfileToggle} disablePadding>
-            <ListItemButton>
-              <ListItemIcon style={iconStyles}>
-                {icon}
-              </ListItemIcon>
-              <ListItemText primary={text} style={{ color: '#90C088' }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-    </div>
-  
-  );
 
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;
 
@@ -166,52 +112,49 @@ const MobileNavbarOrg = () => {
                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
             }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      
-      <div>
-        <div style={profileDrawerStyles}>
-          <img src={`/assets/uploads/logo/${organization_logo}`} alt="Profile" style={profileImageStyles} />
-          <div>{`${organization_name}`}</div>
-        </div>
-      </div>
+          <div className='drawer-container'>
+            <div>
+              <div className='profile-drawer'>
+                <img src={`/assets/uploads/logo/${organization_logo}`} alt="Profile" className='profile-image' />
+                <div>{`${organization_name}`}</div>
+              </div>
+            </div>
 
-      
-      <div style={{ flexGrow: 1 }}>
-        <Toolbar />
-        <Divider />
-        {menuItems.map((item) => (
-          <ListItemLink key={item.text} primary={item.text} icon={item.icon} to={item.link} closeDrawer={handleDrawerToggle} />
-        ))}
-      </div>
-
-      
-      <div>
-        <List>
-          {[
-            { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/dashboard/organization' },
-            { text: 'Sign out', icon: <ExitToAppIcon />, link: '/inventory' },
-          ].map(({ text, icon, link }) => (
-            
-            <ListItem
-              component={Link}
-              to={link}
-              key={text}
-              style={{
-                backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
-              }}
-              onClick={handleProfileToggle}
-              disablePadding
-            >
+            <div className='grow'>
+              <Toolbar />
               <Divider />
-              <ListItemButton>
-                <ListItemIcon style={{ color: '#90C088' }}>{icon}</ListItemIcon>
-                <ListItemText primary={text} style={{ color: '#90C088' }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </div>
-    </div>
+              {menuItems.map((item) => (
+                <ListItemLink key={item.text} primary={item.text} icon={item.icon} to={item.link} closeDrawer={handleDrawerToggle} />
+              ))}
+            </div>
+
+            <div>
+              <List>
+                {[
+                  { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/dashboard/organization' },
+                  { text: 'Sign out', icon: <ExitToAppIcon />, link: '/inventory' },
+                ].map(({ text, icon, link }) => (
+                  
+                  <ListItem
+                    component={Link}
+                    to={link}
+                    key={text}
+                    sx={{
+                      backgroundColor: link === location.pathname ? '#F0F0F0' :  'transparent',
+                    }}
+                    onClick={handleProfileToggle}
+                    disablePadding
+                  >
+                    <Divider />
+                    <ListItemButton>
+                      <ListItemIcon sx={{color: '#90C088'}}>{icon}</ListItemIcon>
+                      <ListItemText primary={text} className='green-color' />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          </div>
         </Drawer>
       </Box>
 

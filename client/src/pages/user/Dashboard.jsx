@@ -4,10 +4,11 @@ import { Pagination } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import FilterNeeds from '../components/user/FilterNeeds.jsx';
-import FilterOrganizations from '../components/user/FilterOrganizations.jsx';
-import CardDetails from '../components/user/CardDetails.jsx';
-import CardNeedUser from '../components/user/CardNeedUser.jsx';
+import FilterNeeds from '../../components/user/FilterNeeds.jsx';
+import FilterOrganizations from '../../components/user/FilterOrganizations.jsx';
+import CardDetails from '../../components/user/cardDetails.jsx';
+import CardNeedUser from '../../components/user/CardNeedUser.jsx';
+import '../../style/user/dashboard.scss'
 
 dayjs.extend(relativeTime);
 
@@ -62,12 +63,12 @@ export const Dashboard = () => {
   };
 
   return (
-    <Grid container spacing={2} style={{ margin: '0 auto', width: '100%' }}>
+    <Grid container spacing={2} sx={{ margin: '0 auto', width: '100%' }}>
       <Grid item xs={12} md={3}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div class='center-filter'>
           <FilterNeeds onProductFilterChange={handleProductFilterChange} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div class='center-filter '>
           <FilterOrganizations onOrganizationFilterChange={handleOrganizationFilterChange} />
         </div>
       </Grid>
@@ -76,7 +77,7 @@ export const Dashboard = () => {
         <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
 
         {displayedNeeds.length === 0 ? (
-          <div style={{ textAlign: 'center', marginTop: '50px', width: '100%' }}>
+          <div class='empty-list'>
             <h2>No needs to display.</h2>
           </div>
         ) : (
@@ -84,7 +85,7 @@ export const Dashboard = () => {
             {displayedNeeds.map((need) => (
               <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={need.id}>
                 <CardNeedUser
-                  imageSrc={require(`../${need.product_picture}`)}
+                  imageSrc={require(`../../${need.product_picture}`)}
                   title={need.title}
                   description={need.description}
                   date={dayjs(need.date).fromNow()} 
@@ -100,7 +101,7 @@ export const Dashboard = () => {
           </Grid>
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px' }}>
+        <div class="pagination">
           <Pagination count={numPages} page={page} onChange={handlePageChange} />
         </div>
       </Grid>

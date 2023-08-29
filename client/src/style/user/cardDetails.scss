@@ -1,0 +1,35 @@
+.donation-input {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px; 
+    justify-items: center;
+}
+
+.close-icon{
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 100%;
+    color: #90C088;
+    background-color: white;
+    border: 3px solid #90C088;
+}
+.dialog-title{
+    position: absolute;
+    top: 245px;
+    left: 0px;
+    right: 0px;
+    padding: 4px 16px; 
+    color: white;
+    font-size: 30px;
+}
+.spacing-org{
+    display: flex;
+    justify-content: space-between;
+}
+.image-background-detail{
+    width: 100%;
+    min-height: 300px;
+    object-fit: cover;
+}

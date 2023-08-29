@@ -1,0 +1,45 @@
+.container{
+
+}
+.container-footer {
+    background-color: #90C088;
+    height: 200px;
+    margin-top: -40px;
+}
+
+.container-socialmedia {
+    display: grid;
+    justify-content: center;
+    grid-auto-flow: row;
+}
+
+.follow-us{
+    color: #32632A;
+  text-align: center;
+}
+.icon-placement{
+    display: flex;
+    flex-direction: row;
+}
+
+.image-div{
+    margin-right: 5px;
+    background-color: #32632A;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image-size{
+    width: 30px;
+    height: 30px;
+}
+.name-container{
+    text-align: center;
+    margin-top: 50px;
+}
+.text-color{
+    color: #32632A;
+}

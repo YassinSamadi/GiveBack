@@ -1,13 +1,9 @@
-import '../../style/Navbar.scss'
+import '../../style/user/navbar.scss'
 import React, { useState,useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/logo/GiveBackRight500x500.png';
-import profilepic from '../assets/logo/profile-pic.jpg';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import logo from '../../assets/logo/GiveBackRight500x500.png';
+import profilepic from '../../assets/logo/profile-pic.jpg';
 import { AuthContext } from '../../context/authContext';
-
-
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';

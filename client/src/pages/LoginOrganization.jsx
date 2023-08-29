@@ -2,7 +2,6 @@
 import { OrganizationAuthContext } from '../context/authContextOrganizations';
 import React, { useContext } from 'react';
 import '../style/login.scss';
-import '../style/App.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import logo from '../assets/logo/GiveBackNoText500x500.png';

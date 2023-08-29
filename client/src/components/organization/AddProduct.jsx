@@ -9,30 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import { TextField } from '@mui/material';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-
-function getStyles(name, selectedName, theme) {
-  return {
-    fontWeight:
-      selectedName === name
-        ? theme.typography.fontWeightMedium
-        : theme.typography.fontWeightRegular,
-  };
-}
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+import '../../style/organization/addProduct.scss'
 
 
 export default function AddProduct() {
@@ -99,7 +76,6 @@ export default function AddProduct() {
         quantity: inputs.quantity,
         product_id: inputs.product_id,
       });
-      console.log('Product added to inventory successfully');
       handleClose();
 
       window.location.reload();
@@ -120,11 +96,11 @@ export default function AddProduct() {
   }, []);
 
   return (
-    <div style={{marginBottom:'30px', marginTop:'20px'}}>
+    <div className='container-product'>
       <Button
         variant="outlined"
         onClick={handleClickOpen}
-        style={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white', marginTop: '15px' }}           
+        sx={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white', marginTop: '15px' }}           
       >
         Add product
       </Button>
@@ -134,30 +110,27 @@ export default function AddProduct() {
         onClose={handleClose}
         aria-labelledby="NeedsPopup"
       >
-        <DialogTitle id="NeedsPopup" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
+        <DialogTitle id="NeedsPopup" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
           Add product 
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <label
-                htmlFor="product_id"
-                style={{  marginRight: '10px', minWidth: '100px' }}
-              >
-                Product:
-              </label>
-              <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} style={{ border: '1px solid lightgrey', flex: 1, fontSize:'17px', height:'40px' }}>
-                <option value="" disabled selected hidden>Select a product</option>
-                {products.map((product) => (
-                  <option key={product.id} value={product.id}>{product.name}</option>
-                ))}
-              </select>
-              
+            <div className='dialog-items'>
+                <label
+                  htmlFor="product_id"
+                  style={{  marginRight: '10px', minWidth: '100px' }}
+                >
+                  Product:
+                </label>
+                <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} className='product-select'>
+                  <option value="" disabled selected hidden>Select a product</option>
+                  {products.map((product) => (
+                    <option key={product.id} value={product.id}>{product.name}</option>
+                  ))}
+                </select>
             </div>
 
-            
-
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <div className='dialog-items'>
               <label
                 htmlFor="quantity"
                 style={{  marginRight: '10px', minWidth: '100px' }}
@@ -180,11 +153,11 @@ export default function AddProduct() {
               />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
+            <div className='dialog-items'>
               <Button
                 variant="outlined"
                 onClick={handleSubmit}
-                style={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white' }}              
+                sx={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white' }}              
               >
                 Submit
               </Button>
@@ -195,7 +168,7 @@ export default function AddProduct() {
           <Button
             autoFocus
             onClick={handleClose}
-            style={{ color: '#90C088' }}
+            sx={{ color: '#90C088' }}
           >
             Close
           </Button>

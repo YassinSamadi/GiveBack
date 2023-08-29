@@ -1,7 +1,7 @@
-import '../../style/Navbar.scss'
+import '../../style/organization/navbarOrg.scss'
 import React, { useState,useContext } from 'react';
-import logo from '../assets/logo/GiveBackRight500x500.png';
-import profilepic from '../assets/logo/profile-pic.jpg';
+import logo from '../../assets/logo/GiveBackRight500x500.png';
+import profilepic from '../../assets/logo/profile-pic.jpg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { OrganizationAuthContext } from '../../context/authContextOrganizations';
@@ -19,7 +19,7 @@ const OrganizationNavbar = () => {
 
 
   const handleEditProfile = () => {
-    // Implement your edit profile logic here
+    
   };
 
   const location = useLocation();

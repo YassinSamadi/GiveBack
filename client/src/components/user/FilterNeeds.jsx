@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../style/Filter.scss'
+import '../../style/user/filter.scss'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -8,7 +8,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export const FilterNeeds = ({onProductFilterChange }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [selectedLocationRange, setSelectedLocationRange] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [hideList, sethideList] = useState(false);
 
@@ -28,7 +27,6 @@ export const FilterNeeds = ({onProductFilterChange }) => {
     onProductFilterChange([]); 
   };
 
-
   const handleCategoryChange = (category) => {
     let updatedCategories;
 
@@ -43,49 +41,47 @@ export const FilterNeeds = ({onProductFilterChange }) => {
     onProductFilterChange(updatedCategories);
   };
 
-
   const dataForDisplay = expanded ? products : products.slice(0, 5);
-
 
   return (
     <div>
       <div className="section" >
         
-      <h4 style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-    Needs 
-    <button
-      type="button"
-      className={`expand-button ${hideList ? 'expanded' : ''}`}
-      onClick={() => sethideList(!hideList)}
-    >
-    {hideList ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-    </button>
-  </h4>
+      <h4 className='title-needs'>
+        Needs 
+        <button
+          type="button"
+          className={`expand-button ${hideList ? 'expanded' : ''}`}
+          onClick={() => sethideList(!hideList)}
+        >
+        {hideList ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        </button>
+      </h4>
         
           {!hideList && dataForDisplay.map((product) => (
-  <div key={product.id} className="checkbox-item">
-    <input
-      type="checkbox"
-      id={product.id}
-      checked={selectedCategories.includes(product.id)}
-      onChange={() => handleCategoryChange(product.id)}
-    />
-    <label htmlFor={product.id}>{product.name}</label>
-  </div>
-))}
+            <div key={product.id} className="checkbox-item">
+              <input
+                type="checkbox"
+                id={product.id}
+                checked={selectedCategories.includes(product.id)}
+                onChange={() => handleCategoryChange(product.id)}
+              />
+              <label htmlFor={product.id}>{product.name}</label>
+            </div>
+          ))}
 
-{!hideList && (
-  <button
-    type="button"
-    className="expand-button"
-    onClick={() => setExpanded(!expanded)}
-  >
-    {expanded ? 'Show Less' : 'Show More'}
-  </button>
-)}
+          {!hideList && (
+            <button
+              type="button"
+              className="expand-button"
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? 'Show Less' : 'Show More'}
+            </button>
+          )}
 
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+            </div>
+      <div className='container-expand'>
         <button className="expand-button" onClick={handleClearFilters}>Clear filters</button>
       </div>
 
