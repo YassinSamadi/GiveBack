@@ -1,5 +1,5 @@
 import React from 'react';
-import InventoriesTable from '../components/InventoriesTable';
+import InventoriesTable from '../components/user/InventoriesTable';
 
 
 import '../style/home.scss';

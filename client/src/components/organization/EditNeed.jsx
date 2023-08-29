@@ -55,7 +55,6 @@ const EditNeed = ({ open, handleClose, need, products }) => {
   const handleSubmit = async () => {
     try {
       await axios.put('/needs/updateNeed', formData);
-      console.log('Need updated successfully');
       handleClose();
     } catch (error) {
       console.error('Error updating need:', error);

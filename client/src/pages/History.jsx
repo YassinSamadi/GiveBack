@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import HistoryCard from '../components/HistoryCard';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Grid } from '@mui/material';
-import HistoryTable from '../components/HistoryTable';
+import HistoryTable from '../components/user/HistoryTable';
 import '../style/History.scss'; // Import CSS file for styling
 import axios from 'axios'; 
 import { Typography } from '@mui/material';
+
+
 export const History = () => {
     const [totalDonations, setTotalDonations] = useState(0);
     const [highestDonation, setHighestDonation] = useState(0);

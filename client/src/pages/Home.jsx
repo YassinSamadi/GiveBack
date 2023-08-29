@@ -4,12 +4,9 @@ import hero from '../assets/miscellaneous/hero.jpg';
 import aboutus from '../assets/miscellaneous/aboutus.jpg';
 import whatwedo from '../assets/miscellaneous/whatwedo.jpg';
 import howwework from '../assets/miscellaneous/howwework.jpg';
-
 import donation from '../assets/miscellaneous/donation.png';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-
-
 import '../style/home.scss';
 import { Grid } from '@mui/material';
 

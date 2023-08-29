@@ -11,7 +11,6 @@ const DeleteNeed = ({ open, handleClose, need }) => {
         axios
             .delete(`/needs/deleteNeed?id=${need.id}`)
             .then(response => {
-                console.log(response.data);
                 handleClose();
             })
             .catch(err => console.error('Error deleting need:', err));

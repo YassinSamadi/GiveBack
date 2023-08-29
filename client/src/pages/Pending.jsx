@@ -1,14 +1,13 @@
 import React from 'react';
-import ReceivedTable from '../components/ReceivedTable';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import DeleteDonation from '../components/DeleteDonation';
 import '../style/Pending.scss';
-import PendingCard from '../components/PendingCard';
+import PendingCard from '../components/organization/PendingCard';
+import DeleteDonation from '../components/organization/DeleteDonation';
 
 export const Pending = () => {
     const Search = styled('div')(({ theme }) => ({
@@ -21,10 +20,8 @@ export const Pending = () => {
         marginRight: theme.spacing(2),
         marginLeft: 0,
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(3),
-          width: 'auto',
-        },
+        marginLeft: theme.spacing(3),
+        width: 'auto',
       }));
       
       const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -48,9 +45,6 @@ export const Pending = () => {
           width: '100%',
           [theme.breakpoints.up('md')]: {
             width: 640,
-          },
-          [theme.breakpoints.down('sm')]: {
-            width: 300,
           },
         },
         '& .Mui-focused': {
@@ -108,8 +102,8 @@ export const Pending = () => {
                 <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                placeholder=""
-                inputProps={{ 'aria-label': 'search' }}
+                  placeholder="Search by name"
+                  inputProps={{ 'aria-label': 'search' }}
                 />
             </Search>
         </div>

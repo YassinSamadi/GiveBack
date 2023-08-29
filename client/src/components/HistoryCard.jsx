@@ -13,7 +13,7 @@ const cardStyle = {
 const contentStyle = {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center', // Center content horizontally
+    alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
 };

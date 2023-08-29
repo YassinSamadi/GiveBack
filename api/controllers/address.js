@@ -26,14 +26,12 @@ export const registerAddress = async (req, res) => {
     
       db.query(insertQuery, values, (err, result) => {
         if (err) {
-          console.log(err);
           return res.status(500).json(err);
         }
         
         return res.status(201).json({ id: result.insertId });
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   };
@@ -45,7 +43,6 @@ export const registerAddress = async (req, res) => {
       LEFT JOIN organization ON address.id = organization.address_id 
       WHERE address.isOrganization = 1
     `;
-    console.log(selectQuery);
     db.query(selectQuery, (err, results) => {
       if (err) return res.status(500).json(err);
       

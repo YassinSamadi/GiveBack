@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import MuiCard from '../components/Card.jsx';
-import MobileCard from '../components/MobileCard.jsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import NeedsPopup from '../components/PopupNeed.jsx';
-import CardDetails from '../components/CardDetails.jsx';
-import EditNeed from '../components/EditNeed.jsx';
-
-import DeleteNeed from '../components/DeleteNeed.jsx';
+import MuiCard from '../components/organization/Card.jsx';
+import NeedsPopup from '../components/organization/PopupNeed.jsx';
+import CardDetails from '../components/organization/CardDetails.jsx';
+import EditNeed from '../components/organization/EditNeed.jsx';
+import DeleteNeed from '../components/organization/DeleteNeed.jsx';
 
 export const DashboardOrganization = () => {
     const [needs, setNeeds] = useState([]);

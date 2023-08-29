@@ -79,7 +79,6 @@ export const addNeed = (req, res) => {
                 return res.status(201).json("Need created successfully");
             });
         } catch (error) {
-            console.log(error);
             return res.status(500).json(error);
         }
     });
@@ -96,7 +95,6 @@ export const deleteNeed = (req, res) => {
             return res.status(200).json("Need deleted successfully");
         });
     } catch(error) {
-        console.log(error);
         return res.status(500).json(error);
     }    
 };
@@ -122,7 +120,6 @@ export const updateNeed = (req, res) => {
             return res.status(200).json("Need updated successfully");
         });
     } catch(error){
-        console.log(error);
         return res.status(500).json(error);
     }    
 };

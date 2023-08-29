@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import axios from 'axios';
-import '../style/InventoryTable.scss';
+import '../../style/InventoryTable.scss';
 
 const StyledMenu = styled((props) => (
     <Menu

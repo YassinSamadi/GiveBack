@@ -1,4 +1,4 @@
-import '../style/Navbar.scss'
+import '../../style/Navbar.scss'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackNoText500x500.png';
@@ -20,17 +20,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import '../style/MobileNavbar.scss';
 import HomeIcon from '@mui/icons-material/Home';
-import { useLocation } from 'react-router-dom';
+import MapIcon from '@mui/icons-material/Map';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import ListItemLink from './MenuItemMobileLink';
+import HistoryIcon from '@mui/icons-material/History';
+import { useLocation } from 'react-router-dom';
+
+import ListItemLink from '../MenuItemMobileLink';
 
 
 const drawerWidth = 240;
 
 
 
-const MobileNavbarOrg = () => {
+const MobileNavbar = () => {
   const location = useLocation();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,17 +47,40 @@ const MobileNavbarOrg = () => {
     setProfileOpen(!profileOpen);
   };
 
+  const activeBackgroundColor = '#F0F0F0';
+  const inactiveBackgroundColor = 'transparent';
 
+  const user = JSON.parse(localStorage.getItem('user'));
+  const user_name = user ? user.first_name : '';
+  const user_lastname = user ? user.last_name : '';
+  const user_profilepic = user ? user.profile_pic : '';
 
+  const menuItems = [
+    { text: 'Home', icon: <HomeIcon />, link: '/dashboard/user' },
+    { text: 'Map', icon: <MapIcon />, link: '/map' },
+    { text: 'Inventories', icon: <InventoryIcon />, link: '/inventories'},
+    { text: 'History', icon: <HistoryIcon />, link: '/history' },
+  ];
+  const profileName = user_name; 
+  const profileLastName = user_lastname; 
+
+  
+  const drawerStyles = {
+    width: 240,
+    display: 'flex',
+    flexDirection: 'column',
+  };
+  
   const profileDrawerStyles = {
-    flex: 1, 
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: '16px',
     justifyContent: 'center',
   };
-
+  
+  
   const profileImageStyles = {
     width: '80px', 
     height: '80px', 
@@ -63,49 +88,11 @@ const MobileNavbarOrg = () => {
     marginBottom: '8px',
   };
 
-  const organization = JSON.parse(localStorage.getItem('organization'));
-  const organization_name = organization ? organization.name : '';
-  const organization_logo = organization ? organization.logo : '';
-
-  const iconStyles = {
-    color: '#90C088',
+  const bottomSectionStyles = {
+    display: 'flex',
+    flexDirection: 'column',
   };
-  const activeBackgroundColor = '#F0F0F0';
-  const inactiveBackgroundColor = 'transparent';
 
-  const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, link: '/dashboard/organization' },
-    { text: 'Inventory', icon: <InventoryIcon />, link: '/inventory' },
-    { text: 'Donations', icon: <VolunteerActivismIcon />, link: '/donations' },
-  ];
-  
-
-    
-  const profile  = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {[
-          { text: 'Edit Profile', icon: <AccountCircleIcon />, link: "/dashboard/organization" }, 
-          { text: 'Sign out', icon: <ExitToAppIcon />, link: "/inventory" } 
-        ].map(({ text, icon, link }) => (
-          <ListItem component={Link} to={link} key={text} style={{
-            backgroundColor: link === location.pathname ? activeBackgroundColor : inactiveBackgroundColor,
-          }} onClick={handleProfileToggle} disablePadding>
-            <ListItemButton>
-              <ListItemIcon style={iconStyles}>
-                {icon}
-              </ListItemIcon>
-              <ListItemText primary={text} style={{ color: '#90C088' }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-    </div>
-  
-  );
 
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;
 
@@ -133,14 +120,14 @@ const MobileNavbarOrg = () => {
                 <MenuIcon fontSize="large" />
             </IconButton>
             <Box>
-                <Link to="/dashboard/organization">
+                <Link to="/dashboard/user">
                     <img src={logo} className={'logo'} alt="logo" />
                 </Link>
             </Box>
             <Box>
                 <img
                     onClick={handleProfileToggle}
-                    src={`/assets/uploads/logo/${organization_logo}`}
+                    src={`/assets/uploads/profilepic/${user_profilepic}`}
                     alt="User Profile"
                     className="user-profile-image"
                 />
@@ -149,29 +136,29 @@ const MobileNavbarOrg = () => {
         </Toolbar>
       </AppBar>
       <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-        aria-label="mailbox folders"
-      >
-        <Drawer
-            container={container}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-                keepMounted: true, 
-            }}
-            sx={{
-                display: { xs: 'block', md: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+  component="nav"
+  sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+  aria-label="mailbox folders"
+>
+  <Drawer
+    container={container}
+    variant="temporary"
+    open={mobileOpen}
+    onClose={handleDrawerToggle}
+    ModalProps={{
+      keepMounted: true,
+    }}
+    sx={{
+      display: { xs: 'block', md: 'none' },
+      '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+    }}
+  >
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       
       <div>
         <div style={profileDrawerStyles}>
-          <img src={`/assets/uploads/logo/${organization_logo}`} alt="Profile" style={profileImageStyles} />
-          <div>{`${organization_name}`}</div>
+          <img src={`/assets/uploads/profilepic/${user_profilepic}`} alt="Profile" style={profileImageStyles} />
+          <div>{`${profileName} ${profileLastName}`}</div>
         </div>
       </div>
 
@@ -212,12 +199,11 @@ const MobileNavbarOrg = () => {
         </List>
       </div>
     </div>
-        </Drawer>
-      </Box>
-
+  </Drawer>
+</Box>
     </Box>
   );
 };
 
-export default MobileNavbarOrg;
+export default MobileNavbar;
 

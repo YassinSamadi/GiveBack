@@ -42,7 +42,6 @@ export const userDonation = (req, res) => {
                 });
             });
         } catch (error) {
-            console.log(error);
             return res.status(500).json(error);
         }
     });
@@ -264,7 +263,6 @@ export const getAllDonationsNoConfirmation = (req, res) => {
 
 export const deleteDonation = (req, res) => {
     const id = req.query.id; 
-    console.log(id);
     try {
         const deleteQuery = `DELETE FROM donation WHERE id = ?`;
         
@@ -273,14 +271,12 @@ export const deleteDonation = (req, res) => {
             return res.status(200).json("donation deleted successfully");
         });
     } catch(error) {
-        console.log(error);
         return res.status(500).json(error);
     }    
 };
 
 export const confirmDonation = (req, res) => {
     const id = req.query.id; 
-    console.log(id);
     try {
         const updateQuery = `UPDATE donation SET confirmation_date = NOW() WHERE id = ?`;
         
@@ -289,7 +285,6 @@ export const confirmDonation = (req, res) => {
             return res.status(200).json("donation confirmed successfully");
         });
     } catch(error) {
-        console.log(error);
         return res.status(500).json(error);
     }    
 };

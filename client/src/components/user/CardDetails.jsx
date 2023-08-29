@@ -11,12 +11,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slider from '@mui/material/Slider';
 import dayjs from 'dayjs';
 import { createTheme } from '@mui/material/styles';
-import '../style/CardDetails.scss';
+import '../../style/CardDetails.scss';
+import { TextField } from '@mui/material';
 
 const CardDetails = ({ open, handleClose, product }) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const [quantityDonated, setQuantityDonated] = useState(0);
+    const [quantityDonated, setQuantityDonated] = useState(1);
     
     if (!product) return null;
 
@@ -41,19 +42,19 @@ const CardDetails = ({ open, handleClose, product }) => {
                 donation_date,
                 need_id
             });
-            console.log('Donation made successfully');
             handleClose();
+            setQuantityDonated(1);
+            window.location.reload();
         } catch (error) {
             console.error('Error making donation:', error);
         }
     };
-    console.log('Product:', product.product_name);
 
     const imgSrc =  `../${product.product_picture}` ;
     const maxValue = product.quantity_required - product.quantity_fulfilled;
     
     const isFulfilled = product.quantity_fulfilled >= product.quantity_required ;
-    console.log('isFulfilled:', isFulfilled);
+
     const closeClickStyle = {
         cursor: 'pointer'
     };
@@ -69,7 +70,7 @@ const CardDetails = ({ open, handleClose, product }) => {
                     backgroundColor: 'white',
                     border: '3px solid #90C088',
                     fontSize: '40px', ...closeClickStyle}} 
-                    onClick={handleClose}
+                    onClick={handleClose }
                 />
                 <DialogTitle style={{position: 'absolute',
                     top: '250px', 
@@ -100,17 +101,6 @@ const CardDetails = ({ open, handleClose, product }) => {
                     <p>{product.description}</p>
                 </DialogContentText>
                 <hr/>
-                {/* <DialogContentText>
-                    <p >{product.organization_city}</p>
-                </DialogContentText>
-                <DialogContentText>
-                    <p >{product.quantity_fulfilled}</p>
-                </DialogContentText>
-                <DialogContentText>
-                    <p >{product.quantity_required}</p>
-                </DialogContentText> */}
-                
-                
                 
                 {isFulfilled ? (
                     <div class="donation-input">
@@ -131,20 +121,28 @@ const CardDetails = ({ open, handleClose, product }) => {
                             onChange={(e, newValue) => setQuantityDonated(newValue)}
                             aria-label="Default"
                             valueLabelDisplay="auto"
+                            min={1}
                             max={maxValue}
                             backgroundColor="secondary"
                             style={{ width: '60%' }}
                         />
-                        <input
+                        <TextField
                             type="number"
                             id="quantity_donated"
                             name="quantity_donated"
-                            min="0"
-                            max={maxValue}
+                            inputProps={{ min: 1, max: maxValue }}
                             value={quantityDonated}
-                            onChange={e => setQuantityDonated(e.target.value)}
-                            style={{ border: '1px solid #90C088', flex: 1 }}
+                            onChange={e => {
+                                const newValue = Math.min(Math.max(e.target.value, 1), maxValue); // Limit the value between min and max
+                                setQuantityDonated(newValue);
+                            }}
+                            sx={{
+                                '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: '#90C088',
+                                },
+                            }}
                         />
+
                         <Button
                             variant="outlined"
                             style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import HistoryCard from '../components/HistoryCard';
+import axios from 'axios';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Grid } from '@mui/material';
-import ReceivedTable from '../components/ReceivedTable';
-import axios from 'axios';
 import '../style/History.scss';
-
+import ReceivedTable from '../components/organization/ReceivedTable';
+import HistoryCard from '../components/HistoryCard';
 
 export const DonationsInfo = () => {
     const [totalReceived, setTotalReceived] = useState(0);
@@ -31,7 +30,6 @@ export const DonationsInfo = () => {
                     console.error('Error fetching top donator:', error);
                 });
     }, []);
-    console.log(topDonator);
     return (
         <div className="centered-container"> 
             <Grid sx={{backgroundColor: "#90C088"}} container spacing={2}>

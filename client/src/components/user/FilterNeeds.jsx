@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../style/Filter.scss'
+import '../../style/Filter.scss'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
-export const FilterLocation = () => {
+export const FilterNeeds = ({onProductFilterChange }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   // const [selectedLocationRange, setSelectedLocationRange] = useState('');
@@ -23,22 +23,28 @@ export const FilterLocation = () => {
       });
   }, []);
 
-  const handleCategoryChange = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories((prevCategories) =>
-        prevCategories.filter((c) => c !== category)
-      );
-    } else {
-      setSelectedCategories((prevCategories) => [...prevCategories, category]);
-    }
+  const handleClearFilters = () => {
+    setSelectedCategories([]); 
+    onProductFilterChange([]); 
   };
 
-  // const handleLocationRangeChange = (range) => {
-  //   setSelectedLocationRange(range);
-  // };
+
+  const handleCategoryChange = (category) => {
+    let updatedCategories;
+
+    if (selectedCategories.includes(category)) {
+      updatedCategories = selectedCategories.filter((c) => c !== category);
+    } else {
+      updatedCategories = [...selectedCategories, category];
+    }
+
+    setSelectedCategories(updatedCategories);
+
+    onProductFilterChange(updatedCategories);
+  };
+
 
   const dataForDisplay = expanded ? products : products.slice(0, 5);
-  // const hideAllProducts =  [] ;
 
 
   return (
@@ -46,7 +52,7 @@ export const FilterLocation = () => {
       <div className="section" >
         
       <h4 style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-    Location 
+    Needs 
     <button
       type="button"
       className={`expand-button ${hideList ? 'expanded' : ''}`}
@@ -79,9 +85,12 @@ export const FilterLocation = () => {
 )}
 
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <button className="expand-button" onClick={handleClearFilters}>Clear filters</button>
+      </div>
 
     </div>
   );
 };
 
-export default FilterLocation;
+export default FilterNeeds;

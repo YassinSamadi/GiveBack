@@ -104,7 +104,6 @@ export default function NeedsPopup() {
         date: formattedTime,
         product_id: inputs.product_id,
       });
-      console.log('Need created successfully');
       handleClose();
 
       window.location.reload();

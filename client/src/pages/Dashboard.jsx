@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Pagination } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import FilterNeeds from '../components/FilterNeeds.jsx';
-import FilterOrganizations from '../components/FilterOrganizations.jsx';
-import CardDetails from '../components/CardDetails.jsx';
-import CardNeedUser from '../components/CardNeedUser.jsx';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Pagination } from '@mui/material';
+import FilterNeeds from '../components/user/FilterNeeds.jsx';
+import FilterOrganizations from '../components/user/FilterOrganizations.jsx';
+import CardDetails from '../components/user/CardDetails.jsx';
+import CardNeedUser from '../components/user/CardNeedUser.jsx';
 
 dayjs.extend(relativeTime);
 
@@ -24,7 +24,6 @@ export const Dashboard = () => {
       .get('/needs/getspecificneed')
       .then((response) => {
         setNeeds(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error('Error fetching needs:', error);

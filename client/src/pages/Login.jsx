@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import '../style/login.scss';
 import '../style/App.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import logo from '../assets/logo/GiveBackNoText500x500.png';
 
@@ -27,13 +26,17 @@ export const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await login(inputs)
-      navigate("/dashboard/user");
+      await login(inputs);
+      navigate('/dashboard/user');
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setError(error.response.data);
+      } else {
+        setError('An error occurred.');
+      }
     }
-    catch (error) {
-      setError(error.response.data);
-    }
-  }
+  };
+  
   return (
     <div className='auth splitscreen'>
       <div className='left'></div>

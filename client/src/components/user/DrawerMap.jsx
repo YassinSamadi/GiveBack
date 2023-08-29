@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { MobileStepper } from '@mui/material';
-import '../style/DrawerMap.scss'
+import '../../style/DrawerMap.scss'
 import Slider from '@mui/material/Slider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -71,7 +71,6 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
               donation_date,
               need_id
           });
-          console.log('Donation made successfully');
           
       } catch (error) {
           console.error('Error making donation:', error);

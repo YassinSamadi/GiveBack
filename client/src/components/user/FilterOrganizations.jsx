@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../style/Filter.scss'
+import '../../style/Filter.scss'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -50,7 +50,6 @@ export const FilterOrganizations = ({ onOrganizationFilterChange }) => {
       <div className="section">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <h4>Organizations </h4>
-            <p>{console.log(organizations)}</p>
             <button
                 type="button"
                 className={`expand-button ${hideList ? 'expanded' : ''}`}
@@ -59,9 +58,6 @@ export const FilterOrganizations = ({ onOrganizationFilterChange }) => {
                 {hideList ? <ExpandMoreIcon /> : <ExpandLessIcon />}
             </button>
         </div>
-      
-    
-  
         
           {!hideList && dataForDisplay.map((organizations) => (
             <div key={organizations.id} className="checkbox-item">

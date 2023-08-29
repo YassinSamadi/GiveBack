@@ -1,10 +1,10 @@
-import '../style/Navbar.scss'
+import '../../style/Navbar.scss'
 import React, { useState,useContext } from 'react';
 import logo from '../assets/logo/GiveBackRight500x500.png';
 import profilepic from '../assets/logo/profile-pic.jpg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { OrganizationAuthContext } from '../context/authContextOrganizations';
+import { OrganizationAuthContext } from '../../context/authContextOrganizations';
 import { Link, useLocation } from 'react-router-dom';
 
 const OrganizationNavbar = () => {

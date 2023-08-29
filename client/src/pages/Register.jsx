@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackNoText500x500.png';
 
 export const Register = () => {
   const [inputs, setInputs] = useState({
     first_name: '',
+    last_name: '',
     email: '',
     password: '',
   });
@@ -16,16 +16,50 @@ export const Register = () => {
   const [inNeed, setInNeed] = useState(false);
   const navigate = useNavigate();
 
+  const isValidEmail = email => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
   const handleChange = e => {
+    let newError = null;
+  
     if (e.target.name === 'profile_pic') {
-      setProfilePic(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+  
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        newError = 'File size exceeds 5MB limit';
+      } else if (!['image/jpeg', 'image/jpg', 'image/png'].includes(selectedFile.type)) {
+        newError = 'Only JPG, JPEG, and PNG files are allowed';
+      }
+      setProfilePic(selectedFile);
     } else if (e.target.name === 'inNeed') {
       const inNeedValue = e.target.checked;
       setInNeed(inNeedValue);
     } else {
-      setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+      if (
+        (e.target.name === 'first_name' || e.target.name === 'last_name') &&
+        /\d/.test(e.target.value)
+      ) {
+        newError = 'Names cannot contain numbers';
+      }
+  
+      if (e.target.name === 'email' && !isValidEmail(e.target.value)) {
+        newError = 'Invalid email format';
+      } else if (e.target.name === 'password' && e.target.value.length < 6) {
+        newError = 'Password must be at least 6 characters long';
+      } else if ((e.target.name === 'first_name' || e.target.name === 'last_name') && e.target.value.length > 20) {
+        newError = 'Max 20 characters allowed';
+      }
     }
+  
+    setError(newError);
+  
+    setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  
+  
+  
+  
 
   const generateUniqueFilename = originalFilename => {
     const timestamp = Date.now();
@@ -36,6 +70,11 @@ export const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    if (error || !inputs.first_name || !inputs.last_name || !inputs.email || !inputs.password) {
+      setError('Please fill in all required fields.');
+      return;
+    }
     try {
      
   if (profilePic) {
@@ -50,18 +89,23 @@ export const Register = () => {
 
         await axios.post('/auth/register', {
           first_name: inputs.first_name,
+          last_name: inputs.last_name,
           email: inputs.email,
           password: inputs.password,
           profile_pic: imageName,
           inNeed: inNeed,
         });
+
+        setError(null);
+
+        window.location.href = '/login';
     }
     } catch (error) {
-      if (error.response && error.response.data) {
-        setError(error.response.data);
-      } else {
-        setError("An error occurred."); 
-      }
+    if (error.response && error.response.data) {
+      setError(error.response.data);
+    } else {
+      setError('An error occurred.');
+    }
     }
   };
 
@@ -71,9 +115,10 @@ export const Register = () => {
       <div className='right'>
         <img src={logo} alt='Logo' width={120} height={120} />
         <form>
-          <input required type='text' placeholder='Name' name='first_name' onChange={handleChange} />
-          <input required type='text' placeholder='Email' name='email' onChange={handleChange} />
-          <input required type='password' placeholder='Password' name='password' onChange={handleChange} />
+          <input required maxLength={20} type='text' placeholder='First name' name='first_name' onChange={handleChange} />
+          <input required maxLength={20} type='text' placeholder='Last name' name='last_name' onChange={handleChange} />
+          <input required maxLength={40} type='text' placeholder='Email' name='email' onChange={handleChange} />
+          <input required maxLength={100} type='password' placeholder='Password' name='password' onChange={handleChange} />
           <input type='file' accept='.jpg, .jpeg, .png' name='profile_pic' onChange={handleChange} />
           <input
             type='checkbox'
@@ -82,7 +127,8 @@ export const Register = () => {
           />
           <label htmlFor='inNeed'>I am in need</label>
           <button onClick={handleSubmit} type='submit'>Register</button>
-          {error && <p>{error.message || "An error occurred."}</p>}
+          {error && <p>{error}</p>}
+
 
           <span>Do you already have an account?<Link to='/login'>Log in</Link></span>
         </form>

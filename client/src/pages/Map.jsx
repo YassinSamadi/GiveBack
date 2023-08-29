@@ -1,5 +1,5 @@
 import React from 'react'
-import CustomMap from '../components/Map'
+import CustomMap from '../components/user/Map.jsx'
 
 
 export const Map = () => {
