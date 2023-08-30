@@ -65,10 +65,10 @@ export const Dashboard = () => {
   return (
     <Grid container spacing={2} sx={{ margin: '0 auto', width: '100%' }}>
       <Grid item xs={12} md={3}>
-        <div class='center-filter'>
+        <div className='center-filter'>
           <FilterNeeds onProductFilterChange={handleProductFilterChange} />
         </div>
-        <div class='center-filter '>
+        <div className='center-filter '>
           <FilterOrganizations onOrganizationFilterChange={handleOrganizationFilterChange} />
         </div>
       </Grid>
@@ -77,7 +77,7 @@ export const Dashboard = () => {
         <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
 
         {displayedNeeds.length === 0 ? (
-          <div class='empty-list'>
+          <div className='empty-list'>
             <h2>No needs to display.</h2>
           </div>
         ) : (
@@ -101,7 +101,7 @@ export const Dashboard = () => {
           </Grid>
         )}
 
-        <div class="pagination">
+        <div className="pagination">
           <Pagination count={numPages} page={page} onChange={handlePageChange} />
         </div>
       </Grid>

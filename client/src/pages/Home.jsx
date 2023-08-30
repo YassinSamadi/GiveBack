@@ -22,10 +22,10 @@ export const Home = () => {
       <Grid container spacing={0} sx={{ backgroundColor: "#EDECEC", color: "white" }}>
       <Grid item xs={12} md={12} lg={4} sx={{ padding: "20px" }}>
           <div className="grid-item-container green-background" >
-            <div class="image-container">
+            <div className="image-container">
               <img src={donation} alt="donation" className="image-midsection" />
             </div>
-            <div class="about-container ">
+            <div className="about-container ">
               <h2>Discover & Donate</h2>
               <p >
               Find local food banks effortlessly and contribute to your community's well-being.
@@ -36,10 +36,10 @@ export const Home = () => {
 
         <Grid item xs={12} md={12} lg={4} sx={{ padding: "20px" }}>
           <div className="grid-item-container green-background">
-            <div class="image-container">
+            <div className="image-container">
               <TravelExploreIcon sx={{fontSize:"100px"}}/>
             </div>
-            <div class="about-container">
+            <div className="about-container">
               <h2>Suggested Donations</h2>
               <p >
               Make a meaningful impact by donating the most needed food items.
@@ -50,10 +50,10 @@ export const Home = () => {
 
         <Grid item xs={12} md={12} lg={4} sx={{ padding: "20px" }}>
           <div className="grid-item-container green-background">
-            <div class="image-container">
+            <div className="image-container">
             <BarChartIcon sx={{fontSize:"100px"}}/>
             </div>
-            <div class="about-container">
+            <div className="about-container">
               <h2>Track Your Giving</h2>
               <p >
               Keep tabs on your contributions and plan future donations with ease.
@@ -64,11 +64,11 @@ export const Home = () => {
       </Grid>
 
       <div id="howitworks" className="extra_info">
-        <div class="full-width" >
-          <div class="image-container">
+        <div className="full-width" >
+          <div className="image-container">
             <img src={howwework} alt="aboutus" className="extra-info-image"/>
           </div>
-          <div class="extra-info-container height-extra-info">
+          <div className="extra-info-container height-extra-info">
             <h2>Empowering Impactful Donations</h2>
             <p>
             Our app doesn't just direct you to the nearest centers; it empowers you to make donations that truly matter. 
@@ -77,11 +77,11 @@ export const Home = () => {
             </p>
           </div>
         </div>
-        <div class="full-width" >
-        <div class="image-container mobile">
+        <div className="full-width" >
+        <div className="image-container mobile">
             <img src={whatwedo} alt="aboutus" className="extra-info-image" />
           </div>
-          <div class="extra-info-container height-extra-info">
+          <div className="extra-info-container height-extra-info">
           <h2>How We Work</h2>
             <p>
             We leverage cutting-edge location-based technology to 
@@ -91,17 +91,17 @@ export const Home = () => {
             centers where you can make a tangible impact.
             </p>
           </div>
-          <div class="image-container desktop">
+          <div className="image-container desktop">
             <img src={whatwedo} alt="aboutus" className="extra-info-image" />
           </div>
         </div>
       </div>
 
       <div id="aboutus" className="aboutus">
-        <div class="image-container">
+        <div className="image-container">
           <img src={aboutus} alt="aboutus" className="aboutus-image" />
         </div>
-        <div class="about-container about-us">
+        <div className="about-container about-us">
           <h2>About us</h2>
           <p>
           Welcome to GiveBack, where technology meets altruism. 

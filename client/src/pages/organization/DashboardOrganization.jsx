@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useContext} from 'react';
 import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -9,7 +9,7 @@ import NeedsPopup from '../../components/organization/AddNeed.jsx';
 import CardDetails from '../../components/user/cardDetails.jsx';
 import EditNeed from '../../components/organization/EditNeed.jsx';
 import DeleteNeed from '../../components/organization/DeleteNeed.jsx';
-
+import { OrganizationAuthContext } from '../../context/authContextOrganizations';
 export const DashboardOrganization = () => {
     const [needs, setNeeds] = useState([]);
     const [products, setProducts] = useState([]);
@@ -17,11 +17,9 @@ export const DashboardOrganization = () => {
     const [editingNeed, setEditingNeed] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [deletingNeed, setDeletingNeed] = useState(null);
-    const [organization, setOrganization] = useState({});
+    const {organization, setOrganization} = useContext(OrganizationAuthContext);
 
     useEffect(() => {
-        const org = JSON.parse(localStorage.getItem('organization'));
-        setOrganization(org);
 
         axios
             .get('/products')
@@ -35,7 +33,7 @@ export const DashboardOrganization = () => {
         axios
         .get('/needs/getallneeds')
         .then((response) => {
-            setNeeds(response.data.filter(need => need.org_id === org.id));
+            setNeeds(response.data.filter(need => need.org_id === organization.id));
         })
         .catch((error) => {
             console.error('Error fetching needs:', error);
@@ -71,31 +69,35 @@ export const DashboardOrganization = () => {
 
     return (
         <>
-            <div class="create-need">
+            <div className="create-need">
                 <NeedsPopup />
             </div>
             <Grid container spacing={2} sx={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-                <Grid item xs={12} md={6} sx={{ paddingLeft: '0px'}}>
+                <Grid item xs={12} md={6} sx={{ paddingLeft: '0px' }}>
                     <div>
-                    <h1 className='need-title'>Active needs</h1>
-                    {sortedActiveNeeds.map((need) => {
-                        const product = getProductByNeed(need);
-                        return (
-                                <MuiCard
-                                    key={need.id}
-                                    imageSrc={product && product.picture ? require(`../../${product.picture}`) : require('../../assets/products/sugar.jpg')}                            
-                                    title={need.title}
-                                    description={need.description}
-                                    nameOrganization={organization.name || 'Organization'}
-                                    date={need.date}
-                                    required={need.quantity_required}
-                                    fulfilled={need.quantity_fulfilled}
-                                    showActions={true}
-                                    onEdit={() => {handleEdit(need);}}
-                                    onDelete={() => {handleDelete(need);}}
-                                />
-                        );
-                    })}
+                        <h1 className='need-title'>Active needs</h1>
+                        {sortedActiveNeeds.length > 0 ? (
+                            sortedActiveNeeds.map((need) => {
+                                const product = getProductByNeed(need);
+                                return (
+                                    <MuiCard
+                                        key={need.id}
+                                        imageSrc={product && product.picture ? require(`../../${product.picture}`) : require('../../assets/products/sugar.jpg')}
+                                        title={need.title}
+                                        description={need.description}
+                                        nameOrganization={organization.name || 'Organization'}
+                                        date={need.date}
+                                        required={need.quantity_required}
+                                        fulfilled={need.quantity_fulfilled}
+                                        showActions={true}
+                                        onEdit={() => { handleEdit(need); }}
+                                        onDelete={() => { handleDelete(need); }}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <p className='center-empty'>No active needs yet</p>
+                        )}
                     </div>
                 </Grid>
                 <DeleteNeed open={!!deletingNeed} handleClose={() => setDeletingNeed(null)} need={deletingNeed} />
@@ -103,23 +105,27 @@ export const DashboardOrganization = () => {
                 <EditNeed open={isEditing} handleClose={handleClose} need={editingNeed} products={products} />
 
                 <Grid item xs={12} md={6}>
-                <h1 className='need-title'>History</h1>
-                    {fulfilledNeeds.map((need) => {
-                        const product = getProductByNeed(need);
-                        return (
-                            <MuiCard
-                                key={need.id}
-                                imageSrc={product && product.picture ? require(`../../${product.picture}`) : require('../../assets/products/sugar.jpg')}
-                                title={need.title}
-                                description={need.description}
-                                nameOrganization={organization.name || 'Organization'}
-                                date={need.date}
-                                required={need.quantity_required}
-                                fulfilled={need.quantity_fulfilled}
-                                history={true}
-                            />
-                        )
-                    })}
+                    <h1 className='need-title'>History</h1>
+                    {fulfilledNeeds.length > 0 ? (
+                        fulfilledNeeds.map((need) => {
+                            const product = getProductByNeed(need);
+                            return (
+                                <MuiCard
+                                    key={need.id}
+                                    imageSrc={product && product.picture ? require(`../../${product.picture}`) : require('../../assets/products/sugar.jpg')}
+                                    title={need.title}
+                                    description={need.description}
+                                    nameOrganization={organization.name || 'Organization'}
+                                    date={need.date}
+                                    required={need.quantity_required}
+                                    fulfilled={need.quantity_fulfilled}
+                                    history={true}
+                                />
+                            );
+                        })
+                    ) : (
+                        <p className='center-empty'>No history yet</p>
+                    )}
                 </Grid>
             </Grid>
         </>

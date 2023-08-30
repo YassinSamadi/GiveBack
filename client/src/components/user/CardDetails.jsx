@@ -81,7 +81,7 @@ const CardDetails = ({ open, handleClose, product }) => {
                     <hr/>
                     
                     {isFulfilled ? (
-                        <div class="donation-input">
+                        <div className="donation-input">
                             <Button
                                 variant="outlined"
                                 style={{ backgroundColor:  'lightgrey', color:'white', borderColor: 'white' }} 
@@ -92,7 +92,7 @@ const CardDetails = ({ open, handleClose, product }) => {
                             <Typography>Need fullfilled</Typography>
                         </div>
                     ) : (
-                        <div class="donation-input">
+                        <div className="donation-input">
                             <Slider
                                 theme={sliderTheme}
                                 value={quantityDonated}

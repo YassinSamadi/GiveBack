@@ -106,7 +106,9 @@ export const Pending = () => {
             </Search>
         </div>
         {donations.length === 0 ? (
-          <PendingCard first_name={"No donations available"}/>
+          <div className='center-div'>
+            <p>No donations available</p>
+          </div>
         ):( donations.map((donation) => (
           <div className='center-div'>
               <PendingCard  onDelete={() => {handleDelete(donation);}} donation_id={donation.id}  first_name={donation.first_name} last_name={donation.last_name} donation_title={donation.need_title} need_id={donation.need_id} amount={donation.quantity_donated}/>

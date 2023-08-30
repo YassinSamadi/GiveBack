@@ -35,7 +35,14 @@ export const ReceivedTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {donations.map((donation) => (
+                    {donations.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={5} align="center">
+                                No donations to display.
+                            </TableCell>
+                        </TableRow> 
+                    ) : (
+                        donations.map((donation) => (
                         <TableRow
                             key={donation.donation_date}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -48,7 +55,8 @@ export const ReceivedTable = () => {
                             <TableCell align="right">{donation.user_name}</TableCell>
                             <TableCell align="right">{donation.donation_date}</TableCell>
                         </TableRow>
-                    ))}
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>

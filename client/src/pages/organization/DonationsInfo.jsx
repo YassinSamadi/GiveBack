@@ -6,7 +6,7 @@ import ReceivedTable from '../../components/organization/ReceivedTable';
 import HistoryCard from '../../components/HistoryCard';
 
 export const DonationsInfo = () => {
-    const [totalReceived, setTotalReceived] = useState(0);
+    const [totalReceived, setTotalReceived] = useState("");
     const [topDonator, setTopDonator] = useState("");
 
 
@@ -29,21 +29,37 @@ export const DonationsInfo = () => {
                     console.error('Error fetching top donator:', error);
                 });
     }, []);
+
     return (
         <div className="centered-container"> 
-            <Grid className='green-background' container spacing={2}>
+        <Grid className='green-background' container spacing={2}>
+            {totalReceived !== null && totalReceived !== '' && totalReceived !== 0 ? (
+                <>
+                    <Grid item xs={12} md={6}>
+                        <HistoryCard icon={EmojiEventsIcon} number={totalReceived} description={'Total Received'} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <HistoryCard icon={EmojiEventsIcon} number={topDonator} description={'Top donator'} />
+                    </Grid>
+                </>
+            ) : (
+                <>
                 <Grid item xs={12} md={6}>
-                <HistoryCard icon={EmojiEventsIcon} number={totalReceived} description={'Total Received'} />
+                    <HistoryCard icon={EmojiEventsIcon} number={0} description={'Total Received'} />
                 </Grid>
                 <Grid item xs={12} md={6}>
                 <HistoryCard icon={EmojiEventsIcon} number={topDonator} description={'Top donator'} />
-                </Grid>
             </Grid>
-            
-            <h1>History</h1>
-            <ReceivedTable/>
-        </div>
+            </>
+            )}
+        </Grid>
+        
+        <h1>History</h1>
+        <ReceivedTable/>
+    </div>
+
     );
+
 };
 
 export default DonationsInfo;

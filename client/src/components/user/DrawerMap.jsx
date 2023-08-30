@@ -84,10 +84,11 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
           },
         },
         MuiButtonBase: {
-          styleOverrides: {
-            root: {color: '#90C088', },
-            disabled: {color: 'rgba(144, 192, 136, 0.5)', },
-          },
+          "root": {    
+            "&.Mui-disabled": {      
+              "color": "rgba(144, 192, 136, 0.5)"    
+            }  
+          }
         },
       },
     });
@@ -238,7 +239,6 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                             type="number"
                             id="quantity_donated"
                             name="quantity_donated"
-                            
                             className='quantity-donated-text-desktop'
                           >{quantityDonated}</p>
                           <Button
