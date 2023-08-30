@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/GiveBackNoText500x500.png';
-import profilepic from '../../assets/logo/profile-pic.jpg';
+import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,13 +23,15 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import ListItemLink from '../MenuItemMobileLink';
 import '../../style/organization/mobileNavbarOrg.scss'
-
+import { OrganizationAuthContext } from '../../context/authContextOrganizations';
+import { useContext } from 'react';
 
 const drawerWidth = 240;
 
 
 const MobileNavbarOrg = () => {
   const location = useLocation();
+  const {organization, logout} = useContext(OrganizationAuthContext);
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,7 +45,6 @@ const MobileNavbarOrg = () => {
     setProfileOpen(!profileOpen);
   };
 
-  const organization = JSON.parse(localStorage.getItem('organization'));
   const organization_name = organization ? organization.name : '';
   const organization_logo = organization ? organization.logo : '';
 
@@ -86,7 +87,7 @@ const MobileNavbarOrg = () => {
             <Box>
                 <img
                     onClick={handleProfileToggle}
-                    src={`/assets/uploads/logo/${organization_logo}`}
+                    src={organization_logo ? `/assets/uploads/logo/${organization_logo}` : defaultProfilePic}
                     alt="User Profile"
                     className="user-profile-image"
                 />
@@ -115,7 +116,7 @@ const MobileNavbarOrg = () => {
           <div className='drawer-container'>
             <div>
               <div className='profile-drawer'>
-                <img src={`/assets/uploads/logo/${organization_logo}`} alt="Profile" className='profile-image' />
+                <img  src={organization_logo ? `/assets/uploads/logo/${organization_logo}` : defaultProfilePic} alt="Profile" className='profile-image' />
                 <div>{`${organization_name}`}</div>
               </div>
             </div>
@@ -131,24 +132,27 @@ const MobileNavbarOrg = () => {
             <div>
               <List>
                 {[
-                  { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/dashboard/organization' },
-                  { text: 'Sign out', icon: <ExitToAppIcon />, link: '/inventory' },
-                ].map(({ text, icon, link }) => (
-                  
+                  { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/editprofileorg', onClick: handleDrawerToggle },
+                  { text: 'Sign out', icon: <ExitToAppIcon />, link: '/home', onClick: logout },
+                ].map(({ text, icon, link, onClick }) => (
                   <ListItem
                     component={Link}
                     to={link}
                     key={text}
                     sx={{
-                      backgroundColor: link === location.pathname ? '#F0F0F0' :  'transparent',
+                      backgroundColor: link === location.pathname ? '#F0F0F0' : 'transparent',
                     }}
-                    onClick={handleProfileToggle}
+                    onClick={(event) => {
+                      if (onClick) {
+                        onClick(event);
+                      }
+                    }}
                     disablePadding
                   >
                     <Divider />
                     <ListItemButton>
-                      <ListItemIcon sx={{color: '#90C088'}}>{icon}</ListItemIcon>
-                      <ListItemText primary={text} className='green-color' />
+                      <ListItemIcon sx={{ color: '#90C088' }}>{icon}</ListItemIcon>
+                      <ListItemText primary={text} sx={{ color: '#90C088' }} />
                     </ListItemButton>
                   </ListItem>
                 ))}

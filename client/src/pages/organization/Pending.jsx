@@ -18,8 +18,6 @@ export const Pending = () => {
           backgroundColor: alpha(theme.palette.common.white, 0.25),
         },
         marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
         marginLeft: theme.spacing(3),
         width: 'auto',
       }));

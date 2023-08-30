@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../style/user/editProfile.scss'; 
 import axios from 'axios';
+import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
 
 const EditProfile = () => {
     const [formData, setFormData] = useState({
@@ -143,7 +144,7 @@ const EditProfile = () => {
                     className="input-field"/>
                 <label>Profile Picture</label>
                 <img
-                    src={`/assets/uploads/profilepic/${user_profilepic}`}
+                    src={user_profilepic ? `/assets/uploads/profilepic/${user_profilepic}` : defaultProfilePic}
                     alt="User Profile"
                     className="user-profile-image"
                     />

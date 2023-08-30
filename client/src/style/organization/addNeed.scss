@@ -34,17 +34,23 @@
     margin-left: 110px;
 }
 
+
 .select-product{
     border: 1px solid lightgrey;
     font-size: 17px;
-    flex: 1; 
     height: 40px;
+    flex: 2;
+}
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 .container-product-amount{
     display: flex;
-    align-items: center;
     margin-bottom: 10px;
+    flex-direction: column;
 }
 .flex-2{
     flex: 2;

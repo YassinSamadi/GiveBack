@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, IconButton,useMediaQuery } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { createTheme} from '@mui/material/styles';
 import dayjs from 'dayjs';
 import '../../style/organization/card.scss'
 const MuiCard = ({ imageSrc, title, description, date, fulfilled, required, onClick, showActions, onEdit, onDelete }) => {

@@ -25,6 +25,7 @@ import MobileNavbarOrg from "./components/organization/MobileNavbarOrganization"
 import Footer from "./components/Footer";
 import Navbar from "./components/user/Navbar";
 import MobileNavbar from "./components/user/MobileNavbar";
+import EditProfileOrg from "./pages/organization/EditProfileOrg";
 import './style/App.scss';
 import './style/global.scss'
 
@@ -161,6 +162,15 @@ const router = createBrowserRouter([
               <Pending/> 
           </PrivateRouteOrganization>
       },
+      {
+        path: "/editprofileorg",
+        element: 
+        (
+          <PrivateRouteOrganization>
+              <EditProfileOrg/>
+          </PrivateRouteOrganization>
+        ),
+      }
     ],
   },
   {

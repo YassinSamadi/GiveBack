@@ -72,6 +72,15 @@ export default function NeedsPopup() {
 
     const formattedTime = adjustedTime.toISOString().slice(0, 19).replace('T', ' ');
 
+    if (!inputs.title || !inputs.description || !inputs.quantity_required || !inputs.product_id) {
+      setErrors({
+        title: inputs.title ? '' : 'Title is required.',
+        description: inputs.description ? '' : 'Description is required.',
+        quantity_required: inputs.quantity_required ? '' : 'Quantity is required.',
+        product_id: inputs.product_id ? '' : 'Product is required.',
+      });
+      return;
+    }
 
     try {
       await axios.post('/needs/addneed', {
@@ -160,46 +169,50 @@ export default function NeedsPopup() {
             {errors.description && <div className='red-color  error-margin'>{errors.description}</div>}
           </div>
 
-          <div className='container-product-amount'>
+          <div className='container-product-amount '>
+            <div className='center-items'>
               <label
                 htmlFor="product_id"
                 className='label-title'
               >
                 Product:
               </label>
-              <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} className='select-product'>
+              <select className='select-product' id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} >
                 <option value="" disabled selected hidden>Select a product</option>
                 {products.map((product) => (
                   <option key={product.id} value={product.id}>{product.name}</option>
                 ))}
               </select>
-              
-            </div>
+              </div>
+              {errors.product_id && <div className='red-color  error-margin'>{errors.product_id}</div>}
+          </div>
 
             
 
             <div className='container-product-amount'>
-              <label
-                htmlFor="quantity_required"
-                className='label-title'
-              >
-                Quantity:
-              </label>
-              
-              <TextField
-                type="number"
-                id="quantity_required"
-                name="quantity_required"
-                inputProps={{ min: 1 , max: 250}}
-                value={inputs.quantity_required}
-                onChange={handleChange}
-                sx={{
-                  width: '100%',
-                  '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#90C088',
-                  },
-                }}
-              />
+              <div className='center-items'>
+                <label
+                  htmlFor="quantity_required"
+                  className='label-title'
+                >
+                  Quantity:
+                </label>
+                <TextField
+                  type="number"
+                  id="quantity_required"
+                  name="quantity_required"
+                  inputProps={{ min: 1 , max: 250}}
+                  value={inputs.quantity_required}
+                  onChange={handleChange}
+                  sx={{
+                    width: '100%',
+                    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#90C088',
+                    },
+                  }}
+                />
+              </div>
+                {errors.quantity_required && <div className='red-color  error-margin'>{errors.quantity_required}</div>}
             </div>
 
             <div className='title-add'>

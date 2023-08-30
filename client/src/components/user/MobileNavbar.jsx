@@ -1,8 +1,8 @@
 import '../../style/user/mobileNavbar.scss'
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/GiveBackNoText500x500.png';
-import profilepic from '../../assets/logo/profile-pic.jpg';
+import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,6 +24,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import HistoryIcon from '@mui/icons-material/History';
 import { useLocation } from 'react-router-dom';
 import ListItemLink from '../MenuItemMobileLink';
+import { AuthContext } from '../../context/authContext';
 
 
 const drawerWidth = 240;
@@ -34,6 +35,7 @@ const MobileNavbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const [profileOpen, setProfileOpen] = useState(false);
+  const {user, logout} = useContext(AuthContext);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -43,7 +45,7 @@ const MobileNavbar = () => {
     setProfileOpen(!profileOpen);
   };
 
-  const user = JSON.parse(localStorage.getItem('user'));
+  
   const user_name = user ? user.first_name : '';
   const user_lastname = user ? user.last_name : '';
   const user_profilepic = user ? user.profile_pic : '';
@@ -87,7 +89,7 @@ const MobileNavbar = () => {
             <Box>
                 <img
                     onClick={handleProfileToggle}
-                    src={`/assets/uploads/profilepic/${user_profilepic}`}
+                    src={user_profilepic ? `/assets/uploads/profilepic/${user_profilepic}` : defaultProfilePic}
                     alt="User Profile"
                     className="user-profile-image"
                 />
@@ -116,7 +118,7 @@ const MobileNavbar = () => {
       
       <div>
         <div className='profile-drawer'>
-          <img src={`/assets/uploads/profilepic/${user_profilepic}`} alt="Profile" className='profile-image' />
+          <img src={user_profilepic ? `/assets/uploads/profilepic/${user_profilepic}` : defaultProfilePic} alt="Profile" className='profile-image' />
           <div>{`${profileName} ${profileLastName}`}</div>
         </div>
       </div>
@@ -132,30 +134,33 @@ const MobileNavbar = () => {
 
       
       <div>
-        <List>
-          {[
-            { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/dashboard/organization' },
-            { text: 'Sign out', icon: <ExitToAppIcon />, link: '/inventory' },
-          ].map(({ text, icon, link }) => (
-            
-            <ListItem
-              component={Link}
-              to={link}
-              key={text}
-              sx={{
-                backgroundColor: link === location.pathname ? '#F0F0F0' : 'transparent',
-              }}
-              onClick={handleProfileToggle}
-              disablePadding
-            >
-              <Divider />
-              <ListItemButton>
-                <ListItemIcon sx={{ color: '#90C088' }}>{icon}</ListItemIcon>
-                <ListItemText primary={text} sx={{ color: '#90C088' }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      <List>
+        {[
+          { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/editprofile', onClick: handleDrawerToggle },
+          { text: 'Sign out', icon: <ExitToAppIcon />, link: '/home', onClick: logout },
+        ].map(({ text, icon, link, onClick }) => (
+          <ListItem
+            component={Link}
+            to={link}
+            key={text}
+            sx={{
+              backgroundColor: link === location.pathname ? '#F0F0F0' : 'transparent',
+            }}
+            onClick={(event) => {
+              if (onClick) {
+                onClick(event);
+              }
+            }}
+            disablePadding
+          >
+            <Divider />
+            <ListItemButton>
+              <ListItemIcon sx={{ color: '#90C088' }}>{icon}</ListItemIcon>
+              <ListItemText primary={text} sx={{ color: '#90C088' }} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
       </div>
     </div>
   </Drawer>

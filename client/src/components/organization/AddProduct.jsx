@@ -24,8 +24,8 @@ export default function AddProduct() {
 
   
   const [errors, setErrors] = useState({
-    description: '',
-    title: '',
+    quantity: '',
+    product_id: '',
   });
 
   const handleClickOpen = () => {
@@ -63,13 +63,14 @@ export default function AddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const now = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels' });
 
-    const adjustedTime = new Date(now);
-    adjustedTime.setHours(adjustedTime.getHours() + 2);
-
-    const formattedTime = adjustedTime.toISOString().slice(0, 19).replace('T', ' ');
-
+    if (!inputs.product_id || !inputs.quantity) {
+      setErrors({
+        product_id: inputs.product_id ? '' : 'Product is required.',
+        quantity: inputs.quantity ? '' : 'Quantity is required.',
+      });
+      return;
+    }
 
     try {
       await axios.post('/inventory/addproduct', {
@@ -115,11 +116,10 @@ export default function AddProduct() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <div className='dialog-items'>
-                <label
-                  htmlFor="product_id"
-                  style={{  marginRight: '10px', minWidth: '100px' }}
-                >
+
+            <div className='dialog-item-quantity-add'>
+              <div className='center-items'>
+                <label htmlFor="product_id" className='label-titles'>
                   Product:
                 </label>
                 <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} className='product-select'>
@@ -128,29 +128,31 @@ export default function AddProduct() {
                     <option key={product.id} value={product.id}>{product.name}</option>
                   ))}
                 </select>
+              </div>
+              {errors.product_id && <div className='error-message error-margin3'>{errors.product_id}</div>}
             </div>
 
-            <div className='dialog-items'>
-              <label
-                htmlFor="quantity"
-                style={{  marginRight: '10px', minWidth: '100px' }}
-              >
-                Quantity:
-              </label>
-              
-              <TextField
-                type="number"
-                id="quantity"
-                name="quantity"
-                inputProps={{ min: 1 , max: 250}}
-                value={inputs.quantity}
-                onChange={handleChange}
-                sx={{
-                  '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#90C088',
-                  },
-                }}
-              />
+            <div className='dialog-item-quantity-add'>
+              <div className='center-items'>
+                <label htmlFor="quantity" className='label-titles'>
+                  Quantity:
+                </label>
+                <TextField
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  inputProps={{ min: 1, max: 250 }}
+                  value={inputs.quantity}
+                  onChange={handleChange}
+                  sx={{
+                    width: '100%',
+                    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#90C088',
+                    },
+                  }}
+                />
+              </div>
+              {errors.quantity && <div className='error-message error-margin3'>{errors.quantity}</div>}
             </div>
 
             <div className='dialog-items'>

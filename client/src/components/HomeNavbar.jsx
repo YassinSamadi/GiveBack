@@ -1,6 +1,5 @@
 import '../style/HomeNavbar.scss'
 import React, { useState } from 'react';
-
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo/GiveBackRight500x500.png';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -10,7 +9,6 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Toolbar from '@mui/material/Toolbar';

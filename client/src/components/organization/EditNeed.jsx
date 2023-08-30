@@ -55,6 +55,12 @@ const EditNeed = ({ open, handleClose, need, products }) => {
 
   const handleSubmit = async () => {
     try {
+      if (!formData.title || !formData.description || !formData.quantity_required || !formData.product_id) {
+        setTitleError(formData.title ? '' : 'Title is required.');
+        setDescriptionError(formData.description ? '' : 'Description is required.');
+        return;
+      }
+      
       await axios.put('/needs/updateNeed', formData);
       handleClose();
     } catch (error) {
@@ -80,7 +86,7 @@ const EditNeed = ({ open, handleClose, need, products }) => {
                   className='input-field-title'
                 />
               </div>
-              {titleError && <span className='red-color'>{titleError}</span>}
+              {titleError && <span className='error-margin2 red-color'>{titleError}</span>}
             </div>
 
             <div className='container-text'>
@@ -95,35 +101,39 @@ const EditNeed = ({ open, handleClose, need, products }) => {
                   className='input-field-description'
                 />
               </div>
-              {descriptionError && <span className='red-color'>{descriptionError}</span>}
+              {descriptionError && <span className=' error-margin2 red-color'>{descriptionError}</span>}
             </div>
 
             <div className='container-product-amount'>
-              <label htmlFor="product_id" className='label-edit '>Product:</label>
-              <Select
-                name="product_id"
-                value={formData.product_id || ''}
-                onChange={handleProductChange}
-                className='flex-2'
-              >
-                {products.map((product) => (
-                  <MenuItem key={product.id} value={product.id}>
-                    {product.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <div className='center-items'>
+                <label htmlFor="product_id" className='label-edit '>Product:</label>
+                <Select
+                  name="product_id"
+                  value={formData.product_id || ''}
+                  onChange={handleProductChange}
+                  className='flex-2'
+                >
+                  {products.map((product) => (
+                    <MenuItem key={product.id} value={product.id}>
+                      {product.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
             </div>
 
             <div className='container-product-amount'>
-              <label htmlFor="quantity_required" className='label-edit'>Amount Required:</label>
-              <TextField
-                type="number"
-                name="quantity_required"
-                value={formData.quantity_required || ''}
-                onChange={handleChange}
-                inputProps={{ min: 1, max: 250 }}
-                className='flex-2'
-              />
+              <div className='center-items'>
+                <label htmlFor="quantity_required" className='label-edit'>Amount Required:</label>
+                <TextField
+                  type="number"
+                  name="quantity_required"
+                  value={formData.quantity_required || ''}
+                  onChange={handleChange}
+                  inputProps={{ min: 1, max: 250 }}
+                  className='flex-2'
+                />
+              </div>
             </div>
 
 

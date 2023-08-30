@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { Button, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper } from '@mui/material';
+import { Button, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import axios from 'axios';
-import '../../style/inventoryTable.scss';
+import '../../style/organization/inventoryTable.scss';
+import { createTheme} from '@mui/material/styles';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -48,13 +49,17 @@ const StyledMenu = styled((props) => (
     },
 }));
 
+
+const theme = createTheme();
+
+
 export const InventoryTable = () => {
     const [products, setProducts] = useState([]);
     const [formData, setFormData] = useState({
         quantity: 0,
     });
 
-
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         
@@ -114,13 +119,13 @@ export const InventoryTable = () => {
     }
 
     return (
-        <TableContainer sx={{ maxWidth: 1200, }} component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="inventory table">
+        <TableContainer sx={{ maxWidth: 1200 }} component={Paper}>
+            <Table sx={{ minWidth: isMobile ? 250 : 650 }} aria-label="inventory table">
                 <TableHead>
                     <TableRow>
-                        <TableCell></TableCell>
+                        {isMobile ? null : <TableCell></TableCell>}
                         <TableCell align="right">Product name</TableCell>
-                        <TableCell align="right">Product id</TableCell>
+                        {isMobile ? null : <TableCell align="right">Product id</TableCell>}
                         <TableCell align="right">Quantity</TableCell>
                         <TableCell align="right" colSpan={2}>Actions</TableCell>
                     </TableRow>
@@ -135,13 +140,12 @@ export const InventoryTable = () => {
                     ) : (
                         products.map((product) => (
                             <TableRow key={product.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <TableCell align="right"><img className='img ' src={product.product_picture} /></TableCell>
+                                {isMobile ? null : <TableCell align="right"><img className='img ' src={product.product_picture} /></TableCell>}
                                 <TableCell align="right">{product.product_name}</TableCell>
-                                <TableCell align="right">{product.product_id}</TableCell>
-                                <TableCell align="right">{product.quantity}</TableCell>
-                                
-                                <TableCell style={{minWidth:"40px"}} align="right">
-                                    <TextField  className="quantity-input" onChange={handleChange} type="number" />
+                                {isMobile ? null : <TableCell align="right">{product.product_id}</TableCell>}
+                                <TableCell align="right" >{product.quantity}</TableCell>
+                                <TableCell align="right">
+                                    <TextField className="quantity-input" onChange={handleChange} type="number" />
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button
@@ -169,8 +173,7 @@ export const InventoryTable = () => {
                                 </TableCell>
                             </TableRow>
                         ))
-                    )
-                    }
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>

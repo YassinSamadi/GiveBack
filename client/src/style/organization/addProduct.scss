@@ -3,13 +3,25 @@
     margin-top:20px;
 }
 .dialog-items{
-    display: flex ;
-    align-items: center;
-    margin-bottom: 10px;
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        margin-top: 40px;
 }
+.dialog-item-quantity-add{
+    margin-top: 40px;
+}
+
 .product-select{
     border: 1px solid lightgrey;
     flex: 1;
     font-size:17px;
     height:40px;
+}
+.error-margin3{
+    margin-left: 110px;
+}
+.label-titles{
+    min-width: 100px;
+    margin-right: 10px;
 }

@@ -2,7 +2,7 @@ import '../../style/user/navbar.scss'
 import React, { useState,useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo/GiveBackRight500x500.png';
-import profilepic from '../../assets/logo/profile-pic.jpg';
+import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
 import { AuthContext } from '../../context/authContext';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -49,27 +49,27 @@ const Navbar = () => {
       <div className="navbar-menu">
         <ul className="navbar-menu-items">
           <li>
-            <Link to="/dashboard/user" className={`navbar-link ${location.pathname === '/dashboard/user' ? 'active' : ''}`}>
+            <Link to="/dashboard/user" className={`navbar-link ${location.pathname === '/dashboard/user' ? 'active' : 'nonactive '}`}>
               Home
               {location.pathname === '/dashboard/user' && <div className="active-line"></div>}
             </Link>
           </li>
           <li>
             
-            <Link to="/map" className={`navbar-link ${location.pathname === '/map' ? 'active' : ''}`}>
+            <Link to="/map" className={`navbar-link ${location.pathname === '/map' ? 'active' : 'nonactive '}`}>
             Map
               {location.pathname === '/map' && <div className="active-line"></div>}
             </Link>
           </li>
           <li>
             
-            <Link to="/inventories" className={`navbar-link ${location.pathname === '/inventories' ? 'active' : ''}`}>
+            <Link to="/inventories" className={`navbar-link ${location.pathname === '/inventories' ? 'active' : 'nonactive '}`}>
             Inventories
               {location.pathname === '/inventories' && <div className="active-line"></div>}
             </Link>
           </li>
           <li>
-            <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : ''}`}>
+            <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : 'nonactive '}`}>
               History
               {location.pathname === '/history' && <div className="active-line"></div>}
             </Link>
@@ -87,7 +87,7 @@ const Navbar = () => {
                   aria-expanded={open ? 'true' : undefined}
                 >
                   <Avatar sx={{ width: 40, height: 40 }} ><img
-                    src={`/assets/uploads/profilepic/${user_profilepic}`}
+                    src={user_profilepic ? `/assets/uploads/profilepic/${user_profilepic}` : defaultProfilePic}
                     alt="User Profile"
                     className="user-profile-image"
                   /></Avatar>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Map, { GeolocateControl, Marker, Popup, NavigationControl } from 'react-map-gl';
+import Map, { GeolocateControl, Marker, NavigationControl } from 'react-map-gl';
 import SwipeableTemporaryDrawer from './DrawerMap';
 
 
@@ -21,10 +21,7 @@ const CustomMap = () => {
     const fetchLocations = async () => {
       try {
         const response = await axios.get('/address/addresseswithorganizations');
-        const data = response.data.map(item => ({
-          ...item,
-          needs: item.needs ? JSON.parse(item.needs) : [] 
-        }));
+
         setLocations(response.data);
       } catch (err) {
         console.error(err);

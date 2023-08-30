@@ -1,15 +1,14 @@
 import React from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { useState, useEffect,useContext  } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { MobileStepper } from '@mui/material';
-import '../../style/user/DrawerMap.scss'
+import '../../style/user/drawerMap.scss'
 import Slider from '@mui/material/Slider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -95,7 +94,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
     
       const list = (
           <div >
-            <ListItem className='center-content' disablePadding>
+            <ListItem sx={{justifyContent:'center'}} disablePadding>
               <div className="flex-container">
                 <img
                   src={`/assets/uploads/logo/${organizationLogo}`}
@@ -107,7 +106,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
             </ListItem>
             
             {needs.length > 0 && (
-              <ListItem className='center-content'>
+              <ListItem sx={{justifyContent:'center'}}>
                 <div>
                   {isMobile ? (
                       <div className='mobile-center-content'>
@@ -178,7 +177,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
               </ListItem>
             )}
             {needs && needs.length > 0 ? (
-              <ListItem className='even-spacing' >
+              <ListItem sx={{justifyContent: 'space-evenly'}} >
                 {needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled > 0 ? (
                   <div>
                     {isMobile ? (
@@ -194,6 +193,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                             onChange={(e, newValue) => setQuantityDonated(newValue)}
                             aria-label="Default"
                             valueLabelDisplay="auto"
+                            min={1}
                             max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
                             backgroundColor="secondary"
                           />
@@ -230,7 +230,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                             onChange={(e, newValue) => setQuantityDonated(newValue)}
                             aria-label="Default"
                             valueLabelDisplay="auto"
-                            
+                            min={1}
                             max={needs[activeStep].needQuantityRequired - needs[activeStep].needQuantityFulfilled}
                             backgroundColor="secondary"
                           />
@@ -238,6 +238,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                             type="number"
                             id="quantity_donated"
                             name="quantity_donated"
+                            
                             className='quantity-donated-text-desktop'
                           >{quantityDonated}</p>
                           <Button
