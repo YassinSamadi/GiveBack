@@ -25,7 +25,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
       };
     
     const handleBack = () => {
-    setActiveStep((prevStep) => Math.max(prevStep - 1, 0));
+      setActiveStep((prevStep) => Math.max(prevStep - 1, 0));
     };
 
     const [showFullDescription, setShowFullDescription] = useState(false);
@@ -68,6 +68,9 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
               need_id
           });
           
+          const updateNeeds = [...needs];
+          updateNeeds[activeStep].needQuantityFulfilled += quantityDonated;
+          setNeeds(updateNeeds);
       } catch (error) {
           console.error('Error making donation:', error);
       }
@@ -184,7 +187,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                     {isMobile ? (
                       <div className='column-flex'>
                         <div className='alignment-raised'>
-                          <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                          <ListItemText primary={`${needs[activeStep]?.needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
                         </div>
 
                         <div className='donation-container'>
@@ -222,7 +225,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                       ):(
                       <div className='flex'>
                         <div className='alignment-raised-desktop'>
-                          <ListItemText primary={`${needs[activeStep].needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
+                          <ListItemText primary={`${needs[activeStep]?.needQuantityFulfilled} of ${needs[activeStep].needQuantityRequired} raised`} />
                         </div>
                         <div className='donation-container-desktop'>
                           <Slider

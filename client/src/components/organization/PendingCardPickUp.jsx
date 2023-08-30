@@ -10,13 +10,13 @@ import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
-const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,onDelete, need_id  }) => {
+const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_name, quantity, onDelete }) => {
     const [confirmationStatus, setConfirmationStatus] = useState('');
 
 
     const handleClickConfirm = async () => {
         try {
-            const response = await axios.put(`/donations/confirmDonation?id=${donation_id}`);
+            const response = await axios.put(`/transaction/confirmPickup?id=${transaction_id}`);
             setConfirmationStatus('Donation confirmed successfully');
         } catch (error) {
             console.error(error);
@@ -41,16 +41,16 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
                         <Typography>{first_name} {last_name}</Typography>
                     </Box>
                     <Box sx={{ display: 'inline-block', marginRight: '20px', width: '250px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need title</Typography>
-                        <Typography>{donation_title}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Product Name</Typography>
+                        <Typography>{transaction_name}</Typography>
                     </Box>
                     <Box sx={{ display: 'inline-block', marginRight: '20px', width: '70px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need ID</Typography>
-                        <Typography>{need_id}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Transaction ID</Typography>
+                        <Typography>{transaction_id}</Typography>
                     </Box>
                     <Box sx={{ display: 'inline-block', marginRight: '20px', width: '50px' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Amount</Typography>
-                        <Typography>{amount}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Quantity</Typography>
+                        <Typography>{quantity}</Typography>
                     </Box>
                     <Box sx={{ display: 'inline-block', marginRight: '20px', marginLeft: '20px' }}>
                         <Button onClick={handleClickConfirm} className='button-confirm'>
@@ -69,16 +69,16 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
                         <Typography>{first_name} {last_name}</Typography>
                     </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need title</Typography>
-                        <Typography>{donation_title}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Product Name</Typography>
+                        <Typography>{transaction_name}</Typography>
                     </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Need ID</Typography>
-                        <Typography>{need_id}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Transaction ID</Typography>
+                        <Typography>{transaction_id}</Typography>
                     </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Amount</Typography>
-                        <Typography>{amount}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Quantity</Typography>
+                        <Typography>{quantity}</Typography>
                     </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center' }}>
                         <Button onClick={handleClickConfirm} className='button-confirm'>
@@ -94,4 +94,4 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
     );
 };
 
-export default PendingCard;
+export default PendingCardPickUp;

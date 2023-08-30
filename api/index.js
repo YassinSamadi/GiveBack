@@ -11,6 +11,7 @@ import organizationRoutes from "./routes/organizations.js"
 import inventoryRoutes from "./routes/inventory.js"
 import logoRoutes from './routes/uploads.js'; 
 import profilepicRoutes from './routes/uploadsProfile.js';
+import transactionRoutes from './routes/transaction.js'
 const app = express();
 
 
@@ -28,6 +29,7 @@ app.use("/api/organization", organizationRoutes);
 app.use('/api/upload/profilepic', profilepicRoutes);
 app.use('/api/upload/logo', logoRoutes);
 app.use("/api/inventory", inventoryRoutes);
+app.use("/api/transaction", transactionRoutes);
 app.listen(8800, () => {
     console.log("Connected!");
 });

@@ -137,7 +137,8 @@ export const getInventories = (req, res) => {
         product.name AS product_name, 
         product.picture AS product_picture
     FROM inventory
-    LEFT JOIN product ON inventory.product_id = product.id`;
+    LEFT JOIN product ON inventory.product_id = product.id
+    WHERE inventory.quantity > 0`;
 
     db.query(selectQuery, (err, results) => {
         if (err) return res.status(500).json(err);

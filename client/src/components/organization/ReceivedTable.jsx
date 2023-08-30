@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
-
+import dayjs from 'dayjs';
 export const ReceivedTable = () => {
     const [donations, setDonations] = useState([]);
 
@@ -53,7 +53,7 @@ export const ReceivedTable = () => {
                             <TableCell align="right">{donation.product_name}</TableCell>
                             <TableCell align="right">{donation.quantity_donated}</TableCell>
                             <TableCell align="right">{donation.user_name}</TableCell>
-                            <TableCell align="right">{donation.donation_date}</TableCell>
+                            <TableCell align="right">{dayjs(donation.donation_date).format('DD/MM/YYYY')}</TableCell>
                         </TableRow>
                         ))
                     )}

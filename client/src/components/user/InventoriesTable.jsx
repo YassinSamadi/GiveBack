@@ -54,6 +54,7 @@ export const InventoryTable = () => {
     const [inventories, setInventories] = useState([]);
     const [formData, setFormData] = useState({
         quantity: 0,
+        inventoryId: 0,
     });
     const theme = createTheme();    
 
@@ -61,7 +62,7 @@ export const InventoryTable = () => {
 
     useEffect(() => {
         axios
-            .get(`/organization`)
+            .get(`/organization/getOrganizationsInventory`)
             .then((response) => {
                 setOrganizations(response.data);
             })
@@ -85,14 +86,15 @@ export const InventoryTable = () => {
         setFormData({ ...formData, quantity: value });
     };
 
-    const handleClick = async (event) => {
-        const productId = event.currentTarget.getAttribute("id")
+    const handleClick = async (inventoryId) => {
         try {
-            /* 
-            Make a new controller route to be able to request a product from an inventory of an organization
-            Find out how to do it best (temporary amount column added or not show anything to the user and make a hand check mechanism)
-            */
-            await axios.put(`/inventory/addtoinventory?id=`, formData);
+           formData.inventoryId = inventoryId;
+            await axios.post(`/transaction/addTransaction`, formData);
+            await axios.put(`/inventory/removeFromInventory?id=${inventoryId}`, formData);
+            const updatedProducts = inventories.map((product) => {
+                return { ...product, quantity: product.id === inventoryId ? (+product.quantity - +formData.quantity >= 0 ? +product.quantity - +formData.quantity : 0) : product.quantity };
+            });
+            setInventories(updatedProducts);
         } catch (error) {
             console.error('Error requesting product:', error);
         }
@@ -136,7 +138,7 @@ export const InventoryTable = () => {
                                 <TableBody>{
                                     inventories.map((inventory) => (
                                         (inventory.org_id == organization.id) ? (
-                                            <TableRow key={inventory.product_id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableRow key={inventory.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                 {isMobile ? null : (
                                                     <TableCell align="right">
                                                         <img className='img-product-table' src={inventory.product_picture} />
@@ -149,8 +151,7 @@ export const InventoryTable = () => {
                                                 </TableCell>
                                                 <TableCell align="right">
                                                     <Button
-                                                        className='actions'
-                                                        id={inventory.product_id} onClick={handleClick} disableRipple
+                                                        className='actions' onClick={() => handleClick(inventory.id)} disableRipple
                                                     >
                                                         Request
                                                     </Button>

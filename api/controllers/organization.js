@@ -1,5 +1,5 @@
 import {db} from "../db.js"
-
+import jwt from "jsonwebtoken";
 export const getAllOrganizations = (req, res) => {
     const selectQuery = "SELECT * FROM organization";
     
@@ -39,6 +39,42 @@ export const getAllOrganizationsWithInventory = (req, res) => {
     FROM organization
     LEFT JOIN inventory ON organization.id = inventory.org_id
     WHERE inventory.id IS NULL`;
+    
+    db.query(selectQuery, (err, results) => {
+    if (err) return res.status(500).json(err);
+    
+    return res.status(200).json(results);
+    });
+};
+
+export const getOrganization = (req, res) => {
+    const token = req.cookies.organizationaccess_token;
+
+    if (!token) return res.status(401).json("Not authorized");
+
+    jwt.verify(token, "JWT", (err, decoded) => {
+        if (err) return res.status(401).json("Not authorized");
+
+        const organization_id = decoded.id;
+        
+        const selectQuery = "SELECT * FROM organization where id = ?";
+        
+        db.query(selectQuery, [organization_id], (err, results) => {
+            if (err) return res.status(500).json(err);
+        
+            return res.status(200).json(results);
+        });
+    });
+};
+
+
+export const getOrganizationsInventory = (req, res) => {
+    const selectQuery = `
+    SELECT organization.*
+    FROM organization
+    LEFT JOIN inventory ON organization.id = inventory.org_id
+    WHERE inventory.quantity > 0
+    GROUP BY organization.id`;
     
     db.query(selectQuery, (err, results) => {
     if (err) return res.status(500).json(err);

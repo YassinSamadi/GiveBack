@@ -87,7 +87,7 @@ const Navbar = () => {
                   aria-expanded={open ? 'true' : undefined}
                 >
                   <Avatar sx={{ width: 40, height: 40 }} ><img
-                    src={user_profilepic ? `/assets/uploads/profilepic/${user_profilepic}` : defaultProfilePic}
+                      src={user_profilepic ? `/assets/uploads/profilepic/${user_profilepic}` : defaultProfilePic}
                     alt="User Profile"
                     className="user-profile-image"
                   /></Avatar>

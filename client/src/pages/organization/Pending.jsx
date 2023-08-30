@@ -7,114 +7,154 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import '../../style/organization/pending.scss';
 import PendingCard from '../../components/organization/PendingCard';
+import PendingCardPickUp from '../../components/organization/PendingCardPickUp';
 import DeleteDonation from '../../components/organization/DeleteDonation';
 
 export const Pending = () => {
-    const Search = styled('div')(({ theme }) => ({
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        '&:hover': {
-          backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-      }));
-      
-      const SearchIconWrapper = styled('div')(({ theme }) => ({
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }));
-      
-      const StyledInputBase = styled(InputBase)(({ theme }) => ({
-        color: 'inherit',
-        border: '1px solid lightgrey', // Add border styling
-        borderRadius: theme.shape.borderRadius *4,
-        '& .MuiInputBase-input': {
-          padding: theme.spacing(1, 1, 1, 0),
-          paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-          transition: theme.transitions.create('width'),
-          width: '100%',
-          [theme.breakpoints.up('md')]: {
-            width: 640,
-          },
-        },
-        '& .Mui-focused': {
-          borderColor: 'lightgrey',
-        },
-      }));
+  const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  }));
 
-      const [donations, setDonations] = useState([]);
-      const [deletingDonation, setDeletingDonation] = useState(null);
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }));
 
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    border: '1px solid lightgrey', // Add border styling
+    borderRadius: theme.shape.borderRadius * 4,
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: 640,
+      },
+    },
+    '& .Mui-focused': {
+      borderColor: 'lightgrey',
+    },
+  }));
 
-      const handleClose = () => {
-        setDeletingDonation(null);
-      };
-
-      const handleDelete = (donation) => {
-        setDeletingDonation(donation);
-      };
+  const [showDonations, setShowDonations] = useState(true);
+  const [donations, setDonations] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [deletingDonation, setDeletingDonation] = useState(null);
 
 
-      useEffect(() => {
-              axios
-                  .get(`/donations/getAllDonationsNoConfirmation`)
-                  .then((response) => {
-                      setDonations(response.data);
-                  })
-                  .catch((error) => {
-                      console.error('Error fetching total donations:', error);
-                  });
+  const handleCloseDonation = () => {
+    setDeletingDonation(null);
+  };
 
-              // axios
-              //     .get(`/donations/getTopDonatorToOrg`)
-              //     .then((response) => {
-              //         setTopDonator(response.data.user_name);
-              //     })
-              //     .catch((error) => {
-              //         console.error('Error fetching top donator:', error);
-              //     });
-      }, []);
-      
+  const handleDeleteDonation = (donation) => {
+    setDeletingDonation(donation);
+  };
+
+
+  useEffect(() => {
+    axios
+      .get(`/donations/getAllDonationsNoConfirmation`)
+      .then((response) => {
+        setDonations(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching total donations:', error);
+      });
+
+      axios
+      .get(`/transaction/getactivetransactions`)
+      .then((response) => {
+        setTransactions(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching total pickups:', error);
+      });
+
+    // axios
+    //     .get(`/donations/getTopDonatorToOrg`)
+    //     .then((response) => {
+    //         setTopDonator(response.data.user_name);
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error fetching top donator:', error);
+    //     });
+  }, []);
+
   return (
     <div>
-        <div className='center-div'>
-        <Button className='button button-left'>
-            Donations
-            </Button>
-            <Button className='button button-right'>
-            Pickups
-            </Button>
-        </div>
-        <DeleteDonation open={!!deletingDonation} handleClose={handleClose} donation={deletingDonation} />
-        <div className='center-div'>
+      <div className='center-div'>
+        <Button className={showDonations ? 'active-button button button-left' : 'button button-left'} onClick={() => setShowDonations(true)}>
+          Donations
+        </Button>
+        <Button className={!showDonations ? 'active-button button button-right' : 'button button-right'} onClick={() => setShowDonations(false)}>
+          Pickups
+        </Button>
+      </div>
+      {showDonations ? (
+        <div>
+          <DeleteDonation open={!!deletingDonation} handleClose={handleCloseDonation} donation={deletingDonation} />
+          <div className='center-div'>
             <Search>
-                <SearchIconWrapper>
+              <SearchIconWrapper>
                 <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search by name"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search by name"
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </Search>
+          </div>
+          {donations.length === 0 ? (
+            <div className='center-div'>
+              <p>No donations available</p>
+            </div>
+          ) : (donations.map((donation) => (
+            <div className='center-div'>
+              <PendingCard onDelete={() => { handleDeleteDonation(donation); }} donation_id={donation.id} first_name={donation.first_name} last_name={donation.last_name} donation_title={donation.need_title} need_id={donation.need_id} amount={donation.quantity_donated} />
+            </div>
+          )))}
         </div>
-        {donations.length === 0 ? (
+      ) : (
+        <div>
+          <DeleteDonation open={!!deletingDonation} handleClose={handleCloseDonation} donation={deletingDonation} />
           <div className='center-div'>
-            <p>No donations available</p>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search by name"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
           </div>
-        ):( donations.map((donation) => (
-          <div className='center-div'>
-              <PendingCard  onDelete={() => {handleDelete(donation);}} donation_id={donation.id}  first_name={donation.first_name} last_name={donation.last_name} donation_title={donation.need_title} need_id={donation.need_id} amount={donation.quantity_donated}/>
-    
-          </div>
-        )))}
+          {transactions.length === 0 ? (
+            <div className='center-div'>
+              <p>No pickups available</p>
+            </div>
+          ) : (transactions.map((transaction) => (
+            <div className='center-div'>
+              <PendingCardPickUp onDelete={() => { handleDeleteDonation(transaction); }} transaction_id={transaction.id} first_name={transaction.first_name} last_name={transaction.last_name} transaction_name={transaction.name} quantity={transaction.quantity} />
+            </div>
+          )))}
+        </div>
+      )}
+
     </div>
   );
 };

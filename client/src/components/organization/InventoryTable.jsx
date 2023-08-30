@@ -6,7 +6,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import axios from 'axios';
 import '../../style/organization/inventoryTable.scss';
-import { createTheme} from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -62,15 +62,15 @@ export const InventoryTable = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
-        
-            axios
-                .get(`/inventory/getinventory`)
-                .then((response) => {
-                    setProducts(response.data);
-                })
-                .catch((error) => {
-                    console.error('Error fetching products:', error);
-                });
+
+        axios
+            .get(`/inventory/getinventory`)
+            .then((response) => {
+                setProducts(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+            });
     }, []);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -88,12 +88,11 @@ export const InventoryTable = () => {
         setFormData({ ...formData, quantity: value });
     };
 
-    const handleAddSubmit = async (event) => {
-        const productId = event.currentTarget.getAttribute("id")
+    const handleAddSubmit = async (productId) => {
         try {
             await axios.put(`/inventory/addtoinventory?id=${productId}`, formData);
             const updatedProducts = products.map((product) => {
-                return { ...product, quantity: product.id == productId ? +product.quantity + +formData.quantity : product.quantity};
+                return { ...product, quantity: product.id === productId ? +product.quantity + +formData.quantity : product.quantity };
             });
             setProducts(updatedProducts);
         } catch (error) {
@@ -103,12 +102,11 @@ export const InventoryTable = () => {
         }
     };
 
-    const handleRemoveSubmit = async (event) => {
-        const productId = event.currentTarget.getAttribute("id");
+    const handleRemoveSubmit = async (productId) => {
         try {
             await axios.put(`/inventory/removefrominventory?id=${productId}`, formData);
             const updatedProducts = products.map((product) => {
-                return { ...product, quantity: product.id == productId ? (+product.quantity - +formData.quantity >= 0 ? +product.quantity - +formData.quantity  : 0) : product.quantity };
+                return { ...product, quantity: product.id === productId ? (+product.quantity - +formData.quantity >= 0 ? +product.quantity - +formData.quantity : 0) : product.quantity };
             });
             setProducts(updatedProducts);
         } catch (error) {
@@ -148,28 +146,14 @@ export const InventoryTable = () => {
                                     <TextField className="quantity-input" onChange={handleChange} type="number" />
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button
-                                        className='actions'
-                                        disableElevation
-                                        onClick={handleClick}
-                                        endIcon={<KeyboardArrowDownIcon />}
-                                    >
-                                        Edit
+                                    <Button variant="outlined" sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white', marginTop: '15px' }} onClick={() => handleAddSubmit(product.id)} disableRipple>
+                                        <AddIcon />
+                                        Add
                                     </Button>
-                                    <StyledMenu
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem id={product.id} onClick={handleAddSubmit} disableRipple>
-                                            <AddIcon />
-                                            Add
-                                        </MenuItem>
-                                        <MenuItem id={product.id} onClick={handleRemoveSubmit} disableRipple>
-                                            <RemoveIcon />
-                                            Remove
-                                        </MenuItem>
-                                    </StyledMenu>
+                                    <Button variant="outlined" sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white', marginTop: '15px' }} onClick={() => handleRemoveSubmit(product.id)} disableRipple>
+                                        <RemoveIcon />
+                                        Remove
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))

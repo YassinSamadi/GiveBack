@@ -26,6 +26,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/user/Navbar";
 import MobileNavbar from "./components/user/MobileNavbar";
 import EditProfileOrg from "./pages/organization/EditProfileOrg";
+import NotFound from "./pages/PageNotFound";
 import './style/App.scss';
 import './style/global.scss'
 
@@ -200,6 +201,14 @@ const router = createBrowserRouter([
     path: "/login/organization",
     element: <LoginOrganization />,
   },
+  {
+    path: "/404",
+    element: <NotFound />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/404" />,
+  }
 
 ]);
 

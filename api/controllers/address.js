@@ -59,3 +59,15 @@ export const getAllAddressesOrganizations = (req, res) => {
     return res.status(200).json(results);
     });
 };
+
+export const getAddressOrganization = (req, res) => {
+    const org_id = req.params.id;
+
+    const selectQuery = `SELECT * FROM address WHERE id = ${org_id}`;
+    
+    db.query(selectQuery, (err, results) => {
+    if (err) return res.status(500).json(err);
+    
+    return res.status(200).json(results);
+    });
+}
