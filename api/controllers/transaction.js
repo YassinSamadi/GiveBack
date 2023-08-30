@@ -71,5 +71,74 @@ export const getActiveTransactions = (req, res) => {
 }
 
 export const confirmPickup = (req, res) => {
-    
+    const transaction_id = req.query.id;
+
+    try {
+        let updateQuery =
+            `UPDATE transaction 
+        SET confirmation_date = NOW()
+        WHERE id = ?`
+
+        db.query(updateQuery, transaction_id, (err, data) => {
+            if (err) {
+                console.error("Error updating transaction:", err);
+                return res.status(500).json({
+                    error: "An error occurred while updating the transaction."
+                });
+            }
+            return res.status(200).json({
+                message: "Transaction updated successfully"
+            });
+        });
+    } catch (error) {
+        console.error("Caught an exception:", error);
+        return res.status(500).json({
+            error: "An internal server error occurred."
+        });
+    }
 }
+
+export const deleteTransaction = (req, res) => {
+    const transaction_id = req.query.id;
+
+    try {
+        const updateQuery =
+            `UPDATE inventory AS i
+            JOIN transaction AS t ON i.id = t.inventory_id
+            SET i.quantity = i.quantity + t.quantity
+            WHERE t.id = ?`;
+
+        db.query(updateQuery, transaction_id, (err, data) => {
+            if (err) {
+                console.error("Error updating inventory:", err);
+                return res.status(500).json({
+                    error: "An error occurred while updating the inventory."
+                });
+            }
+
+            const transactionUpdateQuery =
+                `UPDATE transaction
+                SET confirmation_date = NOW(),
+                    quantity = -1
+                WHERE id = ?`;
+
+            db.query(transactionUpdateQuery, transaction_id, (err, data) => {
+                if (err) {
+                    console.error("Error updating transaction:", err);
+                    return res.status(500).json({
+                        error: "An error occurred while updating the transaction."
+                    });
+                }
+                
+                return res.status(200).json({
+                    message: "Transaction updated successfully"
+                });
+            });
+        });
+    } catch (error) {
+        console.error("Caught an exception:", error);
+        return res.status(500).json({
+            error: "An internal server error occurred."
+        });
+    }
+};

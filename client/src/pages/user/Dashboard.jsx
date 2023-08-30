@@ -62,6 +62,20 @@ export const Dashboard = () => {
     setSelectedOrganizationIds(selectedIds);
   };
 
+  const handleDonationSuccess = (needId, donatedQuantity) => {
+    setNeeds(prevNeeds => {
+      return prevNeeds.map(need => {
+        if (need.id === needId) {
+          return {
+            ...need,
+            quantity_fulfilled: need.quantity_fulfilled + donatedQuantity,
+          };
+        }
+        return need;
+      });
+    });
+  };
+
   return (
     <Grid container spacing={2} sx={{ margin: '0 auto', width: '100%' }}>
       <Grid item xs={12} md={3}>
@@ -74,7 +88,7 @@ export const Dashboard = () => {
       </Grid>
 
       <Grid item xs={12} md={9} sx={{ paddingRight: '10px' }}>
-        <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
+        <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} onDonationSuccess={handleDonationSuccess} />
 
         {displayedNeeds.length === 0 ? (
           <div className='empty-list'>

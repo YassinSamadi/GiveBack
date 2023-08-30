@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -14,10 +14,16 @@ import { createTheme } from '@mui/material/styles';
 import '../../style/user/cardDetails.scss';
 import { TextField } from '@mui/material';
 
-const CardDetails = ({ open, handleClose, product }) => {
+const CardDetails = ({ open, handleClose, product, onDonationSuccess  }) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [quantityDonated, setQuantityDonated] = useState(1);
+
+    useEffect(() => {
+        if (open) {
+          setQuantityDonated(1);
+        }
+      }, [open]);
     
     if (!product) return null;
 
@@ -42,9 +48,9 @@ const CardDetails = ({ open, handleClose, product }) => {
                 donation_date,
                 need_id
             });
+            onDonationSuccess(product.id, quantityDonated);
             handleClose();
             setQuantityDonated(1);
-            window.location.reload();
         } catch (error) {
             console.error('Error making donation:', error);
         }

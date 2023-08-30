@@ -43,19 +43,26 @@ export const addProduct = (req, res) => {
         if (err) return res.status(401).json("Not authorized");
 
         const org_id = decoded.id;
-        const insertQuery = "INSERT INTO inventory (quantity, org_id, product_id) VALUES (?, ?, ?)";
+        const upsertQuery = `
+            INSERT INTO inventory (quantity, org_id, product_id)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+            quantity = quantity + VALUES(quantity)
+        `;
         const values = [quantity, org_id, Number(product_id)];
 
         try {
-            db.query(insertQuery, values, (err, data) => {
+            db.query(upsertQuery, values, (err, data) => {
                 if (err) return res.status(500).json(err);
-                return res.status(201).json("Product added successfully");
+                return res.status(201).json("Product added or updated successfully");
             });
         } catch (error) {
             return res.status(500).json(error);
         }
     });
 };
+
+
 
 
 

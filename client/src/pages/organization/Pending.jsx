@@ -9,6 +9,7 @@ import '../../style/organization/pending.scss';
 import PendingCard from '../../components/organization/PendingCard';
 import PendingCardPickUp from '../../components/organization/PendingCardPickUp';
 import DeleteDonation from '../../components/organization/DeleteDonation';
+import DeletePopup from '../../components/organization/DeletePopUp';
 
 export const Pending = () => {
   const Search = styled('div')(({ theme }) => ({
@@ -22,6 +23,7 @@ export const Pending = () => {
     marginLeft: theme.spacing(3),
     width: 'auto',
   }));
+
 
   const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
@@ -55,14 +57,43 @@ export const Pending = () => {
   const [donations, setDonations] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [deletingDonation, setDeletingDonation] = useState(null);
+  const [deletingTransaction, setDeletingTransaction] = useState(null);
 
 
-  const handleCloseDonation = () => {
+  const handleClose = () => {
     setDeletingDonation(null);
+  };
+
+  const handleClosePickup = () => {
+    setDeletingTransaction(null);
   };
 
   const handleDeleteDonation = (donation) => {
     setDeletingDonation(donation);
+  };
+
+  const handleDeleteTransaction = (transaction) => {
+    setDeletingTransaction(transaction);
+  }
+
+  const handlePickupDelete = () => {
+    axios
+        .delete(`/transaction/deleteTransaction?id=${deletingTransaction.id}`)
+        .then(response => {
+          handleClosePickup();
+          window.location.reload();
+        })
+        .catch(err => console.error('Error deleting pickup:', err));
+  }
+  
+  const handleDonationDelete = () => {
+    axios
+        .delete(`/donations/deleteDonation?id=${donations.id}`)
+        .then(response => {
+            handleClose();
+            window.location.reload();
+        })
+        .catch(err => console.error('Error deleting need:', err));
   };
 
 
@@ -84,15 +115,6 @@ export const Pending = () => {
       .catch((error) => {
         console.error('Error fetching total pickups:', error);
       });
-
-    // axios
-    //     .get(`/donations/getTopDonatorToOrg`)
-    //     .then((response) => {
-    //         setTopDonator(response.data.user_name);
-    //     })
-    //     .catch((error) => {
-    //         console.error('Error fetching top donator:', error);
-    //     });
   }, []);
 
   return (
@@ -107,7 +129,8 @@ export const Pending = () => {
       </div>
       {showDonations ? (
         <div>
-          <DeleteDonation open={!!deletingDonation} handleClose={handleCloseDonation} donation={deletingDonation} />
+          <DeletePopup title='Donation' content='donation' open={!!deletingDonation} handleClose={handleClose} handleDelete={handleDonationDelete}/>
+          
           <div className='center-div'>
             <Search>
               <SearchIconWrapper>
@@ -131,7 +154,7 @@ export const Pending = () => {
         </div>
       ) : (
         <div>
-          <DeleteDonation open={!!deletingDonation} handleClose={handleCloseDonation} donation={deletingDonation} />
+          <DeletePopup title='Pickup' content='pickup' open={!!deletingTransaction} handleClose={handleClosePickup} handleDelete={handlePickupDelete}/>
           <div className='center-div'>
             <Search>
               <SearchIconWrapper>
@@ -149,7 +172,7 @@ export const Pending = () => {
             </div>
           ) : (transactions.map((transaction) => (
             <div className='center-div'>
-              <PendingCardPickUp onDelete={() => { handleDeleteDonation(transaction); }} transaction_id={transaction.id} first_name={transaction.first_name} last_name={transaction.last_name} transaction_name={transaction.name} quantity={transaction.quantity} />
+              <PendingCardPickUp onDelete={() => { handleDeleteTransaction(transaction); }} transaction_id={transaction.id} first_name={transaction.first_name} last_name={transaction.last_name} transaction_name={transaction.name} quantity={transaction.quantity} />
             </div>
           )))}
         </div>

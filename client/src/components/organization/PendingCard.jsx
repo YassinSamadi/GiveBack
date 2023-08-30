@@ -9,6 +9,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+
 const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,onDelete, need_id  }) => {
     const [confirmationStatus, setConfirmationStatus] = useState('');
 
@@ -17,10 +18,12 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
         try {
             const response = await axios.put(`/donations/confirmDonation?id=${donation_id}`);
             setConfirmationStatus('Donation confirmed successfully');
+            window.location.reload();
         } catch (error) {
             console.error(error);
             setConfirmationStatus('Error confirming donation');
         }
+        
     };
 
     const theme = useTheme();
