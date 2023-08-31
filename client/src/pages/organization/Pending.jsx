@@ -8,7 +8,6 @@ import InputBase from '@mui/material/InputBase';
 import '../../style/organization/pending.scss';
 import PendingCard from '../../components/organization/PendingCard';
 import PendingCardPickUp from '../../components/organization/PendingCardPickUp';
-import DeleteDonation from '../../components/organization/DeleteDonation';
 import DeletePopup from '../../components/organization/DeletePopUp';
 
 export const Pending = () => {
@@ -93,7 +92,7 @@ export const Pending = () => {
             handleClose();
             window.location.reload();
         })
-        .catch(err => console.error('Error deleting need:', err));
+        .catch(err => console.error('Error deleting donation:', err));
   };
 
 
@@ -147,7 +146,7 @@ export const Pending = () => {
               <p>No donations available</p>
             </div>
           ) : (donations.map((donation) => (
-            <div className='center-div'>
+            <div className='center-div' key={donation.id}>
               <PendingCard onDelete={() => { handleDeleteDonation(donation); }} donation_id={donation.id} first_name={donation.first_name} last_name={donation.last_name} donation_title={donation.need_title} need_id={donation.need_id} amount={donation.quantity_donated} />
             </div>
           )))}
@@ -171,7 +170,7 @@ export const Pending = () => {
               <p>No pickups available</p>
             </div>
           ) : (transactions.map((transaction) => (
-            <div className='center-div'>
+            <div className='center-div' key={transaction.id}>
               <PendingCardPickUp onDelete={() => { handleDeleteTransaction(transaction); }} transaction_id={transaction.id} first_name={transaction.first_name} last_name={transaction.last_name} transaction_name={transaction.name} quantity={transaction.quantity} />
             </div>
           )))}

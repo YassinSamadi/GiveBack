@@ -1,7 +1,9 @@
 import {db} from "../db.js"
 import jwt from "jsonwebtoken";
+
+
 export const getAllNeeds = (req, res) => {
-    const selectQuery = "SELECT * FROM need";
+    const selectQuery = "SELECT * FROM need WHERE delete_date IS NULL";
     
     db.query(selectQuery, (err, results) => {
     if (err) return res.status(500).json(err);
@@ -88,7 +90,7 @@ export const deleteNeed = (req, res) => {
     const id = req.query.id; 
     
     try {
-        const deleteQuery = `DELETE FROM need WHERE id = ?`;
+        const deleteQuery = `UPDATE need SET delete_date = NOW() WHERE id = ?`;
         
         db.query(deleteQuery, id, (err, data) => {
             if (err) return res.status(500).json(err);

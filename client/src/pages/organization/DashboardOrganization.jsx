@@ -8,8 +8,10 @@ import MuiCard from '../../components/organization/Card.jsx';
 import NeedsPopup from '../../components/organization/AddNeed.jsx';
 import CardDetails from '../../components/user/cardDetails.jsx';
 import EditNeed from '../../components/organization/EditNeed.jsx';
-import DeleteNeed from '../../components/organization/DeleteNeed.jsx';
 import { OrganizationAuthContext } from '../../context/authContextOrganizations';
+import DeletePopup from '../../components/organization/DeletePopUp';
+
+
 export const DashboardOrganization = () => {
     const [needs, setNeeds] = useState([]);
     const [products, setProducts] = useState([]);
@@ -18,6 +20,7 @@ export const DashboardOrganization = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [deletingNeed, setDeletingNeed] = useState(null);
     const {organization, setOrganization} = useContext(OrganizationAuthContext);
+    const [currentlyDeletingNeed, setCurrentlyDeletingNeed] = useState(null);
 
     useEffect(() => {
 
@@ -55,9 +58,18 @@ export const DashboardOrganization = () => {
         setEditingNeed(need);
         setIsEditing(true);
     };
+    const handleEditSuccess = (editedNeed) => {
+        const updatedNeeds = needs.map((need) => {
+            return need.id === editedNeed.id ? editedNeed : need;
+        });
+        setNeeds(updatedNeeds);
+        handleClose();
+    };
+    
+    
 
-    const handleDelete = (need) => {
-        setDeletingNeed(need);
+    const handleDeleting = (need) => {
+    setCurrentlyDeletingNeed(need);
     };
 
     const activeNeeds = needs.filter(need => need.quantity_required > need.quantity_fulfilled);
@@ -65,7 +77,16 @@ export const DashboardOrganization = () => {
     
     const sortedActiveNeeds = activeNeeds.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
 
-
+    const handleDelete = () => {
+        axios
+          .delete(`/needs/deleteNeed?id=${currentlyDeletingNeed.id}`)
+          .then(response => {
+            setNeeds(needs.filter(need => need.id !== currentlyDeletingNeed.id));
+            setCurrentlyDeletingNeed(null);
+          })
+          .catch(err => console.error('Error deleting need:', err));
+      };
+      
 
     return (
         <>
@@ -91,7 +112,7 @@ export const DashboardOrganization = () => {
                                         fulfilled={need.quantity_fulfilled}
                                         showActions={true}
                                         onEdit={() => { handleEdit(need); }}
-                                        onDelete={() => { handleDelete(need); }}
+                                        onDelete={() => { handleDeleting(need); }}
                                     />
                                 );
                             })
@@ -100,9 +121,22 @@ export const DashboardOrganization = () => {
                         )}
                     </div>
                 </Grid>
-                <DeleteNeed open={!!deletingNeed} handleClose={() => setDeletingNeed(null)} need={deletingNeed} />
+                <DeletePopup
+                    open={!!currentlyDeletingNeed}
+                    handleClose={() => setCurrentlyDeletingNeed(null)}
+                    handleDelete={handleDelete}
+                    title={'need'}
+                    content={'need'}
+                />
+
                 <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
-                <EditNeed open={isEditing} handleClose={handleClose} need={editingNeed} products={products} />
+                <EditNeed
+                    open={isEditing}
+                    handleClose={handleClose}
+                    need={editingNeed}
+                    products={products}
+                    onEditSuccess={handleEditSuccess} 
+                />
 
                 <Grid item xs={12} md={6}>
                     <h1 className='need-title'>History</h1>

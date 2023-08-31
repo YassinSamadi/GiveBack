@@ -58,6 +58,9 @@ export const InventoryTable = () => {
     const [formData, setFormData] = useState({
         quantity: 0,
     });
+    const [adjustedQuantity, setAdjustedQuantity] = useState(0); // New state variable
+
+
 
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -82,18 +85,29 @@ export const InventoryTable = () => {
         setAnchorEl(null);
     };
 
-    const handleChange = (e) => {
-        const value = e.target.value;
+    const handleInputChange = (e) => {
+        let value = parseInt(e.target.value);
 
-        setFormData({ ...formData, quantity: value });
+        value = Math.min(Math.max(value, 1), 250);
+
+        e.target.value = value;
+
+        setAdjustedQuantity(value);
     };
 
     const handleAddSubmit = async (productId) => {
         try {
-            await axios.put(`/inventory/addtoinventory?id=${productId}`, formData);
-            const updatedProducts = products.map((product) => {
-                return { ...product, quantity: product.id === productId ? +product.quantity + +formData.quantity : product.quantity };
+            await axios.put(`/inventory/addtoinventory?id=${productId}`, {
+                quantity: adjustedQuantity, 
             });
+            const updatedProducts = products.map((product) => ({
+                ...product,
+                quantity:
+                    product.id === productId
+                        ? +product.quantity + +adjustedQuantity
+                        : product.quantity,
+            }));
+
             setProducts(updatedProducts);
         } catch (error) {
             console.error('Error updating inventory:', error);
@@ -104,10 +118,20 @@ export const InventoryTable = () => {
 
     const handleRemoveSubmit = async (productId) => {
         try {
-            await axios.put(`/inventory/removefrominventory?id=${productId}`, formData);
-            const updatedProducts = products.map((product) => {
-                return { ...product, quantity: product.id === productId ? (+product.quantity - +formData.quantity >= 0 ? +product.quantity - +formData.quantity : 0) : product.quantity };
+            await axios.put(`/inventory/removefrominventory?id=${productId}`, {
+                quantity: adjustedQuantity, 
             });
+            const updatedProducts = products.map((product) => ({
+                ...product,
+                quantity:
+                    product.id === productId
+                        ? Math.max(
+                                +product.quantity - +adjustedQuantity,
+                                0
+                            )
+                        : product.quantity,
+            }));
+
             setProducts(updatedProducts);
         } catch (error) {
             console.error('Error updating inventory:', error);
@@ -143,7 +167,7 @@ export const InventoryTable = () => {
                                 {isMobile ? null : <TableCell align="right">{product.product_id}</TableCell>}
                                 <TableCell align="right" >{product.quantity}</TableCell>
                                 <TableCell align="right">
-                                    <TextField className="quantity-input" onChange={handleChange} type="number" />
+                                    <TextField inputProps={{min:1}} className="quantity-input" onChange={handleInputChange} type="number" />
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button variant="outlined" sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white', marginTop: '15px' }} onClick={() => handleAddSubmit(product.id)} disableRipple>

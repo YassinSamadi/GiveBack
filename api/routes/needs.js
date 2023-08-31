@@ -9,7 +9,7 @@ router.get('/getallneeds', getAllNeeds);
 router.get('/:id', getNeed);
 router.get('/getuserneeds', getUserNeeds);
 router.post('/addneed', addNeed );
-router.delete('/deleteNeed', deleteNeed);
+router.put('/deleteNeed', deleteNeed);
 router.put('/updateNeed',updateNeed);
 
 

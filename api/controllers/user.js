@@ -50,8 +50,6 @@ export const updateUser = (req, res) => {
                 updateQuery += `, profile_pic = ?, inNeed = ? WHERE id = ?`;
                 values.push(profile_pic, inNeed, user_id);
 
-                console.log('Update values:', values);
-
                 db.query(updateQuery, values, (updateErr, updateResult) => {
                     if (updateErr) {
                         console.error("Error updating user:", updateErr);

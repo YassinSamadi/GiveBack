@@ -16,7 +16,6 @@ const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_
 
     const handleClickConfirm = async () => {
         try {
-            console.log(transaction_id);
             const response = await axios.put(`/transaction/confirmPickup?id=${transaction_id}`);
             setConfirmationStatus('Transaction confirmed successfully');
             window.location.reload();

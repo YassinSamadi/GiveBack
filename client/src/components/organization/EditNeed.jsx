@@ -11,7 +11,7 @@ import axios from 'axios';
 import DialogContentText from '@mui/material/DialogContentText';
 import '../../style/organization/editNeed.scss'
 
-const EditNeed = ({ open, handleClose, need, products }) => {
+const EditNeed = ({ open, handleClose, need, products,onEditSuccess  }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -62,6 +62,7 @@ const EditNeed = ({ open, handleClose, need, products }) => {
       }
       
       await axios.put('/needs/updateNeed', formData);
+      onEditSuccess(formData);
       handleClose();
     } catch (error) {
       console.error('Error updating need:', error);
