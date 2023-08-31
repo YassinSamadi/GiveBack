@@ -25,7 +25,7 @@ import ListItemLink from '../MenuItemMobileLink';
 import '../../style/organization/mobileNavbarOrg.scss'
 import { OrganizationAuthContext } from '../../context/authContextOrganizations';
 import { useContext } from 'react';
-
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 const drawerWidth = 240;
 
 
@@ -52,6 +52,7 @@ const MobileNavbarOrg = () => {
     { text: 'Home', icon: <HomeIcon />, link: '/dashboard/organization' },
     { text: 'Inventory', icon: <InventoryIcon />, link: '/inventory' },
     { text: 'Donations', icon: <VolunteerActivismIcon />, link: '/donations' },
+    {text: 'Pending', icon: <PendingActionsIcon />, link: '/pending'}
   ];
 
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;

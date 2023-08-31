@@ -65,16 +65,29 @@ const HomepageLayout =() => {
     </>
   )
 }
-function PrivateRouteUser({ children }) {
-  const { user } = useContext(AuthContext); 
 
-  return user ? children : <Navigate to="/login" />;
-}
-function PrivateRouteOrganization({ children }) {
-  const { organization } = useContext(OrganizationAuthContext); 
 
-  return organization ? children : <Navigate to="/login/organization" />;
-}
+  function PrivateRouteUser({ children }) {
+    const { user } = useContext(AuthContext); 
+
+    return user ? children : <Navigate to="/login" />;
+  }
+  function PrivateRouteOrganization({ children }) {
+    const { organization } = useContext(OrganizationAuthContext); 
+
+    return organization ? children : <Navigate to="/login/organization" />;
+  }
+  function PrivateRouteUserInNeed({ children }) {
+    const { user } = useContext(AuthContext);
+  
+    const inNeedValue = JSON.parse(localStorage.getItem("user")).inNeed;
+  
+    if (user && inNeedValue === 1) {
+      return children;
+    } else {
+      return <Navigate to="/login" />;
+    }
+  }
 
 
 const router = createBrowserRouter([
@@ -106,9 +119,9 @@ const router = createBrowserRouter([
         path: "/inventories",
         element: 
         (
-          <PrivateRouteUser>
+          <PrivateRouteUserInNeed>
               <Inventories/>
-          </PrivateRouteUser>
+          </PrivateRouteUserInNeed>
         ),
       },
       { 

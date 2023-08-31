@@ -25,7 +25,7 @@ export const register = (req, res) => {
       });
     });
   };
-  
+
 
   export const login = (req, res) => {
     const q = "SELECT * FROM user WHERE email = ?";
@@ -39,7 +39,7 @@ export const register = (req, res) => {
   
       const token = jwt.sign({ id: data[0].id }, "JWT");
   
-      const { password, ...other } = data[0];
+      const { password, id, ...other } = data[0];
   
       const expirationDate = new Date();
       expirationDate.setHours(expirationDate.getHours() + 24);

@@ -25,7 +25,7 @@ export const updateUser = (req, res) => {
 
                 const currentProfilePic = selectResult[0].profile_pic;
 
-                if (currentProfilePic) {
+                if (profile_pic && currentProfilePic) {
                     fs.unlink(`../client/public/assets/uploads/profilepic/${currentProfilePic}`, (unlinkErr) => {
                         if (unlinkErr) {
                             console.error("Error deleting existing profile picture:", unlinkErr);
@@ -47,8 +47,13 @@ export const updateUser = (req, res) => {
                     values.push(hashedPassword);
                 }
 
-                updateQuery += `, profile_pic = ?, inNeed = ? WHERE id = ?`;
-                values.push(profile_pic, inNeed, user_id);
+                if(profile_pic) {
+                    updateQuery += `, profile_pic = ?`;
+                    values.push(profile_pic);
+                }
+
+                updateQuery += `, inNeed = ? WHERE id = ?`;
+                values.push(inNeed, user_id);
 
                 db.query(updateQuery, values, (updateErr, updateResult) => {
                     if (updateErr) {

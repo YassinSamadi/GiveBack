@@ -13,6 +13,7 @@ import Slider from '@mui/material/Slider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMediaQuery, useTheme } from '@mui/material';
 
+
 const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizationID,organizationLogo, organizationAddress }) => {
     const [needs, setNeeds] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
@@ -267,29 +268,49 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                         )}
                       </ListItem>
                     ) : (
-                      <ListItem className='align-text-center'>
+                      <ListItem sx={{textAlign:'center', marginTop:'20px', marginBottom:'20px'}}>
                         <ListItemText primary="No needs available" />
                       </ListItem>
                     )}
-        
-            <ThemeProvider theme={theme}>
-              <MobileStepper
-                variant="dots"
-                steps={needs.length}
-                position="static"
-                activeStep={activeStep}
-                nextButton={
-                  <Button size="small" onClick={handleNext} disabled={activeStep === needs.length - 1}>
-                    <KeyboardArrowRight />
-                  </Button>
-                }
-                backButton={
-                  <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                    <KeyboardArrowLeft />
-                  </Button>
-                }
-              />
-            </ThemeProvider>
+              <ThemeProvider theme={theme}>
+                <MobileStepper
+                  variant="dots"
+                  steps={needs.length}
+                  position="static"
+                  activeStep={activeStep}
+                  nextButton={
+                    <Button
+                      size="small"
+                      onClick={handleNext}
+                      disabled={activeStep === needs.length - 1}
+                      sx={{
+                        color: 'rgba(144, 192, 136, 1)', 
+                        '&.Mui-disabled': {
+                          color: 'rgba(144, 192, 136, 0.5)', 
+                        },
+                      }}
+                    >
+                      <KeyboardArrowRight />
+                    </Button>
+                  }
+                  backButton={
+                    <Button
+                      size="small"
+                      onClick={handleBack}
+                      disabled={activeStep === 0}
+                      sx={{
+                        color: 'rgba(144, 192, 136, 1)',
+                        '&.Mui-disabled': {
+                          color: 'rgba(144, 192, 136, 0.5)', 
+                        },
+                      }}
+                    >
+                      <KeyboardArrowLeft />
+                    </Button>
+                  }
+                />
+              </ThemeProvider>
+
           </div>
       );
 

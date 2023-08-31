@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import '../../style/organization/dashboardOrganization.scss';
 import MuiCard from '../../components/organization/Card.jsx';
 import NeedsPopup from '../../components/organization/AddNeed.jsx';
-import CardDetails from '../../components/user/cardDetails.jsx';
 import EditNeed from '../../components/organization/EditNeed.jsx';
 import { OrganizationAuthContext } from '../../context/authContextOrganizations';
 import DeletePopup from '../../components/organization/DeletePopUp';
@@ -36,7 +35,7 @@ export const DashboardOrganization = () => {
         axios
         .get('/needs/getallneeds')
         .then((response) => {
-            setNeeds(response.data.filter(need => need.org_id === organization.id));
+            setNeeds(response.data);
         })
         .catch((error) => {
             console.error('Error fetching needs:', error);
@@ -78,15 +77,15 @@ export const DashboardOrganization = () => {
     const sortedActiveNeeds = activeNeeds.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const handleDelete = () => {
+
         axios
-          .delete(`/needs/deleteNeed?id=${currentlyDeletingNeed.id}`)
-          .then(response => {
-            setNeeds(needs.filter(need => need.id !== currentlyDeletingNeed.id));
-            setCurrentlyDeletingNeed(null);
-          })
-          .catch(err => console.error('Error deleting need:', err));
-      };
-      
+            .put(`/needs/deleteNeed?id=${currentlyDeletingNeed.id}`)
+            .then(response => {
+                setNeeds(needs.filter(need => need.id !== currentlyDeletingNeed.id));
+                setCurrentlyDeletingNeed(null);
+            })
+            .catch(err => console.error('Error deleting need:', err));
+    };
 
     return (
         <>
@@ -129,7 +128,6 @@ export const DashboardOrganization = () => {
                     content={'need'}
                 />
 
-                <CardDetails open={!!selectedCard} handleClose={handleClose} product={selectedCard} />
                 <EditNeed
                     open={isEditing}
                     handleClose={handleClose}

@@ -31,5 +31,4 @@ app.use('/api/upload/logo', logoRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.listen(8800, () => {
-    console.log("Connected!");
 });

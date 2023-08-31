@@ -79,7 +79,7 @@ const EditProfile = () => {
                     last_name: formData.last_name,
                     profile_pic: imageName,
                     password: formData.password,
-                    inNeed: formData.inNeed
+                    inNeed: formData.inNeed ? 1 : 0
                 };
     
                 localStorage.setItem('user', JSON.stringify(updatedUser)); 
@@ -95,7 +95,7 @@ const EditProfile = () => {
                     first_name: formData.first_name,
                     last_name: formData.last_name,
                     password: formData.password,
-                    inNeed: formData.inNeed
+                    inNeed: formData.inNeed ? 1 : 0
                 };
     
                 await axios.put(`/users/updateUser`, formData);

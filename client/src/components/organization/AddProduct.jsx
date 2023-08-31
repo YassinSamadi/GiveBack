@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  useMediaQuery,
+  useTheme,
+  TextField,
+} from '@mui/material';
 import axios from 'axios';
-import { TextField } from '@mui/material';
-import '../../style/organization/addProduct.scss'
-
+import StyledButton from '../ui/StyledButton.jsx';
+import '../../style/organization/addProduct.scss';
 
 export default function AddProduct() {
   const [open, setOpen] = useState(false);
@@ -57,9 +59,6 @@ export default function AddProduct() {
     
     setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
   };
-  
-  
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -98,13 +97,7 @@ export default function AddProduct() {
 
   return (
     <div className='container-product'>
-      <Button
-        variant="outlined"
-        onClick={handleClickOpen}
-        sx={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white', marginTop: '15px' }}           
-      >
-        Add product
-      </Button>
+      <StyledButton  onClick={handleClickOpen} text={'Add product'}/>
       <Dialog
         fullScreen={fullScreen}
         open={open}

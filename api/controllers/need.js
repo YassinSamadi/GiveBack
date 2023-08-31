@@ -3,14 +3,24 @@ import jwt from "jsonwebtoken";
 
 
 export const getAllNeeds = (req, res) => {
-    const selectQuery = "SELECT * FROM need WHERE delete_date IS NULL";
-    
-    db.query(selectQuery, (err, results) => {
-    if (err) return res.status(500).json(err);
-    
-    return res.status(200).json(results);
+    const token = req.cookies.organizationaccess_token;
+    if (!token) return res.status(401).json("Not authorized");
+
+    jwt.verify(token, "JWT", (err, decoded) => {
+        if (err) return res.status(401).json("Not authorized");
+
+        const org_id = decoded.id;
+
+        const selectQuery = "SELECT * FROM need WHERE delete_date IS NULL AND org_id = ?";
+
+        db.query(selectQuery, [org_id], (err, results) => {
+            if (err) return res.status(500).json(err);
+
+            return res.status(200).json(results);
+        });
     });
 };
+
 
 export const getUserNeeds = (req, res) => {
     const selectQuery = `

@@ -83,6 +83,9 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
                 </Card>
             ) : (
                 <Card sx={{ flexDirection: 'column', width: "350px", ...cardStyle }}>
+                    <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'right', ...closeClickStyle }}>
+                        <CloseIcon onClick={onDelete} sx={{ fontSize: 45, color: '#90C088' }} />
+                    </Box>
                     <Box sx={boxMobileStyle}>
                         <Typography sx={bold} variant="subtitle1">Name</Typography>
                         <Typography>{first_name} {last_name}</Typography>
@@ -104,9 +107,7 @@ const PendingCard = ({ first_name, last_name,donation_title, donation_id,amount,
                             Confirm
                         </Button>
                     </Box>
-                    <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center', ...closeClickStyle }}>
-                        <CloseIcon onClick={onDelete} sx={{ fontSize: 45, color: '#90C088' }} />
-                    </Box>
+                    
                 </Card>
             )}
             </div>

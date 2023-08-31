@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Paper, useMediaQuery } from '@mui/material';
+import {Box, Accordion, AccordionSummary, AccordionDetails, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Paper, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
 import '../../style/user/inventoriesTable.scss';
@@ -8,6 +8,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha, createTheme } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { create } from '@mui/material/styles/createTransitions';
+import CardInventories from './mobileCardInventories';
+import StyledButton from '../ui/StyledButton';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -56,11 +58,18 @@ export const InventoryTable = () => {
         quantity: 0,
         inventoryId: 0,
     });
+    const [inventoryQuantities, setInventoryQuantities] = useState({});
+    const [searchTerm, setSearchTerm] = useState('');
+
     const theme = createTheme();    
 
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(() => {
+        refreshData();
+    }, []);
+
+    const refreshData = () => {
         axios
             .get(`/organization/getOrganizationsInventory`)
             .then((response) => {
@@ -78,27 +87,33 @@ export const InventoryTable = () => {
             .catch((error) => {
                 console.error('Error fetching inventories:', error);
             });
-    }, []);
+    }
 
-    const handleChange = (e) => {
-        const value = e.target.value;
+    const handleChange = (e, inventoryId, inventoryQuantity) => {
+        let value  = e.target.value;
 
-        setFormData({ ...formData, quantity: value });
+        value = Math.min(Math.max(value, 1), inventoryQuantity);
+
+        setInventoryQuantities(prevQuantities => ({
+            ...prevQuantities,
+            [inventoryId]: parseInt(value)
+        }));
     };
 
     const handleClick = async (inventoryId) => {
         try {
-           formData.inventoryId = inventoryId;
-            await axios.post(`/transaction/addTransaction`, formData);
-            await axios.put(`/inventory/removeFromInventory?id=${inventoryId}`, formData);
-            const updatedProducts = inventories.map((product) => {
-                return { ...product, quantity: product.id === inventoryId ? (+product.quantity - +formData.quantity >= 0 ? +product.quantity - +formData.quantity : 0) : product.quantity };
-            });
-            setInventories(updatedProducts);
+            await axios.post(`/transaction/addTransaction?id=${inventoryId}`, {quantity: inventoryQuantities[inventoryId]});
+            await axios.put(`/inventory/removeFromInventory?id=${inventoryId}`, {quantity: inventoryQuantities[inventoryId]});
+            refreshData();
         } catch (error) {
             console.error('Error requesting product:', error);
         }
     };
+
+    const filteredOrganizations = organizations.filter((organization) =>
+        organization.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
 
     return (
         <div className='container-accordion'>
@@ -109,12 +124,15 @@ export const InventoryTable = () => {
                 <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                    placeholder="Search by product? organization?"
+                    placeholder="Search by organization"
                     inputProps={{ 'aria-label': 'search' }}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
+
             </Search>
         </div>
-            {organizations.map((organization) => (
+            {filteredOrganizations.map((organization) => (
                 <Accordion key={organization.id} sx={{width: isMobile ? 340 : 1000}}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -125,7 +143,17 @@ export const InventoryTable = () => {
                         <Typography sx={{ alignSelf: "center", marginLeft: isMobile ? "10px" : '50px' }} variant={isMobile ? "h6" : "h4"}>{organization.name}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <TableContainer sx={{ maxWidth: 1200, }} component={Paper}>
+                        {isMobile ?  (
+                            inventories.map((inventory) => (
+                                (inventory.org_id == organization.id) ? (
+                                <Box sx={{marginBottom:'5px'}}>
+                                    <CardInventories product_name={inventory.product_name} image={inventory.product_picture} quantity={inventory.quantity} handleClickConfirm={() => handleClick(inventory.id)} handleChange={(e) => handleChange(e, inventory.id, inventory.quantity)} value={inventoryQuantities[inventory.id] || ''}/>
+                                </Box>
+                            ) : null
+                            ))
+                            
+                        ):(
+                            <TableContainer sx={{ maxWidth: 1200, }} component={Paper}>
                             <Table sx={{ width: isMobile ? 300 : 950 }} aria-label="inventory table">
                                 <TableHead>
                                     <TableRow>
@@ -147,14 +175,10 @@ export const InventoryTable = () => {
                                                 <TableCell align="right">{inventory.product_name}</TableCell>
                                                 <TableCell align="right">{inventory.quantity}</TableCell>
                                                 <TableCell align="right">
-                                                    <TextField className="quantity-input" onChange={handleChange} type="number" />
+                                                    <TextField className="quantity-input" onChange={(e) => handleChange(e, inventory.id, inventory.quantity)} type="number" value={inventoryQuantities[inventory.id] || ''}  />
                                                 </TableCell>
                                                 <TableCell align="right">
-                                                    <Button
-                                                        className='actions' onClick={() => handleClick(inventory.id)} disableRipple
-                                                    >
-                                                        Request
-                                                    </Button>
+                                                    <StyledButton text={'Request'} onClick={() => handleClick(inventory.id)} />
                                                 </TableCell>
                                             </TableRow>
                                         ) : null
@@ -163,6 +187,7 @@ export const InventoryTable = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        )}
                     </AccordionDetails>
                 </Accordion>
             ))}

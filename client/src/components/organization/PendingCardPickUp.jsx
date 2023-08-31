@@ -36,7 +36,7 @@ const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_
     return (
         <div>
             {isMobile  ? (
-                <Card sx={{ display: 'flex', alignItems: 'center', padding: '10px', width:"780px" }}>
+                <Card sx={{ display: 'flex', alignItems: 'center', padding: '10px', width:"800px" }}>
                     <Box sx={{ display: 'inline-block', marginRight: '20px', width: '150px' }}>
                         <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Name</Typography>
                         <Typography>{first_name} {last_name}</Typography>
@@ -45,7 +45,7 @@ const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_
                         <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Product Name</Typography>
                         <Typography>{transaction_name}</Typography>
                     </Box>
-                    <Box sx={{ display: 'inline-block', marginRight: '20px', width: '70px' }}>
+                    <Box sx={{ display: 'inline-block', marginRight: '20px', width: '150px' }}>
                         <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Transaction ID</Typography>
                         <Typography>{transaction_id}</Typography>
                     </Box>
@@ -55,9 +55,8 @@ const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_
                     </Box>
                     <Box sx={{ display: 'inline-block', marginRight: '20px', marginLeft: '20px' }}>
                         <Button onClick={handleClickConfirm} className='button-confirm'>
-                        Confirm
+                            Confirm
                         </Button>
-                        
                     </Box>
                     <Box sx={{ display: 'inline-block', ...closeClickStyle }}>
                         <CloseIcon  onClick={onDelete} sx={{ fontSize: 45 , color: '#90C088'}}/>
@@ -65,6 +64,9 @@ const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_
                 </Card>
             ) : (
                 <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', width: "350px" }}>
+                    <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'right', ...closeClickStyle }}>
+                        <CloseIcon onClick={onDelete} sx={{ fontSize: 45, color: '#90C088' }} />
+                    </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', textAlign: 'center' }}>
                         <Typography sx={{ fontWeight: 'bold' }} variant="subtitle1">Name</Typography>
                         <Typography>{first_name} {last_name}</Typography>
@@ -86,9 +88,7 @@ const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_
                             Confirm
                         </Button>
                     </Box>
-                    <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center', ...closeClickStyle }}>
-                        <CloseIcon onClick={onDelete} sx={{ fontSize: 45, color: '#90C088' }} />
-                    </Box>
+                    
                 </Card>
             )}
             </div>

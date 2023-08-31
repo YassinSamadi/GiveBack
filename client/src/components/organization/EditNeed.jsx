@@ -150,7 +150,7 @@ const EditNeed = ({ open, handleClose, need, products,onEditSuccess  }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Close</Button>
+        <Button autoFocus onClick={handleClose} sx={{ color: '#90C088' }}>Close</Button>
       </DialogActions>
     </Dialog>
   );

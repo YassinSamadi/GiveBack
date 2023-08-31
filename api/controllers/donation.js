@@ -1,20 +1,26 @@
-import {db} from "../db.js"
+import {
+    db
+} from "../db.js"
 import jwt from "jsonwebtoken";
 
 export const getAllDonations = (req, res) => {
     const selectQuery = "SELECT * FROM donation";
-    
+
     db.query(selectQuery, (err, results) => {
-    if (err) return res.status(500).json(err);
-    
-    return res.status(200).json(results);
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json(results);
     });
 };
 
 export const userDonation = (req, res) => {
-    const { quantity_donated, donation_date, need_id } = req.body;
+    const {
+        quantity_donated,
+        donation_date,
+        need_id
+    } = req.body;
 
-    const token = req.cookies.useraccess_token; 
+    const token = req.cookies.useraccess_token;
 
     if (!token) return res.status(401).json("Not authorized");
 
@@ -158,7 +164,7 @@ export const getDonationsToOrganization = (req, res) => {
             INNER JOIN 
                 user u ON d.user_id = u.id
             WHERE 
-                o.id = ?
+                o.id = ? AND confirmation_date IS NOT NULL
             ORDER BY 
                 d.donation_date DESC`;
 
@@ -187,14 +193,14 @@ export const getTotalDonationsReceivedByOrg = (req, res) => {
             INNER JOIN 
                 need n ON d.need_id = n.id
             WHERE 
-                n.org_id = ?`;
+                n.org_id = ? AND confirmation_date IS NOT NULL`;
 
         db.query(selectQuery, [decoded.id], (err, results) => {
             if (err) return res.status(500).json(err);
-            
+
             return res.status(200).json(results[0]);
         });
-        })
+    })
 };
 
 export const getTopDonatorToOrg = (req, res) => {
@@ -206,8 +212,8 @@ export const getTopDonatorToOrg = (req, res) => {
     jwt.verify(token, "JWT", (err, decoded) => {
         if (err) return res.status(401).json("Not authorized");
 
-        const selectQuery = 
-        `SELECT 
+        const selectQuery =
+            `SELECT 
                 u.first_name as user_name,
                 SUM(d.quantity_donated) as total_donations
             FROM 
@@ -217,19 +223,19 @@ export const getTopDonatorToOrg = (req, res) => {
             INNER JOIN 
                 user u ON d.user_id = u.id
             WHERE 
-                n.org_id = ?
+                n.org_id = ? AND confirmation_date IS NOT NULL
             GROUP BY 
                 u.id
             ORDER BY 
-                total_donations DESC
-            LIMIT 1`;
+                total_donations DESC 
+            LIMIT 1 `;
 
         db.query(selectQuery, [decoded.id], (err, results) => {
             if (err) return res.status(500).json(err);
-            
+
             return res.status(200).json(results[0]);
         });
-        })
+    })
 };
 
 export const getAllDonationsNoConfirmation = (req, res) => {
@@ -247,8 +253,9 @@ export const getAllDonationsNoConfirmation = (req, res) => {
             FROM donation AS d
             INNER JOIN user AS u ON d.user_id = u.id
             INNER JOIN need AS n ON d.need_id = n.id
-            WHERE d.confirmation_date IS NULL
+            WHERE d.confirmation_date IS NULL AND d.delete_date IS NULL
             AND n.org_id = ?
+            ORDER BY d.donation_date DESC;
         `;
 
 
@@ -262,35 +269,49 @@ export const getAllDonationsNoConfirmation = (req, res) => {
 };
 
 export const deleteDonation = (req, res) => {
-    const id = req.query.id; 
+    const id = req.query.id;
     try {
-        const deleteQuery = `DELETE FROM donation WHERE id = ?`;
-        
-        db.query(deleteQuery, id, (err, data) => {
+        const updateQuery =
+            `UPDATE need AS n
+            JOIN donation AS d ON n.id = d.need_id
+            SET n.quantity_fulfilled = n.quantity_fulfilled + d.quantity_donated
+            WHERE d.id = ?`;
+
+        db.query(updateQuery, id, (err, data) => {
             if (err) return res.status(500).json(err);
-            return res.status(200).json("donation deleted successfully");
+
+            const donationUpdateQuery = `UPDATE donation
+                            SET delete_date = NOW()
+                            WHERE id = ?`
+
+            db.query(donationUpdateQuery, id, (err, data) => {
+                if (err) {
+                    console.error("Error updating transaction:", err);
+                    return res.status(500).json({
+                        error: "An error occurred while updating the donation."
+                    });
+                }
+
+                return res.status(200).json({
+                    message: "Donation deleted successfully"
+                });
+            });
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).json(error);
-    }    
+    }
 };
 
 export const confirmDonation = (req, res) => {
-    const id = req.query.id; 
+    const id = req.query.id;
     try {
         const updateQuery = `UPDATE donation SET confirmation_date = NOW() WHERE id = ?`;
-        
+
         db.query(updateQuery, id, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("donation confirmed successfully");
         });
-    } catch(error) {
+    } catch (error) {
         return res.status(500).json(error);
-    }    
+    }
 };
-
-
-
-
-
-

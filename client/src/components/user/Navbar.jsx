@@ -1,5 +1,5 @@
 import '../../style/user/navbar.scss'
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo/GiveBackRight500x500.png';
 import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
@@ -18,6 +18,19 @@ import Logout from '@mui/icons-material/Logout';
 const Navbar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const {user, logout} = useContext(AuthContext);
+  const [showInventoriesLink, setShowInventoriesLink] = useState(false);
+
+  useEffect(() => {
+    const inNeedValue = JSON.parse(localStorage.getItem("user")).inNeed;
+    setShowInventoriesLink(inNeedValue === 1);
+  }, []);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const inNeedValue = user && user.inNeed;
+
+    setShowInventoriesLink(inNeedValue === 1 || inNeedValue === "true");
+}, [setShowInventoriesLink]);
+
 
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
@@ -61,13 +74,14 @@ const Navbar = () => {
               {location.pathname === '/map' && <div className="active-line"></div>}
             </Link>
           </li>
-          <li>
-            
-            <Link to="/inventories" className={`navbar-link ${location.pathname === '/inventories' ? 'active' : 'nonactive '}`}>
-            Inventories
-              {location.pathname === '/inventories' && <div className="active-line"></div>}
-            </Link>
-          </li>
+          {showInventoriesLink && ( 
+            <li>
+              <Link to="/inventories" className={`navbar-link ${location.pathname === '/inventories' ? 'active' : 'nonactive '}`}>
+                Inventories
+                {location.pathname === '/inventories' && <div className="active-line"></div>}
+              </Link>
+            </li>
+          )}
           <li>
             <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : 'nonactive '}`}>
               History

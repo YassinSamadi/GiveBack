@@ -24,8 +24,12 @@
     padding-bottom: 30px;
 }
 
-.align-text-center{
+.align-text-center-empty{
     text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    align-self: center;
 }
 
 .center-img {

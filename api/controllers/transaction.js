@@ -11,11 +11,9 @@ export const addTransaction = (req, res) => {
     jwt.verify(token, "JWT", (err, decoded) => {
         if (err) return res.status(401).json("Not authorized");
 
+        const inventoryId = req.query.id;
         const userId = decoded.id;
-        const {
-            quantity,
-            inventoryId
-        } = req.body;
+        const {quantity} = req.body;
         const values = [quantity, new Date(), userId, inventoryId]
         try {
             let insertQuery = `INSERT INTO transaction (quantity, transaction_date, user_id, inventory_id) VALUES (?,?,?,?)`
@@ -60,7 +58,7 @@ export const getActiveTransactions = (req, res) => {
         INNER JOIN user on transaction.user_id = user.id
         INNER JOIN inventory ON transaction.inventory_id = inventory.id
         INNER JOIN product ON inventory.product_id = product.id
-        WHERE inventory.org_id = ? AND confirmation_date IS NULL`;
+        WHERE inventory.org_id = ? AND confirmation_date IS NULL AND delete_date IS NULL`;
 
         db.query(selectQuery, organization_id, (err, results) => {
             if (err) return res.status(500).json(err);
@@ -118,8 +116,7 @@ export const deleteTransaction = (req, res) => {
 
             const transactionUpdateQuery =
                 `UPDATE transaction
-                SET confirmation_date = NOW(),
-                    quantity = -1
+                SET delete_date = NOW()
                 WHERE id = ?`;
 
             db.query(transactionUpdateQuery, transaction_id, (err, data) => {

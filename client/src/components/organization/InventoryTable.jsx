@@ -7,7 +7,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import axios from 'axios';
 import '../../style/organization/inventoryTable.scss';
 import { createTheme } from '@mui/material/styles';
-
+import StyledButton from '../ui/StyledButton';
+import ReversedButton from '../ui/ReversedButton';
 const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
@@ -170,14 +171,8 @@ export const InventoryTable = () => {
                                     <TextField inputProps={{min:1}} className="quantity-input" onChange={handleInputChange} type="number" />
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button variant="outlined" sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white', marginTop: '15px' }} onClick={() => handleAddSubmit(product.id)} disableRipple>
-                                        <AddIcon />
-                                        Add
-                                    </Button>
-                                    <Button variant="outlined" sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white', marginTop: '15px' }} onClick={() => handleRemoveSubmit(product.id)} disableRipple>
-                                        <RemoveIcon />
-                                        Remove
-                                    </Button>
+                                    <StyledButton sx={{width:'70px'}}  text="Add" icon={<AddIcon />}  onClick={() => handleAddSubmit(product.id)} />
+                                    <ReversedButton text="Remove" icon={<RemoveIcon />}  onClick={() => handleRemoveSubmit(product.id)} />
                                 </TableCell>
                             </TableRow>
                         ))

@@ -20,7 +20,7 @@ const EditProfileOrg = () => {
     });
 
     const [organization, setOrganization] = useState(null);
-    const [logo , setLogo] = useState(null);
+    const [logo, setLogo] = useState(null);
 
     const [address, setAddress] = useState(null);
 
@@ -33,18 +33,19 @@ const EditProfileOrg = () => {
                 const organizationData = response.data[0];
                 const addressResponse = await axios.get(`/address/getAddressOrganization/${organizationData.address_id}`);
                 const addressData = addressResponse.data[0];
-                console.log(addressData);
                 setFormData({
                     ...formData,
                     name: organizationData.name,
                     website_url: organizationData.website_url,
-                    street: addressData.street,
-                    number: addressData.number,
-                    city: addressData.city,
-                    postal_code: addressData.postal_code,
-                    country: addressData.country
+                    address: {
+                        street: addressData.street,
+                        number: addressData.number,
+                        city: addressData.city,
+                        postal_code: addressData.postal_code,
+                        country: addressData.country
+                    }
                 });
-            
+
                 setOrganization(organizationData);
                 setAddress(addressData);
             } catch (error) {
@@ -65,42 +66,104 @@ const EditProfileOrg = () => {
 
     const handleChange = (e) => {
         const { name, type, value, files, checked } = e.target;
-        const newValue = type === 'file' ? files[0] : type === 'checkbox' ? checked : value;
-        console.log('name',name);
-        if (name.startsWith('address.')) {
-            const addressField = name.split('.')[1];
-            console.log('ad',addressField);
-            setFormData((prevData) => ({
-                ...prevData,
-                address: {
-                    ...prevData.address,
-                    [addressField]: newValue
-                }
-            }));
+
+        if (type === 'file') {
+            if (files && files.length > 0) { // Only proceed if files are selected
+                const uniqueFilename = generateUniqueFilename(files[0]?.name);
+                setLogo({ file: files[0], uniqueFilename });
+                setFormData({ ...formData, logo: uniqueFilename });
+            }
         } else {
-            setFormData((prevData) => ({ ...prevData, [name]: newValue }));
+            const newValue = type === 'checkbox' ? checked : value;
+            if (name.startsWith('address.')) {
+                const addressField = name.split('.')[1];
+                setFormData((prevData) => ({
+                    ...prevData,
+                    address: {
+                        ...prevData.address,
+                        [addressField]: newValue
+                    }
+                }));
+            } else {
+                setFormData((prevData) => ({ ...prevData, [name]: newValue }));
+            }
         }
     };
-    
+
 
     const handleSubmit = async () => {
         try {
-            await axios.put(`/organizations/updateOrganization`, {
-                id: organization.id,
-                name: formData.name,
-                password: formData.password,
-                logo: formData.logo,
-                website_url: formData.website_url
-            });
+            if (logo) {
+                const formDataWithLogo = new FormData();
+                formDataWithLogo.append('logo', logo.file, logo.uniqueFilename);
+                const imageResponse = await axios.post('/upload/logo', formDataWithLogo);
+                const imageName = imageResponse.data.filename;
+                setFormData({ ...formData, logo: imageName });
+                formData.logo = imageName;
 
-            await axios.put(`/addresses/updateAddress`, {
-                id: address.id,
-                street: formData.address.street,
-                number: formData.address.number,
-                city: formData.address.city,
-                postal_code: formData.address.postal_code,
-                country: formData.address.country
-            });
+                const updateOrganization = {
+                    ...organization,
+                    name: formData.name,
+                    website_url: formData.website_url,
+                    logo: imageName,
+                    password: formData.password,
+                    address: {
+                        id: formData.address.id,
+                        street: formData.address.street,
+                        number: formData.address.number,
+                        city: formData.address.city,
+                        postal_code: formData.address.postal_code,
+                        country: formData.address.country
+                    }
+                };
+
+                const updateAddress = {
+                    ...address,
+                    id: address.id,
+                    street: formData.address.street,
+                    number: formData.address.number,
+                    city: formData.address.city,
+                    postal_code: formData.address.postal_code,
+                    country: formData.address.country
+                }
+
+                localStorage.setItem('organization', JSON.stringify(updateOrganization));
+                setOrganization({ ...organization, logo: imageName });
+                setAddress({ ...address, updateAddress })
+
+                await axios.put(`/organization/updateOrganization`, formData);
+
+                await axios.put(`/address/updateAddress`, {
+                    id: address.id,
+                    street: formData.address.street,
+                    number: formData.address.number,
+                    city: formData.address.city,
+                    postal_code: formData.address.postal_code,
+                    country: formData.address.country
+                });
+
+                setOrganization(updateOrganization);
+                setAddress(updateAddress)
+                localStorage.setItem('organization', JSON.stringify(updateOrganization));
+            }
+            else {
+                await axios.put(`/organization/updateOrganization`, {
+                    id: organization.id,
+                    name: formData.name,
+                    password: formData.password,
+                    website_url: formData.website_url
+                });
+
+                await axios.put(`/address/updateAddress`, {
+                    id: address.id,
+                    street: formData.address.street,
+                    number: formData.address.number,
+                    city: formData.address.city,
+                    postal_code: formData.address.postal_code,
+                    country: formData.address.country
+                });
+            }
+            window.location.reload();
         } catch (error) {
             console.error('Error updating organization:', error);
         }
@@ -142,15 +205,22 @@ const EditProfileOrg = () => {
                 />
                 <label>Organization logo</label>
                 <img
-                    src={org_logo ? `/assets/uploads/profilepic/${org_logo}` : defaultLogo}
+                    src={org_logo ? `/assets/uploads/logo/${org_logo}` : defaultLogo}
                     alt="User Profile"
                     className="user-profile-image"
+                />
+                <input
+                    type="file"
+                    accept=".jpg, .jpeg, .png"
+                    name="logo"
+                    onChange={handleChange}
+                    className="input-field"
                 />
                 <label>Address</label>
                 <input
                     type="text"
                     name="address.street"
-                    value={formData.street || ''}
+                    value={formData.address.street || ''}
                     onChange={handleChange}
                     placeholder="Street"
                     className="input-field"
@@ -158,16 +228,16 @@ const EditProfileOrg = () => {
                 <input
                     type="text"
                     name="address.number"
-                    value={formData.number || ''}
+                    value={formData.address.number || ''}
                     onChange={handleChange}
                     placeholder="Number"
                     className="input-field"
                 />
-                
+
                 <input
                     type="text"
                     name="address.city"
-                    value={formData.city || ''}
+                    value={formData.address.city || ''}
                     onChange={handleChange}
                     placeholder="City"
                     className="input-field"
@@ -175,7 +245,7 @@ const EditProfileOrg = () => {
                 <input
                     type="text"
                     name="address.postal_code"
-                    value={formData.postal_code || ''}
+                    value={formData.address.postal_code || ''}
                     onChange={handleChange}
                     placeholder="Postal Code"
                     className="input-field"
@@ -183,7 +253,7 @@ const EditProfileOrg = () => {
                 <input
                     type="text"
                     name="address.country"
-                    value={formData.country || ''}
+                    value={formData.address.country || ''}
                     onChange={handleChange}
                     placeholder="Country"
                     className="input-field"
