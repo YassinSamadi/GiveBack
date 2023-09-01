@@ -1,40 +1,41 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo/GiveBackNoText500x500.png';
-import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+} from '@mui/material';
+
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
 import HomeIcon from '@mui/icons-material/Home';
-import { useLocation } from 'react-router-dom';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import ListItemLink from '../MenuItemMobileLink';
-import '../../style/organization/mobileNavbarOrg.scss'
-import { OrganizationAuthContext } from '../../context/authContextOrganizations';
-import { useContext } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
-const drawerWidth = 240;
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
+import ListItemLink from '../MenuItemMobileLink';
+import '../../style/organization/mobileNavbarOrg.scss';
+import { OrganizationAuthContext } from '../../context/authContextOrganizations';
+import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
+
+const drawerWidth = 240;
 
 const MobileNavbarOrg = () => {
   const location = useLocation();
-  const {organization, logout} = useContext(OrganizationAuthContext);
+  const { organization, logout } = useContext(OrganizationAuthContext);
 
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const [profileOpen, setProfileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -49,14 +50,13 @@ const MobileNavbarOrg = () => {
   const organization_logo = organization ? organization.logo : '';
 
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, link: '/dashboard/organization' },
-    { text: 'Inventory', icon: <InventoryIcon />, link: '/inventory' },
-    { text: 'Donations', icon: <VolunteerActivismIcon />, link: '/donations' },
-    {text: 'Pending', icon: <PendingActionsIcon />, link: '/pending'}
+    { text: 'Home', icon: <HomeIcon />, link: '/organization/dashboard' },
+    { text: 'Inventory', icon: <InventoryIcon />, link: '/organization/inventory' },
+    { text: 'Donations', icon: <VolunteerActivismIcon />, link: '/organization/donations' },
+    { text: 'Pending', icon: <PendingActionsIcon />, link: '/organization/pending' },
   ];
 
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;
-
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -68,32 +68,29 @@ const MobileNavbarOrg = () => {
           ml: { md: `${drawerWidth}px` },
         }}
       >
-        <Toolbar sx={{ backgroundColor: 'white',display: 'flex', justifyContent: 'space-between', lineHeight:'0'  }} >
-            <IconButton
-                
-                color="black"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { md: 'none' } }}
-                
-            >
-                <MenuIcon fontSize="large" />
-            </IconButton>
-            <Box>
-                <Link to="/dashboard/organization">
-                    <img src={logo} className={'logo'} alt="logo" />
-                </Link>
-            </Box>
-            <Box>
-                <img
-                    onClick={handleProfileToggle}
-                    src={organization_logo ? `/assets/uploads/logo/${organization_logo}` : defaultProfilePic}
-                    alt="User Profile"
-                    className="user-profile-image"
-                />
-            </Box>
-
+        <Toolbar sx={{ backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', lineHeight: '0' }}>
+          <IconButton
+            color="black"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { md: 'none' } }}
+          >
+            <MenuIcon fontSize="large" />
+          </IconButton>
+          <Box>
+            <Link to="/organization/dashboard">
+              <img src={logo} className="logo" alt="logo" />
+            </Link>
+          </Box>
+          <Box>
+            <img
+              onClick={handleProfileToggle}
+              src={organization_logo ? `/assets/uploads/logo/${organization_logo}` : defaultProfilePic}
+              alt="User Profile"
+              className="user-profile-image"
+            />
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
@@ -102,27 +99,31 @@ const MobileNavbarOrg = () => {
         aria-label="mailbox folders"
       >
         <Drawer
-            container={container}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-                keepMounted: true, 
-            }}
-            sx={{
-                display: { xs: 'block', md: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-            }}
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
         >
-          <div className='drawer-container'>
+          <div className="drawer-container">
             <div>
-              <div className='profile-drawer'>
-                <img  src={organization_logo ? `/assets/uploads/logo/${organization_logo}` : defaultProfilePic} alt="Profile" className='profile-image' />
+              <div className="profile-drawer">
+                <img
+                  src={organization_logo ? `/assets/uploads/logo/${organization_logo}` : defaultProfilePic}
+                  alt="Profile"
+                  className="profile-image"
+                />
                 <div>{`${organization_name}`}</div>
               </div>
             </div>
 
-            <div className='grow'>
+            <div className="grow">
               <Toolbar />
               <Divider />
               {menuItems.map((item) => (
@@ -133,7 +134,7 @@ const MobileNavbarOrg = () => {
             <div>
               <List>
                 {[
-                  { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/editprofileorg', onClick: handleDrawerToggle },
+                  { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/organization/editprofile', onClick: handleDrawerToggle },
                   { text: 'Sign out', icon: <ExitToAppIcon />, link: '/home', onClick: logout },
                 ].map(({ text, icon, link, onClick }) => (
                   <ListItem
@@ -162,10 +163,8 @@ const MobileNavbarOrg = () => {
           </div>
         </Drawer>
       </Box>
-
     </Box>
   );
 };
 
 export default MobileNavbarOrg;
-

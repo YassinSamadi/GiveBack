@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider, Outlet,} from "react-router-dom";
 import { AuthContext } from "./context/authContext";
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { OrganizationAuthContext } from "./context/authContextOrganizations";
 import Register from "./pages/Register";
@@ -92,12 +92,12 @@ const HomepageLayout =() => {
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/user",
     element:<Layout/>,
     children: [ 
       
       { 
-        path: "/dashboard/user", 
+        path: "/user/dashboard", 
         element: (
           <PrivateRouteUser>
               <Dashboard />
@@ -106,7 +106,7 @@ const router = createBrowserRouter([
       },
       
       { 
-        path: "/map", 
+        path: "/user/map", 
         element: 
         (
           <PrivateRouteUser>
@@ -116,7 +116,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/inventories",
+        path: "/user/inventories",
         element: 
         (
           <PrivateRouteUserInNeed>
@@ -125,7 +125,7 @@ const router = createBrowserRouter([
         ),
       },
       { 
-        path: "/history",
+        path: "/user/history",
         element: 
         (
           <PrivateRouteUser>
@@ -134,7 +134,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/editprofile",
+        path: "/user/editprofile",
         element: 
         (
           <PrivateRouteUser>
@@ -145,39 +145,39 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
+    path: "/organization",
     element:<OrganizationLayout/>,
     children: [ 
       { 
-        path: "/dashboard/organization", 
+        path: "/organization/dashboard", 
         element: 
           <PrivateRouteOrganization>
               <DashboardOrganization/>
           </PrivateRouteOrganization>
       },
       { 
-        path: "/donations", 
+        path: "/organization/donations", 
         element: 
           <PrivateRouteOrganization>
               <DonationsInfo/> 
           </PrivateRouteOrganization>
       },
       { 
-        path: "/inventory", 
+        path: "/organization/inventory", 
         element: 
           <PrivateRouteOrganization>
               <Inventory/> 
           </PrivateRouteOrganization>
       },
       { 
-        path: "/pending", 
+        path: "/organization/pending", 
         element: 
           <PrivateRouteOrganization>
               <Pending/> 
           </PrivateRouteOrganization>
       },
       {
-        path: "/editprofileorg",
+        path: "/organization/editprofile",
         element: 
         (
           <PrivateRouteOrganization>
@@ -193,7 +193,7 @@ const router = createBrowserRouter([
     children: [ 
       
       { 
-        path: "/home", 
+        path: "/", 
         element: <Home/> 
       },
     ],

@@ -62,30 +62,30 @@ const Navbar = () => {
       <div className="navbar-menu">
         <ul className="navbar-menu-items">
           <li>
-            <Link to="/dashboard/user" className={`navbar-link ${location.pathname === '/dashboard/user' ? 'active' : 'nonactive '}`}>
+            <Link to="/user/dashboard" className={`navbar-link ${location.pathname === '/user/dashboard' ? 'active' : 'nonactive '}`}>
               Home
-              {location.pathname === '/dashboard/user' && <div className="active-line"></div>}
+              {location.pathname === '/user/dashboard' && <div className="active-line"></div>}
             </Link>
           </li>
           <li>
             
-            <Link to="/map" className={`navbar-link ${location.pathname === '/map' ? 'active' : 'nonactive '}`}>
+            <Link to="/user/map" className={`navbar-link ${location.pathname === '/user/map' ? 'active' : 'nonactive '}`}>
             Map
-              {location.pathname === '/map' && <div className="active-line"></div>}
+              {location.pathname === '/user/map' && <div className="active-line"></div>}
             </Link>
           </li>
           {showInventoriesLink && ( 
             <li>
-              <Link to="/inventories" className={`navbar-link ${location.pathname === '/inventories' ? 'active' : 'nonactive '}`}>
+              <Link to="/user/inventories" className={`navbar-link ${location.pathname === '/user/inventories' ? 'active' : 'nonactive '}`}>
                 Inventories
-                {location.pathname === '/inventories' && <div className="active-line"></div>}
+                {location.pathname === '/user/inventories' && <div className="active-line"></div>}
               </Link>
             </li>
           )}
           <li>
-            <Link to="/history" className={`navbar-link ${location.pathname === '/history' ? 'active' : 'nonactive '}`}>
+            <Link to="/user/history" className={`navbar-link ${location.pathname === '/user/history' ? 'active' : 'nonactive '}`}>
               History
-              {location.pathname === '/history' && <div className="active-line"></div>}
+              {location.pathname === '/user/history' && <div className="active-line"></div>}
             </Link>
           </li>
         </ul>
@@ -143,7 +143,7 @@ const Navbar = () => {
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
               anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-              <MenuItem component={Link} to="/editprofile">
+              <MenuItem component={Link} to="/user/editprofile">
                 <Avatar />Edit Profile
               </MenuItem>
               <Divider />

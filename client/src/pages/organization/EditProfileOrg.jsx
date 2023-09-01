@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-// import '../../style/organization/editProfile.scss';
 import axios from 'axios';
-// import defaultLogo from '../../assets/miscellaneous/logo.jpg';
 import defaultLogo from '../../assets/miscellaneous/profile-pic.jpg';
-
+import StyledButton from '../../components/ui/StyledButton';
+import '../../style/user/editProfile.scss'; 
 const EditProfileOrg = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -172,10 +171,10 @@ const EditProfileOrg = () => {
     if (!organization) return null;
 
     return (
-        <div className="edit-organization-container">
+        <div className="edit-user-container">
             <h2>Edit Organization</h2>
 
-            <div className="edit-organization-form">
+            <div className="edit-user-form">
                 <label>Name</label>
                 <input
                     type="text"
@@ -258,12 +257,7 @@ const EditProfileOrg = () => {
                     placeholder="Country"
                     className="input-field"
                 />
-                <button
-                    className="update-button"
-                    onClick={handleSubmit}
-                >
-                    Update
-                </button>
+                <StyledButton  onClick={handleSubmit} text={'Update'}/>
             </div>
         </div>
     );

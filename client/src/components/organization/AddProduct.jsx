@@ -24,7 +24,6 @@ export default function AddProduct() {
     product_id: '',
   });
 
-  
   const [errors, setErrors] = useState({
     quantity: '',
     product_id: '',
@@ -41,22 +40,22 @@ export default function AddProduct() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     let errorMessage = '';
-    
+
     if (name === 'description' && value.length > 400) {
       errorMessage = 'Description should not exceed 400 characters.';
     } else if (name === 'title' && value.length > 45) {
       errorMessage = 'Title should not exceed 45 characters.';
     }
-    
+
     const truncatedValue = value.slice(0, name === 'description' ? 400 : 45);
-  
+
     if (name === 'quantity') {
-      const newValue = Math.min(250, Math.max(1, truncatedValue)); 
+      const newValue = Math.min(250, Math.max(1, truncatedValue));
       setInputs((prev) => ({ ...prev, [name]: newValue }));
     } else {
       setInputs((prev) => ({ ...prev, [name]: truncatedValue }));
     }
-    
+
     setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
   };
 
@@ -96,38 +95,57 @@ export default function AddProduct() {
   }, []);
 
   return (
-    <div className='container-product'>
-      <StyledButton  onClick={handleClickOpen} text={'Add product'}/>
+    <div className="container-product">
+      <StyledButton onClick={handleClickOpen} text="Add product" />
       <Dialog
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
-        aria-labelledby="NeedsPopup"
+        aria-labelledby="AddProductDialog"
       >
-        <DialogTitle id="NeedsPopup" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
-          Add product 
+        <DialogTitle
+          id="AddProductDialog"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '10px',
+          }}
+        >
+          Add product
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-
-            <div className='dialog-item-quantity-add'>
-              <div className='center-items'>
-                <label htmlFor="product_id" className='label-titles'>
+            <div className="dialog-item-quantity-add">
+              <div className="center-items">
+                <label htmlFor="product_id" className="label-titles">
                   Product:
                 </label>
-                <select id="product_id" name="product_id" value={inputs.product_id} onChange={handleChange} className='product-select'>
-                  <option value="" disabled selected hidden>Select a product</option>
+                <select
+                  id="product_id"
+                  name="product_id"
+                  value={inputs.product_id}
+                  onChange={handleChange}
+                  className="product-select"
+                >
+                  <option value="" disabled hidden>
+                    Select a product
+                  </option>
                   {products.map((product) => (
-                    <option key={product.id} value={product.id}>{product.name}</option>
+                    <option key={product.id} value={product.id}>
+                      {product.name}
+                    </option>
                   ))}
                 </select>
               </div>
-              {errors.product_id && <div className='error-message error-margin3'>{errors.product_id}</div>}
+              {errors.product_id && (
+                <div className="error-message error-margin3">{errors.product_id}</div>
+              )}
             </div>
 
-            <div className='dialog-item-quantity-add'>
-              <div className='center-items'>
-                <label htmlFor="quantity" className='label-titles'>
+            <div className="dialog-item-quantity-add">
+              <div className="center-items">
+                <label htmlFor="quantity" className="label-titles">
                   Quantity:
                 </label>
                 <TextField
@@ -145,14 +163,16 @@ export default function AddProduct() {
                   }}
                 />
               </div>
-              {errors.quantity && <div className='error-message error-margin3'>{errors.quantity}</div>}
+              {errors.quantity && (
+                <div className="error-message error-margin3">{errors.quantity}</div>
+              )}
             </div>
 
-            <div className='dialog-items'>
+            <div className="dialog-items">
               <Button
                 variant="outlined"
                 onClick={handleSubmit}
-                sx={{ backgroundColor:  '#90C088', color:'white', borderColor: 'white' }}              
+                sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
               >
                 Submit
               </Button>
@@ -160,11 +180,7 @@ export default function AddProduct() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            autoFocus
-            onClick={handleClose}
-            sx={{ color: '#90C088' }}
-          >
+          <Button autoFocus onClick={handleClose} sx={{ color: '#90C088' }}>
             Close
           </Button>
         </DialogActions>

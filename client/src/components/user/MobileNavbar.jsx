@@ -37,6 +37,8 @@ const MobileNavbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const {user, logout} = useContext(AuthContext);
 
+ 
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -51,13 +53,19 @@ const MobileNavbar = () => {
   const user_profilepic = user ? user.profile_pic : '';
 
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, link: '/dashboard/user' },
-    { text: 'Map', icon: <MapIcon />, link: '/map' },
-    { text: 'Inventories', icon: <InventoryIcon />, link: '/inventories'},
-    { text: 'History', icon: <HistoryIcon />, link: '/history' },
+    { text: 'Home', icon: <HomeIcon />, link: '/user/dashboard' },
+    { text: 'Map', icon: <MapIcon />, link: '/user/map' },
+    { text: 'Inventories', icon: <InventoryIcon />, link: '/user/inventories'},
+    { text: 'History', icon: <HistoryIcon />, link: '/user/history' },
   ];
   const profileName = user_name; 
   const profileLastName = user_lastname; 
+
+  const inNeedValue = user && user.inNeed;
+
+  const filteredMenuItems = menuItems.filter(
+    item => item.text !== 'Inventories' || inNeedValue === 1
+  );
 
   const container = typeof window !== 'undefined' ? () => window.document.body : undefined;
 
@@ -127,7 +135,7 @@ const MobileNavbar = () => {
       <div className='grow'>
         <Toolbar />
         <Divider />
-        {menuItems.map((item) => (
+        {filteredMenuItems.map((item) => (
           <ListItemLink key={item.text} primary={item.text} icon={item.icon} to={item.link} closeDrawer={handleDrawerToggle} />
         ))}
       </div>
@@ -136,7 +144,7 @@ const MobileNavbar = () => {
       <div>
       <List>
         {[
-          { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/editprofile', onClick: handleDrawerToggle },
+          { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/user/editprofile', onClick: handleDrawerToggle },
           { text: 'Sign out', icon: <ExitToAppIcon />, link: '/home', onClick: logout },
         ].map(({ text, icon, link, onClick }) => (
           <ListItem

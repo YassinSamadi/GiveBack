@@ -32,7 +32,7 @@ export const login = (req, res) => {
 
     db.query(q, [req.body.email], (err, data) => {
         if (err) return res.json(err);
-        if(data.length === 0) return res.status(404).json("Organization not found");
+        if(data.length === 0) return res.status(404).json("Invalid email or password");
 
         const isValid = bcrypt.compareSync(req.body.password, data[0].password);
 

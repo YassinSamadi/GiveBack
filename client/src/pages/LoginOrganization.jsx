@@ -25,14 +25,19 @@ export const LoginOrganization = () => {
   
     const handleSubmit = async e => {
       e.preventDefault();
+      setError(null); 
       try {
-        await login(inputs)
-        navigate("/dashboard/organization");
-      }
-      catch (error) {
-        setError(error.response.data);
+        await login(inputs);
+        navigate("/organization/dashboard");
+      } catch (error) {
+        if (error.response && error.response.data === "Invalid email or password") {
+          setError("Invalid email or password");
+        } else {
+          setError("An error occurred"); 
+        }
       }
     }
+
     return (
       <div className='auth splitscreen'>
       <div className='left'></div>

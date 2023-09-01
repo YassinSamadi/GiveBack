@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../style/user/editProfile.scss'; 
 import axios from 'axios';
 import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
+import StyledButton from '../../components/ui/StyledButton';
 
 const EditProfile = () => {
     const [formData, setFormData] = useState({
@@ -89,6 +90,7 @@ const EditProfile = () => {
     
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser)); 
+
             } else {
                 const updatedUser = {
                     ...user,
@@ -102,7 +104,9 @@ const EditProfile = () => {
     
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser)); 
-            }
+
+            } 
+            window.location.reload();
         } catch (error) {
             console.error('Error updating user:', error);
         }
@@ -174,12 +178,8 @@ const EditProfile = () => {
                         className="checkbox-field"
                     />
                 </label>
-                <button
-                    className="update-button"
-                    onClick={handleSubmit}
-                >
-                    Update
-                </button>
+                
+                <StyledButton onClick={handleSubmit} text={'Update'} />
             </div>
         </div>
     );

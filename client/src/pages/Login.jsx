@@ -27,7 +27,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       await login(inputs);
-      navigate('/dashboard/user');
+      navigate('/user/dashboard');
     } catch (error) {
       if (error.response && error.response.data) {
         setError(error.response.data);
@@ -51,7 +51,6 @@ export const Login = () => {
           <input required type="text" placeholder="Email" name="email" onChange={handleChange}/>
           <input required type="password" placeholder="Password" name="password" onChange={handleChange}/>
           <button onClick={handleSubmit} type="submit">Login</button>
-          {/* <span><Link to="/register">Forgot Password?</Link></span> */}
           {error && <p>{error}</p>}
           <span>Don't have an account?<Link to="/register">Sign up</Link></span>
         </form>

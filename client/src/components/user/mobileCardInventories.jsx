@@ -1,25 +1,10 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, NoSsr, TextField } from '@mui/material';
-import LinearProgress from '@mui/material/LinearProgress';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Card, Typography, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import CloseIcon from '@mui/icons-material/Close';
 import '../../style/organization/pendingCard.scss';
-import { useState } from 'react';
-import axios from 'axios';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-
+import StyledButton from '../ui/StyledButton';
 
 const CardInventories = ({ product_name, quantity, handleClickConfirm, handleChange,value, image }) => {
-
-    const closeClickStyle = {
-        cursor: 'pointer'
-    };
-
-    const boxStyle = {
-        display: 'inline-block', marginRight: '20px',
-    }
     const boxMobileStyle ={
         marginBottom: '10px',
         width: '100%', 
@@ -37,7 +22,7 @@ const CardInventories = ({ product_name, quantity, handleClickConfirm, handleCha
     return (
         <Card sx={{ flexDirection: 'column', width: "300px", ...cardStyle }}>
                     <Box sx={boxMobileStyle}>
-                        <img className='img-accordion-user ' src={image} />
+                        <img className='img-accordion-user ' alt="user_image" src={image} />
                         
                     </Box>
                     <Box sx={boxMobileStyle}>
@@ -55,9 +40,7 @@ const CardInventories = ({ product_name, quantity, handleClickConfirm, handleCha
                         <TextField className="quantity-input" onChange={handleChange} type="number" value={value} />
                     </Box>
                     <Box sx={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <Button onClick={handleClickConfirm} className='button-confirm'>
-                            Request
-                        </Button>
+                        <StyledButton onClick={handleClickConfirm} text={'Request'} />
                     </Box>
                 </Card>
     );
