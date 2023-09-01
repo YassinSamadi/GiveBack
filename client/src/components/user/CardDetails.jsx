@@ -76,7 +76,7 @@ const CardDetails = ({ open, handleClose, product, onDonationSuccess  }) => {
                             <h3> <strong>By</strong> {product.organization_name}</h3>
                         </DialogContentText>
                         <DialogContentText>
-                            <p >{dayjs(product.date).fromNow()}</p>
+                            <p>{dayjs(product.date).fromNow()}</p>
                         </DialogContentText>
                     </div>
                     <hr/>
@@ -90,7 +90,7 @@ const CardDetails = ({ open, handleClose, product, onDonationSuccess  }) => {
                         <div className="donation-input">
                             <Button
                                 variant="outlined"
-                                style={{ backgroundColor:  'lightgrey', color:'white', borderColor: 'white' }} 
+                                sx={{ backgroundColor:  'lightgrey', color:'white', borderColor: 'white' }} 
                                 disabled={true}
                             >
                                 submit donation
@@ -129,7 +129,7 @@ const CardDetails = ({ open, handleClose, product, onDonationSuccess  }) => {
 
                             <Button
                                 variant="outlined"
-                                style={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
+                                sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
                                 onClick={handleSubmit}
                             >
                                 submit donation
