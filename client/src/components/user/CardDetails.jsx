@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { createTheme } from '@mui/material/styles';
 import '../../style/user/cardDetails.scss';
 import { TextField } from '@mui/material';
+import StyledButton from '../ui/StyledButton';
 
 const CardDetails = ({ open, handleClose, product, onDonationSuccess  }) => {
     const theme = useTheme();
@@ -121,19 +122,13 @@ const CardDetails = ({ open, handleClose, product, onDonationSuccess  }) => {
                                     setQuantityDonated(newValue);
                                 }}
                                 sx={{
+                                    width: '30%',
                                     '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: '#90C088',
+                                      borderColor: '#90C088',
                                     },
-                                }}
+                                  }}
                             />
-
-                            <Button
-                                variant="outlined"
-                                sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
-                                onClick={handleSubmit}
-                            >
-                                submit donation
-                            </Button>
+                            <StyledButton text="submit donation"  onClick={handleSubmit} />
                         </div>
                     )}
                 </DialogContent>

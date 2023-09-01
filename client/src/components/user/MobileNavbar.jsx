@@ -61,7 +61,7 @@ const MobileNavbar = () => {
   const profileName = user_name; 
   const profileLastName = user_lastname; 
 
-  const inNeedValue = user && user.inNeed;
+  const inNeedValue = user && user?.inNeed;
 
   const filteredMenuItems = menuItems.filter(
     item => item.text !== 'Inventories' || inNeedValue === 1
@@ -145,7 +145,7 @@ const MobileNavbar = () => {
       <List>
         {[
           { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/user/editprofile', onClick: handleDrawerToggle },
-          { text: 'Sign out', icon: <ExitToAppIcon />, link: '/home', onClick: logout },
+          { text: 'Sign out', icon: <ExitToAppIcon />, link: '/', onClick: logout },
         ].map(({ text, icon, link, onClick }) => (
           <ListItem
             component={Link}

@@ -169,13 +169,8 @@ export default function AddProduct() {
             </div>
 
             <div className="dialog-items">
-              <Button
-                variant="outlined"
-                onClick={handleSubmit}
-                sx={{ backgroundColor: '#90C088', color: 'white', borderColor: 'white' }}
-              >
-                Submit
-              </Button>
+              
+              <StyledButton  onClick={handleSubmit} text="Submit" />
             </div>
           </DialogContentText>
         </DialogContent>

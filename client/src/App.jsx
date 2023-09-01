@@ -80,7 +80,7 @@ const HomepageLayout =() => {
   function PrivateRouteUserInNeed({ children }) {
     const { user } = useContext(AuthContext);
   
-    const inNeedValue = JSON.parse(localStorage.getItem("user")).inNeed;
+    const inNeedValue = JSON.parse(localStorage.getItem("user"))?.inNeed;
   
     if (user && inNeedValue === 1) {
       return children;

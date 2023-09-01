@@ -129,7 +129,7 @@ const OrganizationNavbar = () => {
           Edit Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={logout} component={Link} to="/home">
+        <MenuItem onClick={logout} component={Link} to="/">
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

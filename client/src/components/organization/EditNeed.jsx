@@ -137,6 +137,12 @@ const EditNeed = ({ open, handleClose, need, products, onEditSuccess }) => {
                 onChange={handleChange}
                 inputProps={{ min: 1, max: 250 }}
                 className='flex-2'
+                sx={{
+                  width: '100%',
+                  '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#90C088',
+                  },
+                }}
               />
             </div>
           </div>

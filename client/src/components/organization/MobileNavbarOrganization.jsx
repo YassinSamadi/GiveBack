@@ -135,7 +135,7 @@ const MobileNavbarOrg = () => {
               <List>
                 {[
                   { text: 'Edit Profile', icon: <AccountCircleIcon />, link: '/organization/editprofile', onClick: handleDrawerToggle },
-                  { text: 'Sign out', icon: <ExitToAppIcon />, link: '/home', onClick: logout },
+                  { text: 'Sign out', icon: <ExitToAppIcon />, link: '/', onClick: logout },
                 ].map(({ text, icon, link, onClick }) => (
                   <ListItem
                     component={Link}

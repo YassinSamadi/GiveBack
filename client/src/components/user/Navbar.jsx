@@ -20,12 +20,12 @@ const Navbar = () => {
   const [showInventoriesLink, setShowInventoriesLink] = useState(false);
 
   useEffect(() => {
-    const inNeedValue = JSON.parse(localStorage.getItem("user")).inNeed;
+    const inNeedValue = JSON.parse(localStorage.getItem("user"))?.inNeed;
     setShowInventoriesLink(inNeedValue === 1);
   }, []);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    const inNeedValue = user && user.inNeed;
+    const inNeedValue = user && user?.inNeed;
 
     setShowInventoriesLink(inNeedValue === 1 || inNeedValue === "true");
 }, [setShowInventoriesLink]);
@@ -142,7 +142,7 @@ const Navbar = () => {
               </MenuItem>
               <Divider />
               
-              <MenuItem onClick={logout} component={Link} to='/home'>
+              <MenuItem onClick={logout} component={Link} to='/'>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
