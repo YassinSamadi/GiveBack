@@ -1,7 +1,5 @@
-import React, { useEffect, useState ,useContext} from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import '../../style/organization/dashboardOrganization.scss';
 import MuiCard from '../../components/organization/Card.jsx';
@@ -14,11 +12,9 @@ import DeletePopup from '../../components/organization/DeletePopUp';
 export const DashboardOrganization = () => {
     const [needs, setNeeds] = useState([]);
     const [products, setProducts] = useState([]);
-    const [selectedCard, setSelectedCard] = useState(null);
     const [editingNeed, setEditingNeed] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [deletingNeed, setDeletingNeed] = useState(null);
-    const {organization, setOrganization} = useContext(OrganizationAuthContext);
+    const {organization} = useContext(OrganizationAuthContext);
     const [currentlyDeletingNeed, setCurrentlyDeletingNeed] = useState(null);
 
     useEffect(() => {
@@ -44,7 +40,6 @@ export const DashboardOrganization = () => {
 
 
     const handleClose = () => {
-        setSelectedCard(null);
         setIsEditing(false);
         setEditingNeed(null);
     };

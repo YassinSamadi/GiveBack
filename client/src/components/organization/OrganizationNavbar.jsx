@@ -1,5 +1,5 @@
 import '../../style/organization/navbarOrg.scss';
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Avatar, Box, Divider, IconButton, Menu, MenuItem, ListItemIcon, Tooltip } from '@mui/material';
 import { Logout } from '@mui/icons-material';

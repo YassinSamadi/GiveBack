@@ -1,4 +1,3 @@
-import React from 'react';
 import aboutus from '../assets/miscellaneous/aboutus.jpg';
 import whatwedo from '../assets/miscellaneous/whatwedo.jpg';
 import howwework from '../assets/miscellaneous/howwework.jpg';

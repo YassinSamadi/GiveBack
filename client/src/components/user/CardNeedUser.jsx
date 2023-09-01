@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardContent, CardMedia, Typography, useMediaQuery } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from '@mui/material/styles';

@@ -27,7 +27,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Ensure the container takes up full height */
+  height: 100%;
 }
 
 .short-info{
@@ -47,7 +47,7 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Take up full height of the grid item */
+  height: 100%;
   text-align: center;
 }
 .info{

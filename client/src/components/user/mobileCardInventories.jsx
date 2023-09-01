@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, Typography, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import '../../style/organization/pendingCard.scss';

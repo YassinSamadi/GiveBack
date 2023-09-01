@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultLogo from '../../assets/miscellaneous/profile-pic.jpg';
 import StyledButton from '../../components/ui/StyledButton';
@@ -32,8 +32,8 @@ const EditProfileOrg = () => {
                 const organizationData = response.data[0];
                 const addressResponse = await axios.get(`/address/getAddressOrganization/${organizationData.address_id}`);
                 const addressData = addressResponse.data[0];
-                setFormData({
-                    ...formData,
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
                     name: organizationData.name,
                     website_url: organizationData.website_url,
                     address: {
@@ -43,7 +43,7 @@ const EditProfileOrg = () => {
                         postal_code: addressData.postal_code,
                         country: addressData.country
                     }
-                });
+                }));
 
                 setOrganization(organizationData);
                 setAddress(addressData);
@@ -67,7 +67,7 @@ const EditProfileOrg = () => {
         const { name, type, value, files, checked } = e.target;
 
         if (type === 'file') {
-            if (files && files.length > 0) { // Only proceed if files are selected
+            if (files && files.length > 0) {
                 const uniqueFilename = generateUniqueFilename(files[0]?.name);
                 setLogo({ file: files[0], uniqueFilename });
                 setFormData({ ...formData, logo: uniqueFilename });

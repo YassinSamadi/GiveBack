@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios'; 
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Grid } from '@mui/material';
-import '../../style/user/history.scss'; // Import CSS file for styling
+import '../../style/user/history.scss';
 import { Typography } from '@mui/material';
 import HistoryTable from '../../components/user/HistoryTable';
 import HistoryCard from '../../components/HistoryCard';

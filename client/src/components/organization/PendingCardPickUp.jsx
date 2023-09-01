@@ -1,24 +1,19 @@
-import React from 'react';
 import { Card, Typography, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import '../../style/organization/pendingCard.scss';
-import { useState } from 'react';
 import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
 
 const PendingCardPickUp = ({ transaction_id, first_name, last_name, transaction_name, quantity, onDelete }) => {
-    const [confirmationStatus, setConfirmationStatus] = useState('');
 
     const handleClickConfirm = async () => {
         try {
-            const response = await axios.put(`/transaction/confirmPickup?id=${transaction_id}`);
-            setConfirmationStatus('Transaction confirmed successfully');
+            await axios.put(`/transaction/confirmPickup?id=${transaction_id}`);
             window.location.reload();
         } catch (error) {
-            console.error(error);
-            setConfirmationStatus('Error confirming confirmPickup');
+            
         }
     };
 

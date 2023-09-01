@@ -1,4 +1,3 @@
-import React from 'react'
 import xLogo from '../assets/miscellaneous/xlogo.png'
 import facebookLogo from '../assets/miscellaneous/facebooklogo.png'
 import instagramLogo from '../assets/miscellaneous/instagramlogo.png'

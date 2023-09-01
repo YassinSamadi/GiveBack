@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Card,
   Typography,
@@ -20,16 +19,15 @@ const PendingCard = ({
   onDelete,
   need_id,
 }) => {
-  const [confirmationStatus, setConfirmationStatus] = useState('');
+
 
   const handleClickConfirm = async () => {
     try {
       await axios.put(`/donations/confirmDonation?id=${donation_id}`);
-      setConfirmationStatus('Donation confirmed successfully');
+      
       window.location.reload();
     } catch (error) {
-      console.error(error);
-      setConfirmationStatus('Error confirming donation');
+      
     }
   };
 

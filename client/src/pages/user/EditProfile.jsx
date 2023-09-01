@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../../style/user/editProfile.scss'; 
 import axios from 'axios';
 import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';
@@ -44,7 +44,7 @@ const EditProfile = () => {
         const { name, type, value, files } = e.target;
     
         if (type === 'file') {
-            if (files && files.length > 0) { // Only proceed if files are selected
+            if (files && files.length > 0) {
                 const uniqueFilename = generateUniqueFilename(files[0]?.name);
                 setProfilePicFile({ file: files[0], uniqueFilename });
                 setFormData({ ...formData, profile_pic: uniqueFilename });

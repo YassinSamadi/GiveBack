@@ -11,10 +11,8 @@ import {
   Paper,
   useMediaQuery,
 } from '@mui/material';
-import { styled, alpha } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { createTheme } from '@mui/material/styles';
 
 import '../../style/organization/inventoryTable.scss';
@@ -25,9 +23,7 @@ const theme = createTheme();
 
 const InventoryTable = () => {
   const [products, setProducts] = useState([]);
-  const [formData, setFormData] = useState({
-    quantity: 0,
-  });
+  
   const [adjustedQuantity, setAdjustedQuantity] = useState(0);
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -43,14 +39,7 @@ const InventoryTable = () => {
       });
   }, []);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  
 
   const handleInputChange = (e) => {
     let value = parseInt(e.target.value);
@@ -74,9 +63,7 @@ const InventoryTable = () => {
       setProducts(updatedProducts);
     } catch (error) {
       console.error('Error updating inventory:', error);
-    } finally {
-      handleClose();
-    }
+    } 
   };
 
   const handleRemoveSubmit = async (productId) => {
@@ -94,9 +81,7 @@ const InventoryTable = () => {
       setProducts(updatedProducts);
     } catch (error) {
       console.error('Error updating inventory:', error);
-    } finally {
-      handleClose();
-    }
+    } 
   };
 
   return (
@@ -123,7 +108,7 @@ const InventoryTable = () => {
           ) : (
             products.map((product) => (
               <TableRow key={product.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                {isMobile ? null : <TableCell align="right"><img className="img" src={product.product_picture} /></TableCell>}
+                {isMobile ? null : <TableCell align="right"><img className="img" alt="product-inventory" src={`../${product.product_picture}`} /></TableCell>}
                 <TableCell align="right">{product.product_name}</TableCell>
                 {isMobile ? null : <TableCell align="right">{product.product_id}</TableCell>}
                 <TableCell align="right">{product.quantity}</TableCell>

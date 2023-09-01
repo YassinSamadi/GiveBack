@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -6,6 +5,7 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
+import StyledButton from '../ui/StyledButton';
 
 const DeletePopup = ({ open, handleClose, handleDelete, title, content }) => {
   return (
@@ -15,10 +15,8 @@ const DeletePopup = ({ open, handleClose, handleDelete, title, content }) => {
         Are you sure you want to delete this {content}?
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleDelete} color="primary" variant="contained" autoFocus>
-          Delete
-        </Button>
+        <Button sx={{color:'#90C088' }} onClick={handleClose}>Cancel</Button>
+        <StyledButton text={'Delete'} onClick={handleDelete} color="primary" variant="contained" autoFocus/>
       </DialogActions>
     </Dialog>
   );

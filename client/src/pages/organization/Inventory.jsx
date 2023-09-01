@@ -1,4 +1,3 @@
-import React from 'react';
 import InventoryTable from '../../components/organization/InventoryTable';
 import AddProduct from '../../components/organization/AddProduct';
 

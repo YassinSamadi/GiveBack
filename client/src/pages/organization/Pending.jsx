@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -37,7 +36,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
-  border: '1px solid lightgrey', 
+  border: '1px solid lightgrey',
   borderRadius: theme.shape.borderRadius * 4,
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -54,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const Pending = () => {
-  
+
 
   const [showDonations, setShowDonations] = useState(true);
   const [donations, setDonations] = useState([]);
@@ -84,40 +83,55 @@ export const Pending = () => {
 
   const handlePickupDelete = () => {
     axios
-        .delete(`/transaction/deleteTransaction?id=${deletingTransaction.id}`)
-        .then(response => {
-          handleClosePickup();
-          refreshData();
-            refreshFilters();
-        })
-        .catch(err => console.error('Error deleting pickup:', err));
+      .delete(`/transaction/deleteTransaction?id=${deletingTransaction.id}`)
+      .then(response => {
+        handleClosePickup();
+        refreshData();
+        refreshFilters();
+      })
+      .catch(err => console.error('Error deleting pickup:', err));
   }
-  
+
   const handleDonationDelete = () => {
     axios
-        .delete(`/donations/deleteDonation?id=${deletingDonation.id}`)
-        .then(response => {
-            handleClose();
-            refreshData();
-            refreshFilters();
-        })
-        .catch(err => console.error('Error deleting donation:', err));
+      .delete(`/donations/deleteDonation?id=${deletingDonation.id}`)
+      .then(response => {
+        handleClose();
+        refreshData();
+        refreshFilters();
+      })
+      .catch(err => console.error('Error deleting donation:', err));
   };
 
+  const refreshFilters = useCallback(() => {
+    if (showDonations) {
+      const filteredDonations = donations.filter((donation) =>
+        (donation.first_name && donation.first_name.toLowerCase().includes(searchInput.toLowerCase())) ||
+        (donation.last_name && donation.last_name.toLowerCase().includes(searchInput.toLowerCase()))
+      );
+      setFilteredData(filteredDonations);
+    } else {
+      const filteredTransactions = transactions.filter((transaction) =>
+        (transaction.first_name && transaction.first_name.toLowerCase().includes(searchInput.toLowerCase())) ||
+        (transaction.last_name && transaction.last_name.toLowerCase().includes(searchInput.toLowerCase()))
+      );
+      setFilteredData(filteredTransactions);
+    }
+  }, [searchInput, showDonations, donations, transactions]);
 
   useEffect(() => {
     refreshData();
   }, []);
 
   useEffect(() => {
-    refreshFilters();
-  }, [searchInput, showDonations, donations, transactions]);
+      refreshFilters();
+  }, [searchInput, showDonations, donations, transactions, refreshFilters]);
 
   const refreshData = () => {
     axios.get('/donations/getAllDonationsNoConfirmation')
       .then((response) => {
         setDonations(response.data);
-        setFilteredData(response.data); 
+        setFilteredData(response.data);
       })
       .catch((error) => {
         console.error('Error fetching total donations:', error);
@@ -132,25 +146,6 @@ export const Pending = () => {
       });
   }
 
-  const refreshFilters = () => {
-    if (showDonations) {
-      const filteredDonations = donations.filter((donation) =>
-        (donation.first_name && donation.first_name.toLowerCase().includes(searchInput.toLowerCase())) ||
-        (donation.last_name && donation.last_name.toLowerCase().includes(searchInput.toLowerCase()))
-      );
-      setFilteredData(filteredDonations);
-    } else {
-      const filteredTransactions = transactions.filter((transaction) =>
-        (transaction.first_name && transaction.first_name.toLowerCase().includes(searchInput.toLowerCase())) ||
-        (transaction.last_name && transaction.last_name.toLowerCase().includes(searchInput.toLowerCase()))
-      );
-      setFilteredData(filteredTransactions);
-    }
-  }
-  
-  
-  
-
   return (
     <div>
       <div className='center-div'>
@@ -163,8 +158,8 @@ export const Pending = () => {
       </div>
       {showDonations ? (
         <div>
-          <DeletePopup title='Donation' content='donation' open={!!deletingDonation} handleClose={handleClose} handleDelete={handleDonationDelete}/>
-          
+          <DeletePopup title='Donation' content='donation' open={!!deletingDonation} handleClose={handleClose} handleDelete={handleDonationDelete} />
+
           <div className='center-div'>
             <Search>
               <SearchIconWrapper>
@@ -191,7 +186,7 @@ export const Pending = () => {
         </div>
       ) : (
         <div>
-          <DeletePopup title='Pickup' content='pickup' open={!!deletingTransaction} handleClose={handleClosePickup} handleDelete={handlePickupDelete}/>
+          <DeletePopup title='Pickup' content='pickup' open={!!deletingTransaction} handleClose={handleClosePickup} handleDelete={handlePickupDelete} />
           <div className='center-div'>
             <Search>
               <SearchIconWrapper>

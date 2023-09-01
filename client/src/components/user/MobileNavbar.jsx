@@ -1,5 +1,5 @@
 import '../../style/user/mobileNavbar.scss'
-import React, { useState,useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/GiveBackNoText500x500.png';
 import defaultProfilePic from '../../assets/miscellaneous/profile-pic.jpg';

@@ -1,4 +1,3 @@
-import React from 'react'
 import CustomMap from '../../components/user/Map.jsx'
 import '../../style/user/map.scss'
 

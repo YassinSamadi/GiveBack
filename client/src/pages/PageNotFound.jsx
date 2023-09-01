@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import notFound from '../assets/miscellaneous/404.png';
 import '../style/notFound.scss';

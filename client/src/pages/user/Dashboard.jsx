@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Pagination } from '@mui/material';
 import Grid from '@mui/material/Grid';

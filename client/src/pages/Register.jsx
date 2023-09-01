@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link} from 'react-router-dom';
 import axios from 'axios';
 import logo from '../assets/logo/GiveBackNoText500x500.png';
 
@@ -14,7 +14,6 @@ export const Register = () => {
   const [error, setError] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
   const [inNeed, setInNeed] = useState(false);
-  const navigate = useNavigate();
 
   const isValidEmail = email => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

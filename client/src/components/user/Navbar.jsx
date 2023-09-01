@@ -16,7 +16,6 @@ import Logout from '@mui/icons-material/Logout';
 
 
 const Navbar = () => {
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const {user, logout} = useContext(AuthContext);
   const [showInventoriesLink, setShowInventoriesLink] = useState(false);
 
@@ -30,11 +29,6 @@ const Navbar = () => {
 
     setShowInventoriesLink(inNeedValue === 1 || inNeedValue === "true");
 }, [setShowInventoriesLink]);
-
-
-  const toggleUserMenu = () => {
-    setShowUserMenu(!showUserMenu);
-  };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);

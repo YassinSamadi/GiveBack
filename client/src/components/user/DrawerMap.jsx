@@ -1,4 +1,3 @@
-import React from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -120,7 +119,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                             primaryTypographyProps={{ style: { fontWeight: 'bold', fontSize: '20px' } }}
                           />
                         <img
-                          src={needs[activeStep].productPicture}
+                          src={`../${needs[activeStep].productPicture}`}
                           alt={needs[activeStep].productName}
                           className="product-image"
                         />
@@ -153,7 +152,7 @@ const SwipeableTemporaryDrawer = ({ isOpen, onClose, organizationName, organizat
                   <div style={{ display: 'flex', flexDirection: 'row', }}>
                       <div >
                         <img
-                          src={needs[activeStep].productPicture}
+                          src={`../${needs[activeStep].productPicture}`}
                           alt={needs[activeStep].productName}
                           className="product-image"
                         />
